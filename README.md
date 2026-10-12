@@ -1,6 +1,7 @@
 # Tiesää-arkisto – koko Suomen tiesääasemat ja tiesääennusteet
 
-Kaikkien Suomen tiesääasemien (noin 525) mittaukset ja lähimmän tiekohdan tiesääennusteet 30 minuutin välein.
+Kaikkien Suomen tiesääasemien (noin 525) mittaukset ja lähimmän tiekohdan tiesääennusteet 30 minuutin välein,
+Ilmatieteen laitoksen ennuste jokaiselle tiesääasemalle 3 tunnin välein sekä Ilmatieteen laitoksen säähavainnot kerran tunnissa.
 Aineistolla opetetaan ja testataan Vantaan hoitourakan liukkausennustetta (https://sambbor.github.io/Vantaakeli/):
 kuura, märän tien jäätyminen, suolan teho, tienpintaennusteen virheet. Digitraffic säilyttää asemahistoriaa vain
 24 tuntia, joten pidempi aineisto syntyy vain keräämällä.
@@ -10,6 +11,9 @@ kuura, märän tien jäätyminen, suolan teho, tienpintaennusteen virheet. Digit
 - `archive/YYYY-MM/obs-YYYY-MM-DD.csv.gz` – aiemmat päivät pakattuna.
 - `meta/stations.json` – asemat: nimi, sijainti, tie, tieosa, ajorata, urakka, kunta, maakunta.
 - `meta/pairs.json` – asema → lähin tiesääennusteen tiekohta (enintään 1 km) ja etäisyys.
+- `data/current/fmi-fc-YYYY-MM-DD.csv` – Ilmatieteen laitoksen toimitettu ennuste tiesääasemien kohdalle.
+- `data/current/fmi-obs-YYYY-MM-DD.csv` – Ilmatieteen laitoksen säähavainnot ja säteily.
+- `meta/fmi_stations.json` – Ilmatieteen laitoksen havaintoasemat (fmisid, nimi, sijainti, säteilyasema).
 - `meta/index.json` – yhteenveto ja sarakkeiden luettelo.
 
 ## Sarakkeet
@@ -25,4 +29,15 @@ kuura, märän tien jäätyminen, suolan teho, tienpintaennusteen virheet. Digit
   `tr` tienpinta, `ta` ilma, `ws` tuuli, `sym` sääsymboli, `ov` yleiskeli, `rc` tienpinnan ennustettu tila, `pc` sade,
   `fc` kitka, `fz` jäätävä sade, `sl` talviliukkaus, `rel` luotettavuus.
 
-Lähde: Fintraffic / digitraffic.fi, lisenssi CC BY 4.0.
+## Ilmatieteen laitoksen ennuste (fmi-fc)
+3 tunnin välein jokaiselle tiesääasemalle (`st`). `h0` = ennusteen ensimmäinen tunti (UTC), sarakkeet tunneittain 00–24 h:
+`tNN` ilma, `tdNN` kastepiste, `pNN` sade mm/h, `symNN` sääsymboli (WeatherSymbol3), `ccNN` pilvisyys %, `wsNN` tuuli m/s.
+Samat suureet, joita kelisivun liukkausennuste käyttää, joten malli voidaan opettaa samoilla syötteillä.
+
+## Ilmatieteen laitoksen havainnot (fmi-obs)
+Kerran tunnissa kunkin havaintoaseman (`fmisid`) uusin tunti: `ot` havaintoaika, `ta` ilma, `td` kastepiste, `rh` kosteus,
+`ws/wg/wd` tuuli, `cc` pilvisyys (oktaa), `snow` lumensyvyys cm, `r1h` sade 1 h, `ri` sateen intensiteetti, `vis` näkyvyys m,
+`wawa` sääkoodi. Säteilyasemilta `rt` havaintoaika, `glob` auringon kokonaissäteily, `lwin/lwout` pitkäaaltosäteily alas/ylös,
+`dir` suora, `diff` hajasäteily (W/m²).
+
+Lähteet: Fintraffic / digitraffic.fi ja Ilmatieteen laitos (avoin data), lisenssi CC BY 4.0.

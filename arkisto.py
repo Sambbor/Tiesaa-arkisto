@@ -8,12 +8,16 @@ Ajetaan GitHub Actionsissa 30 min välein (säilö Sambbor/Tiesaa-arkisto).
 - Vain uudet mittaukset tallennetaan (asema, jonka mittausaika ei ole muuttunut, ohitetaan). Yli 2 h vanhat anturilukemat ohitetaan.
 - Päivän rivit: data/current/obs-YYYY-MM-DD.csv (UTC-päivä). Edelliset päivät pakataan archive/YYYY-MM/obs-YYYY-MM-DD.csv.gz.
 - Asemien tiedot (tie, tieosa, urakka, kunta, maakunta) meta/stations.json, asema → ennusteen tiekohta meta/pairs.json.
-Data: Fintraffic / Digitraffic, CC BY 4.0. Vain Pythonin vakiokirjasto.
+- Ilmatieteen laitos (ta2): toimitettu ennuste jokaiselle tiesääasemalle 3 h välein, tunneittain 0–24 h
+  (data/current/fmi-fc-YYYY-MM-DD.csv) – samat suureet, joita kelisivun liukkausennuste käyttää.
+- Ilmatieteen laitoksen säähavainnot kerran tunnissa (data/current/fmi-obs-YYYY-MM-DD.csv): pilvisyys, lumensyvyys,
+  sade, näkyvyys, sää ja säteilyasemilta auringon- ja pitkäaaltosäteily. Havaintoasemat meta/fmi_stations.json.
+Data: Fintraffic / Digitraffic ja Ilmatieteen laitos, CC BY 4.0. Vain Pythonin vakiokirjasto.
 """
-import gzip, json, math, os, time, urllib.request
+import gzip, json, math, os, re, time, urllib.request
 from datetime import datetime, timezone
 
-VERSION = 'ta1'
+VERSION = 'ta2'
 DT = 'https://tie.digitraffic.fi'
 HDR = {'Digitraffic-User': 'Vantaa-urakka-tiesaa-arkisto', 'User-Agent': 'tiesaa-arkisto/1', 'Accept-Encoding': 'gzip'}
 STALE_H = 2
@@ -43,6 +47,21 @@ COLS = ['t', 'st', 'mt'] + [c for _, c in SENS] + ['sec', 'sec_d'] + ['fo_' + k 
 
 M_LAT = 111320.0
 
+# Ilmatieteen laitos
+FMI = 'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id='
+FMI_BBOX = '19,59.5,32,70.2'
+FMI_FC_EVERY_MIN = 170          # ennuste noin 3 h välein
+FMI_OBS_EVERY_MIN = 50          # havainnot kerran tunnissa
+FMI_FC_CHUNK = 90               # rajapinta sallii enintään 99 pistettä kyselyssä
+FC_PARAMS = [('Temperature', 't'), ('DewPoint', 'td'), ('Precipitation1h', 'p'), ('WeatherSymbol3', 'sym'),
+             ('TotalCloudCover', 'cc'), ('WindSpeedMS', 'ws')]
+FC_LEADS = range(0, 25)
+FMI_FC_COLS = ['t', 'st', 'h0'] + ['%s%02d' % (c, L) for _, c in FC_PARAMS for L in FC_LEADS] + ['v']
+OBS_W = [('t2m', 'ta'), ('td', 'td'), ('rh', 'rh'), ('ws_10min', 'ws'), ('wg_10min', 'wg'), ('wd_10min', 'wd'),
+         ('n_man', 'cc'), ('snow_aws', 'snow'), ('r_1h', 'r1h'), ('ri_10min', 'ri'), ('vis', 'vis'), ('wawa', 'wawa')]
+OBS_R = [('GLOB_1MIN', 'glob'), ('LWIN_1MIN', 'lwin'), ('LWOUT_1MIN', 'lwout'), ('DIR_1MIN', 'dir'), ('DIFF_1MIN', 'diff')]
+FMI_OBS_COLS = ['t', 'fmisid', 'ot'] + [c for _, c in OBS_W] + ['rt'] + [c for _, c in OBS_R] + ['v']
+
 
 def get(path, timeout=90):
     req = urllib.request.Request(DT + path, headers=HDR)
@@ -51,6 +70,47 @@ def get(path, timeout=90):
         if r.headers.get('Content-Encoding', '').lower() == 'gzip' or b[:2] == b'\x1f\x8b':
             b = gzip.decompress(b)
     return json.loads(b)
+
+
+def fmi_get(q, timeout=90):
+    req = urllib.request.Request(FMI + q, headers={'User-Agent': 'tiesaa-arkisto/1', 'Accept-Encoding': 'gzip'})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        b = r.read()
+        if b[:2] == b'\x1f\x8b':
+            b = gzip.decompress(b)
+    return b.decode('utf-8')
+
+
+def ll_key(lat, lon):
+    return '%.4f %.4f' % (float(lat), float(lon))
+
+
+def parse_mpc(x):
+    """FMI multipointcoverage: pisteet {sijainti: (id, nimi)} ja rivit [(sijainti, epoch, {suure: arvo})]."""
+    pts = {}
+    for m in re.finditer(r'<gml:Point gml:id="point-([^"]+)"[^>]*>\s*<gml:name>([^<]*)</gml:name>\s*<gml:pos>([^<]*)</gml:pos>', x):
+        a = m.group(3).split()
+        pts[ll_key(a[0], a[1])] = (m.group(1), m.group(2))
+    fields = re.findall(r'<swe:field name="([^"]+)"', x)
+    pm = re.search(r'<gmlcov:positions>([\s\S]*?)</gmlcov:positions>', x)
+    dm = re.search(r'<gml:doubleOrNilReasonTupleList>([\s\S]*?)</gml:doubleOrNilReasonTupleList>', x)
+    rows = []
+    if pm and dm:
+        pos = [l.split() for l in pm.group(1).strip().splitlines() if l.strip()]
+        dat = [l.split() for l in dm.group(1).strip().splitlines() if l.strip()]
+        for p, d in zip(pos, dat):
+            rec = {}
+            for f, v in zip(fields, d):
+                rec[f] = None if v == 'NaN' else float(v)
+            rows.append((ll_key(p[0], p[1]), int(p[2]), rec))
+    return pts, rows
+
+
+def num(v, nd=2):
+    if v is None:
+        return None
+    r = round(v, nd)
+    return int(r) if r == int(r) else r
 
 
 def iso(t):
@@ -136,16 +196,110 @@ def cell(v):
     return '"' + s.replace('"', '""') + '"' if any(c in s for c in ',"\n') else s
 
 
+def write_csv(path, cols, rows):
+    new = not os.path.exists(path)
+    with open(path, 'a', encoding='utf-8') as f:
+        if new:
+            f.write(','.join(cols) + '\n')
+        for r in rows:
+            f.write(','.join(cell(r.get(c)) for c in cols) + '\n')
+
+
+def collect_fmi_fc(coords, now):
+    """Toimitettu ennuste (edited) jokaiselle tiesääasemalle tunneittain 0–24 h. Pisteet 90 kpl erissä."""
+    keys = {}
+    for sid, (lon, lat) in coords.items():
+        keys.setdefault(ll_key(lat, lon), []).append(sid)
+    klist = sorted(keys)
+    h0 = int(now // 3600 * 3600)
+    res, errors = {}, 0
+    for i in range(0, len(klist), FMI_FC_CHUNK):
+        chunk = klist[i:i + FMI_FC_CHUNK]
+        q = 'fmi::forecast::edited::weather::scandinavia::point::multipointcoverage' \
+            + ''.join('&latlon=%s,%s' % tuple(k.split()) for k in chunk) \
+            + '&parameters=' + ','.join(p for p, _ in FC_PARAMS) + '&timestep=60&starttime=' + iso(h0) + '&endtime=' + iso(h0 + 24 * 3600)
+        try:
+            _, rows = parse_mpc(fmi_get(q))
+        except Exception as e:
+            print('FMI-ennuste, erä %d: %s' % (i // FMI_FC_CHUNK + 1, e))
+            errors += 1
+            continue
+        for key, ep, rec in rows:
+            L = int(round((ep - h0) / 3600))
+            if L in FC_LEADS:
+                for sid in keys.get(key, []):
+                    res.setdefault(sid, {})[L] = rec
+        time.sleep(1)
+    out = []
+    for sid in sorted(res, key=lambda s: int(s) if s.isdigit() else s):
+        row = {'t': iso(now), 'st': sid, 'h0': iso(h0), 'v': VERSION}
+        for L, rec in res[sid].items():
+            for p, c in FC_PARAMS:
+                row['%s%02d' % (c, L)] = num(rec.get(p), 1 if c in ('t', 'td', 'ws', 'cc') else 2)
+        out.append(row)
+    return out, errors
+
+
+def collect_fmi_obs(now, last, fmeta):
+    """Säähavainnot (koko maa) ja säteily: kunkin aseman uusin tunti viimeisen 3 h ajalta."""
+    base = '&bbox=%s&starttime=%s&timestep=60' % (FMI_BBOX, iso(now - 3 * 3600))
+    latest = {}
+    pts, rows = parse_mpc(fmi_get('fmi::observations::weather::multipointcoverage' + base + '&parameters=' + ','.join(p for p, _ in OBS_W)))
+    for key, ep, rec in rows:
+        if key not in pts or all(v is None for v in rec.values()):
+            continue
+        fid, name = pts[key]
+        if fid not in latest or ep > latest[fid][0]:
+            latest[fid] = (ep, rec)
+        if fid not in fmeta:
+            lat, lon = key.split()
+            fmeta[fid] = {'name': name, 'lat': float(lat), 'lon': float(lon)}
+    rad = {}
+    try:
+        rpts, rrows = parse_mpc(fmi_get('fmi::observations::radiation::multipointcoverage' + base + '&parameters=' + ','.join(p for p, _ in OBS_R)))
+        for key, ep, rec in rrows:
+            if key not in rpts or all(v is None for v in rec.values()):
+                continue
+            fid, name = rpts[key]
+            if fid not in rad or ep > rad[fid][0]:
+                rad[fid] = (ep, rec)
+            if fid not in fmeta:
+                lat, lon = key.split()
+                fmeta[fid] = {'name': name, 'lat': float(lat), 'lon': float(lon), 'rad': True}
+            else:
+                fmeta[fid]['rad'] = True
+    except Exception as e:
+        print('FMI-säteily:', e)
+    out = []
+    for fid in sorted(set(latest) | set(rad), key=lambda s: int(s) if s.isdigit() else s):
+        ep = latest[fid][0] if fid in latest else None
+        rep = rad[fid][0] if fid in rad else None
+        if last.get(fid) == [ep, rep]:
+            continue
+        last[fid] = [ep, rep]
+        row = {'t': iso(now), 'fmisid': fid, 'v': VERSION}
+        if fid in latest:
+            row['ot'] = iso(ep)
+            for p, c in OBS_W:
+                row[c] = num(latest[fid][1].get(p), 1)
+        if fid in rad:
+            row['rt'] = iso(rep)
+            for p, c in OBS_R:
+                row[c] = num(rad[fid][1].get(p), 1)
+        out.append(row)
+    return out
+
+
 def compress_old(today):
-    """Pakkaa edellisten päivien CSV:t arkistoon (archive/YYYY-MM/obs-YYYY-MM-DD.csv.gz)."""
+    """Pakkaa edellisten päivien CSV:t arkistoon (archive/YYYY-MM/<nimi>-YYYY-MM-DD.csv.gz)."""
     n = 0
     d = 'data/current'
     if not os.path.isdir(d):
         return 0
     for fn in sorted(os.listdir(d)):
-        if not (fn.startswith('obs-') and fn.endswith('.csv')):
+        if not fn.endswith('.csv') or len(fn) < 15 or fn[-15] != '-':
             continue
-        day = fn[4:14]
+        day = fn[-14:-4]
         if day >= today:
             continue
         dst = 'archive/%s/%s.gz' % (day[:7], fn)
@@ -244,13 +398,31 @@ def main():
                     row.update({pre + '_' + k: v for k, v in fc_fields(f, FC_F).items()})
         rows.append(row)
 
-    path = 'data/current/obs-%s.csv' % today
-    new = not os.path.exists(path)
-    with open(path, 'a', encoding='utf-8') as f:
-        if new:
-            f.write(','.join(COLS) + '\n')
-        for r in rows:
-            f.write(','.join(cell(r.get(c)) for c in COLS) + '\n')
+    write_csv('data/current/obs-%s.csv' % today, COLS, rows)
+
+    # Ilmatieteen laitos: ennuste 3 h välein, havainnot kerran tunnissa
+    fst = load('meta/fmi_state.json', {'fc_t': 0, 'obs_t': 0, 'last': {}})
+    fmeta = load('meta/fmi_stations.json', {})
+    fc_n = obs_n = None
+    if now - fst.get('fc_t', 0) >= FMI_FC_EVERY_MIN * 60:
+        try:
+            fr, ferr = collect_fmi_fc(coords, now)
+            write_csv('data/current/fmi-fc-%s.csv' % today, FMI_FC_COLS, fr)
+            fc_n = len(fr)
+            if fr and not ferr:
+                fst['fc_t'] = round(now)
+        except Exception as e:
+            print('FMI-ennuste jäi hakematta:', e)
+    if now - fst.get('obs_t', 0) >= FMI_OBS_EVERY_MIN * 60:
+        try:
+            orows = collect_fmi_obs(now, fst.setdefault('last', {}), fmeta)
+            write_csv('data/current/fmi-obs-%s.csv' % today, FMI_OBS_COLS, orows)
+            obs_n = len(orows)
+            fst['obs_t'] = round(now)
+            save('meta/fmi_stations.json', fmeta, indent=0)
+        except Exception as e:
+            print('FMI-havainnot jäivät hakematta:', e)
+    save('meta/fmi_state.json', fst)
     packed = compress_old(today)
 
     idx['rows'] = idx.get('rows', 0) + len(rows)
@@ -258,11 +430,18 @@ def main():
         idx.setdefault('days', []).append(today)
     idx.update({'updated': iso(now), 'v': VERSION, 'stations': len(coords), 'meta': len(meta), 'paired': len(pairs.get('p', {})),
                 'last_rows': len(rows), 'last_dup': dup, 'last_stale': stale_n, 'last_sec': round(time.time() - t0, 1),
-                'first': idx.get('first') or iso(now), 'cols': COLS})
+                'first': idx.get('first') or iso(now), 'cols': COLS, 'fmi_fc_cols': FMI_FC_COLS, 'fmi_obs_cols': FMI_OBS_COLS,
+                'fmi_stations': len(fmeta)})
+    if fc_n is not None:
+        idx['fmi_fc_last'] = {'t': iso(now), 'rows': fc_n}
+    if obs_n is not None:
+        idx['fmi_obs_last'] = {'t': iso(now), 'rows': obs_n}
     save('meta/state.json', state)
     save('meta/index.json', idx, indent=1)
-    print('Tallennettu %d asemariviä (%d ennallaan, %d vanhaa lukemaa), asemia %d, perustiedot %d, ennustekohdat %d, pakattu %d päivää, %.0f s'
-          % (len(rows), dup, stale_n, len(coords), len(meta), len(pairs.get('p', {})), packed, time.time() - t0))
+    print('Tallennettu %d asemariviä (%d ennallaan, %d vanhaa lukemaa), asemia %d, perustiedot %d, ennustekohdat %d, '
+          'FMI-ennuste %s, FMI-havainnot %s, pakattu %d tiedostoa, %.0f s'
+          % (len(rows), dup, stale_n, len(coords), len(meta), len(pairs.get('p', {})),
+             '-' if fc_n is None else fc_n, '-' if obs_n is None else obs_n, packed, time.time() - t0))
 
 
 if __name__ == '__main__':
