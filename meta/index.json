@@ -1,18 +1,18 @@
 {
- "rows": 7070,
+ "rows": 7579,
  "days": [
   "2026-10-12"
  ],
  "first": "2026-10-12T11:40:45Z",
- "updated": "2026-10-12T17:53:39Z",
+ "updated": "2026-10-12T18:30:08Z",
  "v": "ta2",
  "stations": 525,
  "meta": 525,
  "paired": 477,
- "last_rows": 510,
- "last_dup": 0,
+ "last_rows": 509,
+ "last_dup": 1,
  "last_stale": 11,
- "last_sec": 6.8,
+ "last_sec": 10.2,
  "cols": [
   "t",
   "st",
@@ -286,7 +286,7 @@
   "rows": 522
  },
  "fmi_obs_last": {
-  "t": "2026-10-12T17:27:34Z",
-  "rows": 190
+  "t": "2026-10-12T18:30:08Z",
+  "rows": 188
  }
 }
