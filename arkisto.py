@@ -209,27 +209,41 @@ def collect_fmi_fc(coords, now):
     """Toimitettu ennuste (edited) jokaiselle tiesääasemalle tunneittain 0–24 h. Pisteet 90 kpl erissä."""
     keys = {}
     for sid, (lon, lat) in coords.items():
+        if not (59.0 <= lat <= 70.5 and 19.0 <= lon <= 32.0):   # Digitrafficissa on asemia virheellisin koordinaatein
+            continue
         keys.setdefault(ll_key(lat, lon), []).append(sid)
     klist = sorted(keys)
     h0 = int(now // 3600 * 3600)
-    res, errors = {}, 0
-    for i in range(0, len(klist), FMI_FC_CHUNK):
-        chunk = klist[i:i + FMI_FC_CHUNK]
+    res, errors, dropped = {}, 0, []
+
+    def fetch(chunk):
+        nonlocal errors
         q = 'fmi::forecast::edited::weather::scandinavia::point::multipointcoverage' \
             + ''.join('&latlon=%s,%s' % tuple(k.split()) for k in chunk) \
             + '&parameters=' + ','.join(p for p, _ in FC_PARAMS) + '&timestep=60&starttime=' + iso(h0) + '&endtime=' + iso(h0 + 24 * 3600)
         try:
             _, rows = parse_mpc(fmi_get(q))
         except Exception as e:
-            print('FMI-ennuste, erä %d: %s' % (i // FMI_FC_CHUNK + 1, e))
-            errors += 1
-            continue
+            # yksikin piste, jolle ei ole dataa, kaataa koko kyselyn → puolitetaan ja pudotetaan ongelmapiste
+            if len(chunk) > 1:
+                time.sleep(1)
+                h = len(chunk) // 2
+                fetch(chunk[:h]); fetch(chunk[h:])
+            else:
+                dropped.append(chunk[0])
+                errors += 1
+            return
         for key, ep, rec in rows:
             L = int(round((ep - h0) / 3600))
             if L in FC_LEADS:
                 for sid in keys.get(key, []):
                     res.setdefault(sid, {})[L] = rec
         time.sleep(1)
+
+    for i in range(0, len(klist), FMI_FC_CHUNK):
+        fetch(klist[i:i + FMI_FC_CHUNK])
+    if dropped:
+        print('FMI-ennuste: ei dataa pisteille %s' % ', '.join(dropped[:10]))
     out = []
     for sid in sorted(res, key=lambda s: int(s) if s.isdigit() else s):
         row = {'t': iso(now), 'st': sid, 'h0': iso(h0), 'v': VERSION}
@@ -409,7 +423,7 @@ def main():
             fr, ferr = collect_fmi_fc(coords, now)
             write_csv('data/current/fmi-fc-%s.csv' % today, FMI_FC_COLS, fr)
             fc_n = len(fr)
-            if fr and not ferr:
+            if len(fr) >= 0.8 * len(coords):
                 fst['fc_t'] = round(now)
         except Exception as e:
             print('FMI-ennuste jäi hakematta:', e)
