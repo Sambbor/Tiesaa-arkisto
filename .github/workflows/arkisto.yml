@@ -23,8 +23,16 @@ jobs:
         run: |
           git config user.name "keli-bot"
           git config user.email "keli-bot@users.noreply.github.com"
-          git add --sparse -A meta data archive 2>/dev/null || git add --sparse -A meta data
-          git diff --cached --quiet && exit 0
-          git commit -q -m "Tiesää-arkisto $(date -u +%Y-%m-%dT%H:%MZ)"
-          for i in 1 2 3 4; do git pull -q --rebase --autostash && git push -q && exit 0; sleep $((i*5)); done
+          # Jos toinen ajo ehti tallentaa ensin (GitHub käynnistää joskus kaksi ajoa), ei yritetä yhdistää samoja
+          # tiedostoja: siirrytään uusimpaan versioon ja ajetaan keruu uudelleen sen päälle.
+          for i in 1 2 3; do
+            git add --sparse -A meta data archive 2>/dev/null || git add --sparse -A meta data
+            git diff --cached --quiet && exit 0
+            git commit -q -m "Tiesää-arkisto $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push -q && exit 0
+            echo "Säilö muuttui ajon aikana – haetaan uusin versio ja kerätään uudelleen ($i)"
+            sleep $((i*5))
+            git fetch -q origin main && git reset -q --hard origin/main
+            python3 arkisto.py || exit 1
+          done
           exit 1
