@@ -1,0 +1,30 @@
+name: Tiesää-arkisto
+on:
+  schedule:
+    - cron: '11,41 * * * *'   # 30 min välein
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: arkisto
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # haetaan vain tämän päivän tiedostot ja tilatiedot, ei koko arkistoa
+          sparse-checkout: |
+            meta
+            data/current
+      - name: Kerää asemat ja ennusteet
+        run: python3 arkisto.py
+      - name: Tallenna säilöön
+        run: |
+          git config user.name "keli-bot"
+          git config user.email "keli-bot@users.noreply.github.com"
+          git add --sparse -A meta data archive 2>/dev/null || git add --sparse -A meta data
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Tiesää-arkisto $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3 4; do git pull -q --rebase --autostash && git push -q && exit 0; sleep $((i*5)); done
+          exit 1
