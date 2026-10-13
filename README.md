@@ -16,6 +16,16 @@ kuura, märän tien jäätyminen, suolan teho, tienpintaennusteen virheet. Digit
 - `meta/fmi_stations.json` – Ilmatieteen laitoksen havaintoasemat (fmisid, nimi, sijainti, säteilyasema).
 - `meta/index.json` – yhteenveto ja sarakkeiden luettelo.
 
+## Talvihoidon toteumat (toteumat)
+`toteumat.py` ajetaan samassa työnkulussa. Se hakee Digitrafficin kunnossapitoseurannasta valtion maanteiden
+suolaus-, auraus- ja hiekoituskirjaukset edellisen ajon jälkeen (limittäin 90 min, tuplat karsitaan) ja tallentaa rivin
+jokaiselle tiesääasemalle, jonka 2 km säteellä kone kulki: `data/current/toteumat-YYYY-MM-DD.csv`.
+Sarakkeet: `t` keruuaika, `st` asema, `task` salt / plow / sand, `start` ja `end` kirjauksen alku ja loppu (UTC),
+`d` lähin etäisyys asemaan m, `rid` kirjauksen tunniste, `sys` lähettävä järjestelmä. Paikallaan seisovan koneen kirjaukset jätetään pois.
+Tila ja yhteenveto: `meta/toteumat_state.json`. Asemien urakka-alue on tiedostossa `meta/stations.json`.
+Käyttö: koko maan urakoiden suolaus- ja auraushetket suhteessa asemien keliin (ennakoiva vai jälkikäteinen toiminta)
+ja päivystäjän simulaattorin "mitä oikeasti tehtiin".
+
 ## Sarakkeet
 - `t` tallennusaika, `st` asema, `mt` aseman uusin mittausaika (UTC). Rivi tallennetaan vain, kun asemalla on uusi mittaus.
 - Mittaukset: `ta` ilma, `td` kastepiste, `rh` kosteus, `fp` kuurapiste, `tr1/tr2` tienpinta, `tg1` maa, `safe1` turvallisuuslämpö,
