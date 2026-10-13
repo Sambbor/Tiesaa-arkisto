@@ -19,6 +19,9 @@ jobs:
             data/current
       - name: Kerää asemat ja ennusteet
         run: python3 arkisto.py
+      - name: Kerää talvihoidon toteumat asemien ympäriltä
+        # ei kaada arkistoa, jos toteumahaku epäonnistuu
+        run: python3 toteumat.py || echo "Toteumakeruu epäonnistui, jatketaan"
       - name: Tallenna säilöön
         run: |
           git config user.name "keli-bot"
@@ -34,5 +37,6 @@ jobs:
             sleep $((i*5))
             git fetch -q origin main && git reset -q --hard origin/main
             python3 arkisto.py || exit 1
+            python3 toteumat.py || echo "Toteumakeruu epäonnistui, jatketaan"
           done
           exit 1
