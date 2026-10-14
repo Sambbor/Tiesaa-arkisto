@@ -13,7 +13,7 @@ import fs from 'node:fs';
 import zlib from 'node:zlib';
 
 const RULES_URL = 'https://raw.githubusercontent.com/Sambbor/Vantaakeli/main/collector/collect.mjs';
-const VERSION = 'rt1';
+const VERSION = 'rt1';   // 15.10.: tienpinta +0,5 °C mukaan suolataulukon ylimpään luokkaan
 const LEADS = [2, 6, 12];
 const MATCH_MIN = 40;          // myöhempi mittaus enintään näin kaukana tarkistushetkestä
 const RECOMPUTE_DAYS = 60;
@@ -102,7 +102,7 @@ function obsReason(o){
   return 'muu';
 }
 const FROST_BINS = [[0, 0.5, '0–0,5'], [0.5, 2, '0,5–2'], [2, 4, '2–4'], [4, 8, '4–8'], [8, 1e9, 'yli 8']];
-const TR_BINS = [[-2, 0.5, '−2…+0,5'], [-4, -2, '−4…−2'], [-6, -4, '−6…−4'], [-8, -6, '−8…−6'], [-1e9, -8, 'alle −8']];
+const TR_BINS = [[-2, 0.51, '−2…+0,5'], [-4, -2, '−4…−2'], [-6, -4, '−6…−4'], [-8, -6, '−8…−6'], [-1e9, -8, 'alle −8']];
 const binOf = (bins, v) => (bins.find(([a, b]) => v >= a && v < b) || [])[2];
 const C0 = () => ({hit: 0, miss: 0, fa: 0, cn: 0});
 
