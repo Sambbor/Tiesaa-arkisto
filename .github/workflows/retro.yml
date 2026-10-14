@@ -1,0 +1,34 @@
+name: Jälkitarkistus (koko Suomi)
+on:
+  schedule:
+    - cron: '37 4 * * *'      # kerran vuorokaudessa aamulla; käsittelee uudet päivät (vain päivät, joiden jälkeinen päivä on valmis)
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: arkisto          # sama jono kuin keruulla, ettei tallennus mene päällekkäin
+jobs:
+  retro:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Aja kelisivun liukkaussäännöt jälkikäteen
+        run: node retro.mjs
+      - name: Tallenna säilöön
+        run: |
+          git config user.name "keli-bot"
+          git config user.email "keli-bot@users.noreply.github.com"
+          for i in 1 2 3; do
+            git add retro
+            git diff --cached --quiet && exit 0
+            git commit -q -m "Jälkitarkistus $(date -u +%Y-%m-%d)"
+            git push -q && exit 0
+            echo "Säilö muuttui ajon aikana – haetaan uusin versio ja lasketaan uudelleen ($i)"
+            sleep $((i*5))
+            git fetch -q origin main && git reset -q --hard origin/main
+            node retro.mjs || exit 1
+          done
+          exit 1
