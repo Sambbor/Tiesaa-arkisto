@@ -1,0 +1,243 @@
+{
+ "rv": "v9",
+ "v": "rt1",
+ "updated": "2026-10-14T20:50:26Z",
+ "days": [
+  "2026-10-12"
+ ],
+ "samples": 5370,
+ "lead": {
+  "2": {
+   "hit": 340,
+   "miss": 131,
+   "fa": 358,
+   "cn": 4538
+  },
+  "6": {
+   "hit": 518,
+   "miss": 302,
+   "fa": 683,
+   "cn": 3862
+  },
+  "12": {
+   "hit": 495,
+   "miss": 196,
+   "fa": 1201,
+   "cn": 3473
+  }
+ },
+ "byProv": {
+  "Uusimaa": {
+   "hit": 0,
+   "miss": 0,
+   "fa": 0,
+   "cn": 688
+  },
+  "Kymenlaakso": {
+   "hit": 0,
+   "miss": 0,
+   "fa": 0,
+   "cn": 228
+  },
+  "Varsinais-Suomi": {
+   "hit": 0,
+   "miss": 0,
+   "fa": 0,
+   "cn": 493
+  },
+  "Satakunta": {
+   "hit": 1,
+   "miss": 1,
+   "fa": 13,
+   "cn": 117
+  },
+  "Pirkanmaa": {
+   "hit": 0,
+   "miss": 25,
+   "fa": 4,
+   "cn": 247
+  },
+  "Ahvenanmaa": {
+   "hit": 0,
+   "miss": 0,
+   "fa": 0,
+   "cn": 12
+  },
+  "Etelä-Savo": {
+   "hit": 0,
+   "miss": 0,
+   "fa": 3,
+   "cn": 153
+  },
+  "Etelä-Karjala": {
+   "hit": 0,
+   "miss": 0,
+   "fa": 0,
+   "cn": 132
+  },
+  "Päijät-Häme": {
+   "hit": 0,
+   "miss": 0,
+   "fa": 0,
+   "cn": 120
+  },
+  "Kanta-Häme": {
+   "hit": 0,
+   "miss": 0,
+   "fa": 0,
+   "cn": 84
+  },
+  "Pohjois-Savo": {
+   "hit": 33,
+   "miss": 41,
+   "fa": 7,
+   "cn": 183
+  },
+  "Pohjois-Karjala": {
+   "hit": 7,
+   "miss": 6,
+   "fa": 32,
+   "cn": 218
+  },
+  "Keski-Suomi": {
+   "hit": 15,
+   "miss": 10,
+   "fa": 23,
+   "cn": 240
+  },
+  "Pohjanmaa": {
+   "hit": 40,
+   "miss": 1,
+   "fa": 66,
+   "cn": 49
+  },
+  "Keski-Pohjanmaa": {
+   "hit": 43,
+   "miss": 3,
+   "fa": 25,
+   "cn": 21
+  },
+  "Etelä-Pohjanmaa": {
+   "hit": 36,
+   "miss": 8,
+   "fa": 73,
+   "cn": 147
+  },
+  "Pohjois-Pohjanmaa": {
+   "hit": 119,
+   "miss": 73,
+   "fa": 124,
+   "cn": 224
+  },
+  "Kainuu": {
+   "hit": 57,
+   "miss": 28,
+   "fa": 54,
+   "cn": 41
+  },
+  "Lappi": {
+   "hit": 120,
+   "miss": 24,
+   "fa": 201,
+   "cn": 87
+  },
+  "Finavia lentokentät": {
+   "hit": 47,
+   "miss": 82,
+   "fa": 58,
+   "cn": 378
+  }
+ },
+ "byWhy": {
+  "tiesääennuste (Digitraffic)": {
+   "hit": 90,
+   "fa": 170
+  },
+  "kuura": {
+   "hit": 371,
+   "fa": 418
+  },
+  "märkä tie jäätyy": {
+   "hit": 56,
+   "fa": 95
+  },
+  "lumisade": {
+   "hit": 1,
+   "fa": 0
+  }
+ },
+ "missObs": {
+  "varoitus kuura": 256,
+  "keli jää": 32,
+  "keli lumi": 2,
+  "varoitus häly": 12
+ },
+ "frost": {
+  "0–0,5": {
+   "n": 1305,
+   "frost": 131,
+   "slip": 156
+  },
+  "0,5–2": {
+   "n": 88,
+   "frost": 65,
+   "slip": 74
+  },
+  "2–4": {
+   "n": 41,
+   "frost": 27,
+   "slip": 35
+  },
+  "4–8": {
+   "n": 24,
+   "frost": 10,
+   "slip": 16
+  },
+  "yli 8": {
+   "n": 13,
+   "frost": 5,
+   "slip": 13
+  }
+ },
+ "salt": {
+  "ei suolaa": {
+   "−2…+0,5": {
+    "n": 118,
+    "slip": 73
+   },
+   "−4…−2": {
+    "n": 78,
+    "slip": 50
+   },
+   "undefined": {
+    "n": 1,
+    "slip": 0
+   },
+   "−6…−4": {
+    "n": 5,
+    "slip": 4
+   }
+  },
+  "suolaa": {
+   "−4…−2": {
+    "n": 2,
+    "slip": 0
+   },
+   "−2…+0,5": {
+    "n": 2,
+    "slip": 2
+   }
+  }
+ },
+ "weeks": {
+  "2026-W42": {
+   "lead6": {
+    "hit": 518,
+    "miss": 302,
+    "fa": 683,
+    "cn": 3862
+   },
+   "days": 1
+  }
+ }
+}
