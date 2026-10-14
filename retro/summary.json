@@ -1,29 +1,29 @@
 {
- "rv": "v9",
- "v": "rt1",
- "updated": "2026-10-14T20:50:26Z",
+ "rv": "v10",
+ "v": "rt2",
+ "updated": "2026-10-14T21:00:19Z",
  "days": [
   "2026-10-12"
  ],
  "samples": 5370,
  "lead": {
   "2": {
-   "hit": 340,
-   "miss": 131,
-   "fa": 358,
-   "cn": 4538
+   "hit": 75,
+   "miss": 21,
+   "fa": 538,
+   "cn": 4733
   },
   "6": {
-   "hit": 518,
-   "miss": 302,
-   "fa": 683,
-   "cn": 3862
+   "hit": 111,
+   "miss": 46,
+   "fa": 1090,
+   "cn": 4118
   },
   "12": {
-   "hit": 495,
-   "miss": 196,
-   "fa": 1201,
-   "cn": 3473
+   "hit": 113,
+   "miss": 23,
+   "fa": 1583,
+   "cn": 3646
   }
  },
  "byProv": {
@@ -46,16 +46,16 @@
    "cn": 493
   },
   "Satakunta": {
-   "hit": 1,
-   "miss": 1,
-   "fa": 13,
-   "cn": 117
+   "hit": 0,
+   "miss": 0,
+   "fa": 14,
+   "cn": 118
   },
   "Pirkanmaa": {
    "hit": 0,
-   "miss": 25,
+   "miss": 0,
    "fa": 4,
-   "cn": 247
+   "cn": 272
   },
   "Ahvenanmaa": {
    "hit": 0,
@@ -88,86 +88,85 @@
    "cn": 84
   },
   "Pohjois-Savo": {
-   "hit": 33,
-   "miss": 41,
-   "fa": 7,
-   "cn": 183
+   "hit": 12,
+   "miss": 15,
+   "fa": 28,
+   "cn": 209
   },
   "Pohjois-Karjala": {
-   "hit": 7,
-   "miss": 6,
-   "fa": 32,
-   "cn": 218
-  },
-  "Keski-Suomi": {
-   "hit": 15,
-   "miss": 10,
-   "fa": 23,
-   "cn": 240
-  },
-  "Pohjanmaa": {
-   "hit": 40,
-   "miss": 1,
-   "fa": 66,
-   "cn": 49
-  },
-  "Keski-Pohjanmaa": {
-   "hit": 43,
-   "miss": 3,
-   "fa": 25,
-   "cn": 21
-  },
-  "Etelä-Pohjanmaa": {
-   "hit": 36,
-   "miss": 8,
-   "fa": 73,
-   "cn": 147
-  },
-  "Pohjois-Pohjanmaa": {
-   "hit": 119,
-   "miss": 73,
-   "fa": 124,
+   "hit": 2,
+   "miss": 0,
+   "fa": 37,
    "cn": 224
   },
+  "Keski-Suomi": {
+   "hit": 0,
+   "miss": 0,
+   "fa": 38,
+   "cn": 250
+  },
+  "Pohjanmaa": {
+   "hit": 19,
+   "miss": 0,
+   "fa": 87,
+   "cn": 50
+  },
+  "Keski-Pohjanmaa": {
+   "hit": 1,
+   "miss": 0,
+   "fa": 67,
+   "cn": 24
+  },
+  "Etelä-Pohjanmaa": {
+   "hit": 0,
+   "miss": 0,
+   "fa": 109,
+   "cn": 155
+  },
+  "Pohjois-Pohjanmaa": {
+   "hit": 21,
+   "miss": 7,
+   "fa": 222,
+   "cn": 290
+  },
   "Kainuu": {
-   "hit": 57,
-   "miss": 28,
-   "fa": 54,
-   "cn": 41
+   "hit": 13,
+   "miss": 1,
+   "fa": 98,
+   "cn": 68
   },
   "Lappi": {
-   "hit": 120,
-   "miss": 24,
-   "fa": 201,
-   "cn": 87
+   "hit": 31,
+   "miss": 5,
+   "fa": 290,
+   "cn": 106
   },
   "Finavia lentokentät": {
-   "hit": 47,
-   "miss": 82,
-   "fa": 58,
-   "cn": 378
+   "hit": 12,
+   "miss": 18,
+   "fa": 93,
+   "cn": 442
   }
  },
  "byWhy": {
   "tiesääennuste (Digitraffic)": {
-   "hit": 90,
-   "fa": 170
+   "hit": 9,
+   "fa": 251
   },
   "kuura": {
-   "hit": 371,
-   "fa": 418
+   "hit": 93,
+   "fa": 696
   },
   "märkä tie jäätyy": {
-   "hit": 56,
-   "fa": 95
+   "hit": 9,
+   "fa": 142
   },
   "lumisade": {
-   "hit": 1,
-   "fa": 0
+   "hit": 0,
+   "fa": 1
   }
  },
  "missObs": {
-  "varoitus kuura": 256,
   "keli jää": 32,
   "keli lumi": 2,
   "varoitus häly": 12
@@ -175,47 +174,48 @@
  "frost": {
   "0–0,5": {
    "n": 1305,
-   "frost": 131,
-   "slip": 156
+   "frost": 0,
+   "warn": 131,
+   "slip": 25
   },
   "0,5–2": {
    "n": 88,
-   "frost": 65,
-   "slip": 74
+   "frost": 0,
+   "warn": 65,
+   "slip": 9
   },
   "2–4": {
    "n": 41,
-   "frost": 27,
-   "slip": 35
+   "frost": 0,
+   "warn": 27,
+   "slip": 9
   },
   "4–8": {
    "n": 24,
-   "frost": 10,
-   "slip": 16
+   "frost": 0,
+   "warn": 10,
+   "slip": 6
   },
   "yli 8": {
    "n": 13,
    "frost": 5,
+   "warn": 0,
    "slip": 13
   }
  },
  "salt": {
   "ei suolaa": {
    "−2…+0,5": {
-    "n": 118,
-    "slip": 73
+    "n": 119,
+    "slip": 22
    },
    "−4…−2": {
     "n": 78,
-    "slip": 50
-   },
-   "undefined": {
-    "n": 1,
-    "slip": 0
+    "slip": 12
    },
    "−6…−4": {
     "n": 5,
-    "slip": 4
+    "slip": 1
    }
   },
   "suolaa": {
@@ -232,10 +232,10 @@
  "weeks": {
   "2026-W42": {
    "lead6": {
-    "hit": 518,
-    "miss": 302,
-    "fa": 683,
-    "cn": 3862
+    "hit": 111,
+    "miss": 46,
+    "fa": 1090,
+    "cn": 4118
    },
    "days": 1
   }
