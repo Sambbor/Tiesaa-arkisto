@@ -1,30 +1,31 @@
 {
  "rv": "v10",
  "v": "rt2",
- "updated": "2026-10-15T05:04:16Z",
+ "updated": "2026-10-16T05:06:19Z",
  "days": [
   "2026-10-12",
-  "2026-10-13"
+  "2026-10-13",
+  "2026-10-14"
  ],
- "samples": 16193,
+ "samples": 27032,
  "lead": {
   "2": {
-   "hit": 272,
-   "miss": 38,
-   "fa": 2037,
-   "cn": 13831
+   "hit": 427,
+   "miss": 51,
+   "fa": 2862,
+   "cn": 23658
   },
   "6": {
-   "hit": 238,
-   "miss": 105,
-   "fa": 2944,
-   "cn": 12891
+   "hit": 389,
+   "miss": 107,
+   "fa": 3692,
+   "cn": 22805
   },
   "12": {
-   "hit": 304,
-   "miss": 78,
-   "fa": 4317,
-   "cn": 11478
+   "hit": 383,
+   "miss": 79,
+   "fa": 5073,
+   "cn": 21451
   }
  },
  "byProv": {
@@ -32,199 +33,199 @@
    "hit": 0,
    "miss": 0,
    "fa": 0,
-   "cn": 2073
+   "cn": 3468
   },
   "Kymenlaakso": {
    "hit": 0,
    "miss": 0,
    "fa": 0,
-   "cn": 684
+   "cn": 1140
   },
   "Varsinais-Suomi": {
    "hit": 0,
    "miss": 0,
    "fa": 0,
-   "cn": 1499
+   "cn": 2487
   },
   "Satakunta": {
    "hit": 0,
    "miss": 0,
    "fa": 32,
-   "cn": 364
+   "cn": 628
   },
   "Pirkanmaa": {
    "hit": 0,
    "miss": 0,
    "fa": 23,
-   "cn": 805
+   "cn": 1357
   },
   "Ahvenanmaa": {
    "hit": 0,
    "miss": 0,
    "fa": 0,
-   "cn": 36
+   "cn": 60
   },
   "Etelä-Savo": {
    "hit": 0,
    "miss": 0,
-   "fa": 51,
-   "cn": 417
+   "fa": 52,
+   "cn": 728
   },
   "Etelä-Karjala": {
    "hit": 0,
-   "miss": 3,
+   "miss": 4,
    "fa": 21,
-   "cn": 370
+   "cn": 633
   },
   "Päijät-Häme": {
    "hit": 0,
    "miss": 0,
    "fa": 2,
-   "cn": 358
+   "cn": 598
   },
   "Kanta-Häme": {
    "hit": 0,
    "miss": 0,
    "fa": 0,
-   "cn": 252
+   "cn": 419
   },
   "Pohjois-Savo": {
    "hit": 31,
    "miss": 18,
-   "fa": 229,
-   "cn": 514
+   "fa": 245,
+   "cn": 1026
   },
   "Pohjois-Karjala": {
    "hit": 4,
    "miss": 4,
-   "fa": 203,
-   "cn": 580
+   "fa": 265,
+   "cn": 1032
   },
   "Keski-Suomi": {
    "hit": 0,
    "miss": 0,
    "fa": 156,
-   "cn": 708
+   "cn": 1284
   },
   "Pohjanmaa": {
    "hit": 27,
    "miss": 0,
    "fa": 152,
-   "cn": 300
+   "cn": 636
   },
   "Keski-Pohjanmaa": {
    "hit": 1,
    "miss": 1,
    "fa": 162,
-   "cn": 120
+   "cn": 312
   },
   "Etelä-Pohjanmaa": {
    "hit": 0,
    "miss": 0,
    "fa": 219,
-   "cn": 570
+   "cn": 1098
   },
   "Pohjois-Pohjanmaa": {
-   "hit": 68,
+   "hit": 77,
    "miss": 21,
-   "fa": 669,
-   "cn": 862
+   "fa": 758,
+   "cn": 1844
   },
   "Kainuu": {
-   "hit": 29,
+   "hit": 32,
    "miss": 4,
-   "fa": 238,
-   "cn": 269
+   "fa": 295,
+   "cn": 569
   },
   "Lappi": {
-   "hit": 63,
+   "hit": 191,
    "miss": 9,
-   "fa": 564,
-   "cn": 676
+   "fa": 992,
+   "cn": 1007
   },
   "Finavia lentokentät": {
-   "hit": 15,
-   "miss": 45,
-   "fa": 223,
-   "cn": 1434
+   "hit": 26,
+   "miss": 46,
+   "fa": 318,
+   "cn": 2479
   }
  },
  "byWhy": {
   "tiesääennuste (Digitraffic)": {
-   "hit": 32,
-   "fa": 1031
+   "hit": 52,
+   "fa": 1295
   },
   "kuura": {
-   "hit": 182,
-   "fa": 1610
+   "hit": 237,
+   "fa": 1883
   },
   "märkä tie jäätyy": {
-   "hit": 22,
-   "fa": 235
+   "hit": 25,
+   "fa": 289
   },
   "lumisade": {
-   "hit": 2,
-   "fa": 14
+   "hit": 63,
+   "fa": 75
   },
   "jäätävä sade": {
-   "hit": 0,
-   "fa": 52
+   "hit": 9,
+   "fa": 118
   },
   "lumi / sohjo": {
-   "hit": 0,
-   "fa": 2
+   "hit": 3,
+   "fa": 32
   }
  },
  "missObs": {
-  "keli jää": 63,
+  "keli jää": 64,
   "keli lumi": 9,
-  "varoitus häly": 33
+  "varoitus häly": 34
  },
  "frost": {
   "0–0,5": {
-   "n": 3883,
+   "n": 4706,
    "frost": 0,
-   "warn": 395,
-   "slip": 78
+   "warn": 446,
+   "slip": 163
   },
   "0,5–2": {
-   "n": 478,
+   "n": 647,
    "frost": 0,
-   "warn": 311,
-   "slip": 44
+   "warn": 336,
+   "slip": 79
   },
   "2–4": {
-   "n": 290,
+   "n": 400,
    "frost": 0,
-   "warn": 166,
-   "slip": 55
+   "warn": 183,
+   "slip": 74
   },
   "4–8": {
-   "n": 248,
+   "n": 374,
    "frost": 0,
-   "warn": 115,
-   "slip": 48
+   "warn": 144,
+   "slip": 68
   },
   "yli 8": {
-   "n": 138,
-   "frost": 9,
-   "warn": 45,
-   "slip": 64
+   "n": 242,
+   "frost": 15,
+   "warn": 62,
+   "slip": 86
   }
  },
  "salt": {
   "ei suolaa": {
    "−2…+0,5": {
-    "n": 391,
-    "slip": 70
+    "n": 932,
+    "slip": 178
    },
    "−4…−2": {
-    "n": 241,
-    "slip": 36
+    "n": 292,
+    "slip": 61
    },
    "−6…−4": {
-    "n": 33,
-    "slip": 4
+    "n": 39,
+    "slip": 8
    },
    "alle −8": {
     "n": 3,
@@ -237,11 +238,11 @@
   },
   "suolaa": {
    "−4…−2": {
-    "n": 10,
+    "n": 20,
     "slip": 0
    },
    "−2…+0,5": {
-    "n": 36,
+    "n": 121,
     "slip": 8
    }
   }
@@ -249,12 +250,12 @@
  "weeks": {
   "2026-W42": {
    "lead6": {
-    "hit": 238,
-    "miss": 105,
-    "fa": 2944,
-    "cn": 12891
+    "hit": 389,
+    "miss": 107,
+    "fa": 3692,
+    "cn": 22805
    },
-   "days": 2
+   "days": 3
   }
  }
 }
