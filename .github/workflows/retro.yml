@@ -9,9 +9,19 @@ concurrency: arkisto          # sama jono kuin keruulla, ettei tallennus mene p�
 jobs:
   retro:
     runs-on: ubuntu-latest
+    env:
+      RULES_FILE: .laskenta/collector/collect.mjs   # säännöt luetaan yksityisestä säilöstä, ei julkisesta osoitteesta
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
+      - name: Hae kelisivun säännöt (yksityinen säilö Sambbor/Vantaakeli-laskenta, lukuavain CODE_TOKEN)
+        uses: actions/checkout@v5
+        with:
+          repository: Sambbor/Vantaakeli-laskenta
+          token: ${{ secrets.CODE_TOKEN }}
+          path: .laskenta
+          sparse-checkout: |
+            collector
       - uses: actions/setup-node@v4
         with:
           node-version: 22
