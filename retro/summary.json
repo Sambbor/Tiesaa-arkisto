@@ -1,7 +1,7 @@
 {
- "rv": "v13",
+ "rv": "v14",
  "v": "rt3",
- "updated": "2026-10-20T05:07:35Z",
+ "updated": "2026-10-21T05:09:56Z",
  "days": [
   "2026-10-12",
   "2026-10-13",
@@ -9,163 +9,164 @@
   "2026-10-15",
   "2026-10-16",
   "2026-10-17",
-  "2026-10-18"
+  "2026-10-18",
+  "2026-10-19"
  ],
- "samples": 70566,
+ "samples": 81474,
  "lead": {
   "2": {
-   "hit": 1156,
-   "miss": 215,
-   "fa": 4747,
-   "cn": 64333
+   "hit": 1397,
+   "miss": 244,
+   "fa": 7261,
+   "cn": 72442
   },
   "6": {
-   "hit": 1181,
-   "miss": 316,
-   "fa": 7925,
-   "cn": 61018
+   "hit": 1297,
+   "miss": 347,
+   "fa": 11237,
+   "cn": 68452
   },
   "12": {
-   "hit": 1085,
-   "miss": 384,
-   "fa": 8995,
-   "cn": 59960
+   "hit": 1185,
+   "miss": 428,
+   "fa": 12284,
+   "cn": 67420
   }
  },
  "byProv": {
   "Uusimaa": {
-   "hit": 1,
-   "miss": 0,
-   "fa": 277,
-   "cn": 8929
+   "hit": 5,
+   "miss": 1,
+   "fa": 504,
+   "cn": 10153
   },
   "Kymenlaakso": {
    "hit": 6,
    "miss": 0,
-   "fa": 73,
-   "cn": 2885
+   "fa": 139,
+   "cn": 3275
   },
   "Varsinais-Suomi": {
-   "hit": 13,
+   "hit": 20,
    "miss": 10,
-   "fa": 194,
-   "cn": 6261
+   "fa": 495,
+   "cn": 6950
   },
   "Satakunta": {
-   "hit": 0,
+   "hit": 3,
    "miss": 0,
-   "fa": 60,
-   "cn": 1654
+   "fa": 174,
+   "cn": 1801
   },
   "Pirkanmaa": {
-   "hit": 6,
-   "miss": 6,
-   "fa": 139,
-   "cn": 3435
+   "hit": 9,
+   "miss": 9,
+   "fa": 370,
+   "cn": 3750
   },
   "Ahvenanmaa": {
    "hit": 0,
    "miss": 0,
    "fa": 0,
-   "cn": 156
+   "cn": 180
   },
   "Etelä-Savo": {
-   "hit": 11,
+   "hit": 13,
    "miss": 2,
-   "fa": 160,
-   "cn": 1853
+   "fa": 303,
+   "cn": 2020
   },
   "Etelä-Karjala": {
-   "hit": 1,
-   "miss": 29,
-   "fa": 49,
-   "cn": 1623
+   "hit": 6,
+   "miss": 35,
+   "fa": 132,
+   "cn": 1789
   },
   "Päijät-Häme": {
    "hit": 5,
    "miss": 0,
-   "fa": 66,
-   "cn": 1489
+   "fa": 143,
+   "cn": 1652
   },
   "Kanta-Häme": {
    "hit": 1,
    "miss": 0,
-   "fa": 41,
-   "cn": 1049
+   "fa": 80,
+   "cn": 1178
   },
   "Pohjois-Savo": {
-   "hit": 104,
-   "miss": 24,
-   "fa": 566,
-   "cn": 2731
+   "hit": 136,
+   "miss": 27,
+   "fa": 801,
+   "cn": 2989
   },
   "Pohjois-Karjala": {
-   "hit": 47,
-   "miss": 5,
-   "fa": 454,
-   "cn": 2905
+   "hit": 51,
+   "miss": 7,
+   "fa": 685,
+   "cn": 3196
   },
   "Keski-Suomi": {
-   "hit": 21,
+   "hit": 26,
    "miss": 0,
-   "fa": 428,
-   "cn": 3294
+   "fa": 734,
+   "cn": 3559
   },
   "Pohjanmaa": {
    "hit": 28,
    "miss": 4,
-   "fa": 278,
-   "cn": 1849
+   "fa": 369,
+   "cn": 2094
   },
   "Keski-Pohjanmaa": {
    "hit": 3,
    "miss": 7,
-   "fa": 250,
-   "cn": 952
+   "fa": 348,
+   "cn": 1046
   },
   "Etelä-Pohjanmaa": {
-   "hit": 34,
-   "miss": 0,
-   "fa": 417,
-   "cn": 2976
+   "hit": 40,
+   "miss": 1,
+   "fa": 685,
+   "cn": 3229
   },
   "Pohjois-Pohjanmaa": {
-   "hit": 250,
+   "hit": 252,
    "miss": 53,
-   "fa": 1373,
-   "cn": 5339
+   "fa": 1613,
+   "cn": 6176
   },
   "Kainuu": {
-   "hit": 90,
-   "miss": 7,
-   "fa": 538,
-   "cn": 1701
+   "hit": 113,
+   "miss": 10,
+   "fa": 724,
+   "cn": 1849
   },
   "Lappi": {
-   "hit": 449,
-   "miss": 53,
-   "fa": 1903,
-   "cn": 3346
+   "hit": 455,
+   "miss": 54,
+   "fa": 2056,
+   "cn": 4086
   },
   "Finavia lentokentät": {
-   "hit": 111,
-   "miss": 116,
-   "fa": 659,
-   "cn": 6591
+   "hit": 125,
+   "miss": 127,
+   "fa": 882,
+   "cn": 7480
   }
  },
  "byWhy": {
   "kuura": {
-   "hit": 869,
-   "fa": 5243
+   "hit": 975,
+   "fa": 7812
   },
   "tiesääennuste (Digitraffic)": {
-   "hit": 115,
-   "fa": 1586
+   "hit": 119,
+   "fa": 2135
   },
   "märkä tie jäätyy": {
-   "hit": 116,
-   "fa": 849
+   "hit": 122,
+   "fa": 1043
   },
   "lumisade": {
    "hit": 67,
@@ -181,56 +182,58 @@
   }
  },
  "missObs": {
-  "keli jää": 171,
-  "varoitus häly": 126,
-  "keli lumi": 18,
-  "keli kuura": 1
+  "keli jää": 188,
+  "varoitus häly": 131,
+  "keli lumi": 20,
+  "keli kuura": 5,
+  "kitka < 0,45": 2,
+  "jäätä tiellä": 1
  },
  "frost": {
   "0–0,5": {
-   "n": 8993,
+   "n": 10833,
    "frost": 0,
-   "warn": 1024,
-   "slip": 316
+   "warn": 1253,
+   "slip": 361
   },
   "0,5–2": {
-   "n": 1777,
+   "n": 2385,
    "frost": 0,
-   "warn": 991,
-   "slip": 158
+   "warn": 1303,
+   "slip": 185
   },
   "2–4": {
-   "n": 1170,
+   "n": 1625,
    "frost": 0,
-   "warn": 643,
-   "slip": 198
+   "warn": 909,
+   "slip": 228
   },
   "4–8": {
-   "n": 1153,
+   "n": 1763,
    "frost": 0,
-   "warn": 577,
-   "slip": 224
+   "warn": 926,
+   "slip": 304
   },
   "yli 8": {
-   "n": 1067,
-   "frost": 42,
-   "warn": 368,
-   "slip": 347
+   "n": 1664,
+   "frost": 80,
+   "warn": 677,
+   "slip": 462
   }
  },
  "salt": {
   "ei suolaa": {
    "−2…+0,5": {
-    "n": 2304,
-    "slip": 452
+    "n": 3503,
+    "slip": 525
    },
    "−4…−2": {
-    "n": 577,
-    "slip": 160
+    "n": 859,
+    "slip": 191
    },
    "−6…−4": {
-    "n": 64,
-    "slip": 32
+    "n": 82,
+    "slip": 34
    },
    "alle −8": {
     "n": 3,
@@ -243,12 +246,16 @@
   },
   "suolaa": {
    "−4…−2": {
-    "n": 78,
-    "slip": 1
+    "n": 133,
+    "slip": 2
    },
    "−2…+0,5": {
-    "n": 300,
-    "slip": 19
+    "n": 534,
+    "slip": 23
+   },
+   "−6…−4": {
+    "n": 6,
+    "slip": 0
    }
   }
  },
@@ -261,41 +268,176 @@
     "cn": 61018
    },
    "days": 7
+  },
+  "2026-W43": {
+   "lead6": {
+    "hit": 116,
+    "miss": 31,
+    "fa": 3312,
+    "cn": 7434
+   },
+   "days": 1
   }
  },
  "toteu": {
-  "days": 2722,
-  "both": 347,
-  "salt": 26,
-  "alarm": 1022,
-  "none": 1327,
+  "days": 3178,
+  "both": 606,
+  "salt": 29,
+  "alarm": 1200,
+  "none": 1343,
   "slip": {
-   "both": 61,
+   "both": 104,
    "salt": 0,
-   "alarm": 192,
-   "none": 5
+   "alarm": 233,
+   "none": 7
   },
-  "ep": 283,
-  "epPred": 228,
-  "leadSum": 1581.3,
-  "leadN": 228,
+  "ep": 520,
+  "epPred": 423,
+  "leadSum": 3016.2,
+  "leadN": 423,
   "leadBins": {
-   "6–12 h": 149,
-   "2–6 h": 42,
-   "0–2 h": 37
+   "6–12 h": 274,
+   "2–6 h": 86,
+   "0–2 h": 63
   },
-  "epReactive": 31,
-  "slipDays": 258,
-  "slipSaltedBefore": 19,
-  "slipSaltedAfter": 17
+  "epReactive": 55,
+  "slipDays": 344,
+  "slipSaltedBefore": 28,
+  "slipSaltedAfter": 34
  },
  "toteuArea": {
   "Espoo": {
-   "days": 18,
+   "days": 21,
+   "both": 6,
+   "salt": 0,
+   "alarm": 1,
+   "none": 14,
+   "slip": {
+    "both": 0,
+    "salt": 0,
+    "alarm": 0,
+    "none": 0
+   },
+   "ep": 7,
+   "epPred": 5,
+   "leadSum": 35.435833333333335,
+   "leadN": 5,
+   "leadBins": {
+    "6–12 h": 4,
+    "2–6 h": 1
+   },
+   "epReactive": 0,
+   "slipDays": 0,
+   "slipSaltedBefore": 0,
+   "slipSaltedAfter": 0
+  },
+  "Espoo 19-24": {
+   "days": 90,
+   "both": 16,
+   "salt": 2,
+   "alarm": 10,
+   "none": 62,
+   "slip": {
+    "both": 0,
+    "salt": 0,
+    "alarm": 0,
+    "none": 0
+   },
+   "ep": 18,
+   "epPred": 13,
+   "leadSum": 88.43638888888889,
+   "leadN": 13,
+   "leadBins": {
+    "6–12 h": 7,
+    "2–6 h": 5,
+    "0–2 h": 1
+   },
+   "epReactive": 0,
+   "slipDays": 0,
+   "slipSaltedBefore": 0,
+   "slipSaltedAfter": 0
+  },
+  "Nummi": {
+   "days": 63,
+   "both": 7,
+   "salt": 0,
+   "alarm": 20,
+   "none": 36,
+   "slip": {
+    "both": 0,
+    "salt": 0,
+    "alarm": 1,
+    "none": 0
+   },
+   "ep": 6,
+   "epPred": 6,
+   "leadSum": 61.388333333333335,
+   "leadN": 6,
+   "leadBins": {
+    "6–12 h": 5,
+    "2–6 h": 1
+   },
+   "epReactive": 0,
+   "slipDays": 1,
+   "slipSaltedBefore": 0,
+   "slipSaltedAfter": 0
+  },
+  "Jyväskylä": {
+   "days": 49,
+   "both": 10,
+   "salt": 1,
+   "alarm": 4,
+   "none": 34,
+   "slip": {
+    "both": 0,
+    "salt": 0,
+    "alarm": 0,
+    "none": 0
+   },
+   "ep": 10,
+   "epPred": 8,
+   "leadSum": 47.51722222222222,
+   "leadN": 8,
+   "leadBins": {
+    "6–12 h": 4,
+    "2–6 h": 4
+   },
+   "epReactive": 0,
+   "slipDays": 0,
+   "slipSaltedBefore": 0,
+   "slipSaltedAfter": 0
+  },
+  "Porvoo": {
+   "days": 40,
+   "both": 2,
+   "salt": 0,
+   "alarm": 13,
+   "none": 25,
+   "slip": {
+    "both": 0,
+    "salt": 0,
+    "alarm": 2,
+    "none": 0
+   },
+   "ep": 2,
+   "epPred": 2,
+   "leadSum": 12.904722222222222,
+   "leadN": 2,
+   "leadBins": {
+    "6–12 h": 1,
+    "2–6 h": 1
+   },
+   "epReactive": 0,
+   "slipDays": 2,
+   "slipSaltedBefore": 0,
+   "slipSaltedAfter": 0
+  },
+  "Mäntsälä": {
+   "days": 21,
    "both": 4,
    "salt": 0,
-   "alarm": 0,
-   "none": 14,
+   "alarm": 5,
+   "none": 12,
    "slip": {
     "both": 0,
     "salt": 0,
@@ -304,7 +446,7 @@
    },
    "ep": 4,
    "epPred": 3,
-   "leadSum": 25.46861111111111,
+   "leadSum": 32.572500000000005,
    "leadN": 3,
    "leadBins": {
     "6–12 h": 3
@@ -314,133 +456,11 @@
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
-  "Espoo 19-24": {
-   "days": 77,
-   "both": 11,
-   "salt": 1,
-   "alarm": 6,
-   "none": 59,
-   "slip": {
-    "both": 0,
-    "salt": 0,
-    "alarm": 0,
-    "none": 0
-   },
-   "ep": 12,
-   "epPred": 10,
-   "leadSum": 78.65666666666667,
-   "leadN": 10,
-   "leadBins": {
-    "6–12 h": 7,
-    "2–6 h": 3
-   },
-   "epReactive": 0,
-   "slipDays": 0,
-   "slipSaltedBefore": 0,
-   "slipSaltedAfter": 0
-  },
-  "Nummi": {
-   "days": 54,
-   "both": 2,
-   "salt": 0,
-   "alarm": 16,
-   "none": 36,
-   "slip": {
-    "both": 0,
-    "salt": 0,
-    "alarm": 1,
-    "none": 0
-   },
-   "ep": 2,
-   "epPred": 2,
-   "leadSum": 21.07138888888889,
-   "leadN": 2,
-   "leadBins": {
-    "6–12 h": 2
-   },
-   "epReactive": 0,
-   "slipDays": 1,
-   "slipSaltedBefore": 0,
-   "slipSaltedAfter": 0
-  },
-  "Jyväskylä": {
-   "days": 42,
-   "both": 7,
-   "salt": 0,
-   "alarm": 1,
-   "none": 34,
-   "slip": {
-    "both": 0,
-    "salt": 0,
-    "alarm": 0,
-    "none": 0
-   },
-   "ep": 6,
-   "epPred": 6,
-   "leadSum": 39.10027777777778,
-   "leadN": 6,
-   "leadBins": {
-    "6–12 h": 4,
-    "2–6 h": 2
-   },
-   "epReactive": 0,
-   "slipDays": 0,
-   "slipSaltedBefore": 0,
-   "slipSaltedAfter": 0
-  },
-  "Porvoo": {
-   "days": 34,
-   "both": 1,
-   "salt": 0,
-   "alarm": 9,
-   "none": 24,
-   "slip": {
-    "both": 0,
-    "salt": 0,
-    "alarm": 2,
-    "none": 0
-   },
-   "ep": 1,
-   "epPred": 1,
-   "leadSum": 8.245,
-   "leadN": 1,
-   "leadBins": {
-    "6–12 h": 1
-   },
-   "epReactive": 0,
-   "slipDays": 2,
-   "slipSaltedBefore": 0,
-   "slipSaltedAfter": 0
-  },
-  "Mäntsälä": {
-   "days": 18,
-   "both": 3,
-   "salt": 0,
-   "alarm": 3,
-   "none": 12,
-   "slip": {
-    "both": 0,
-    "salt": 0,
-    "alarm": 0,
-    "none": 0
-   },
-   "ep": 2,
-   "epPred": 2,
-   "leadSum": 22.52777777777778,
-   "leadN": 2,
-   "leadBins": {
-    "6–12 h": 2
-   },
-   "epReactive": 0,
-   "slipDays": 0,
-   "slipSaltedBefore": 0,
-   "slipSaltedAfter": 0
-  },
   "Raasepori": {
-   "days": 30,
-   "both": 3,
+   "days": 35,
+   "both": 6,
    "salt": 0,
-   "alarm": 6,
+   "alarm": 8,
    "none": 21,
    "slip": {
     "both": 0,
@@ -448,19 +468,22 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
+   "ep": 3,
+   "epPred": 2,
+   "leadSum": 3.2750000000000004,
+   "leadN": 2,
+   "leadBins": {
+    "0–2 h": 1,
+    "2–6 h": 1
+   },
    "epReactive": 0,
    "slipDays": 0,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Hyvinkää": {
-   "days": 42,
-   "both": 2,
+   "days": 49,
+   "both": 9,
    "salt": 0,
    "alarm": 11,
    "none": 29,
@@ -470,12 +493,14 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 1,
-   "epPred": 1,
-   "leadSum": 11.320833333333333,
-   "leadN": 1,
+   "ep": 9,
+   "epPred": 8,
+   "leadSum": 47.050000000000004,
+   "leadN": 8,
    "leadBins": {
-    "6–12 h": 1
+    "6–12 h": 3,
+    "2–6 h": 4,
+    "0–2 h": 1
    },
    "epReactive": 0,
    "slipDays": 0,
@@ -483,11 +508,11 @@
    "slipSaltedAfter": 0
   },
   "Koskenkylä -Kotka": {
-   "days": 24,
+   "days": 28,
    "both": 0,
    "salt": 0,
-   "alarm": 7,
-   "none": 17,
+   "alarm": 10,
+   "none": 18,
    "slip": {
     "both": 0,
     "salt": 0,
@@ -505,10 +530,10 @@
    "slipSaltedAfter": 0
   },
   "Vantaa": {
-   "days": 7,
+   "days": 9,
    "both": 2,
    "salt": 0,
-   "alarm": 1,
+   "alarm": 3,
    "none": 4,
    "slip": {
     "both": 0,
@@ -529,34 +554,34 @@
    "slipSaltedAfter": 0
   },
   "tuntematon": {
-   "days": 498,
-   "both": 58,
-   "salt": 15,
-   "alarm": 170,
-   "none": 255,
+   "days": 581,
+   "both": 94,
+   "salt": 16,
+   "alarm": 212,
+   "none": 259,
    "slip": {
-    "both": 7,
+    "both": 12,
     "salt": 0,
-    "alarm": 34,
-    "none": 4
+    "alarm": 47,
+    "none": 5
    },
-   "ep": 56,
-   "epPred": 35,
-   "leadSum": 251.42694444444442,
-   "leadN": 35,
+   "ep": 81,
+   "epPred": 53,
+   "leadSum": 374.54527777777776,
+   "leadN": 53,
    "leadBins": {
-    "6–12 h": 23,
-    "2–6 h": 4,
-    "0–2 h": 8
+    "6–12 h": 35,
+    "2–6 h": 7,
+    "0–2 h": 11
    },
    "epReactive": 3,
-   "slipDays": 45,
-   "slipSaltedBefore": 5,
+   "slipDays": 64,
+   "slipSaltedBefore": 6,
    "slipSaltedAfter": 1
   },
   "Pori": {
-   "days": 36,
-   "both": 2,
+   "days": 42,
+   "both": 8,
    "salt": 0,
    "alarm": 11,
    "none": 23,
@@ -566,45 +591,48 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
+   "ep": 3,
+   "epPred": 3,
+   "leadSum": 13.731666666666666,
+   "leadN": 3,
+   "leadBins": {
+    "0–2 h": 2,
+    "6–12 h": 1
+   },
    "epReactive": 0,
    "slipDays": 0,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Salo": {
-   "days": 66,
-   "both": 17,
+   "days": 77,
+   "both": 26,
    "salt": 0,
-   "alarm": 5,
+   "alarm": 7,
    "none": 44,
    "slip": {
-    "both": 2,
+    "both": 5,
     "salt": 0,
     "alarm": 0,
     "none": 0
    },
-   "ep": 9,
-   "epPred": 7,
-   "leadSum": 25.235277777777778,
-   "leadN": 7,
+   "ep": 19,
+   "epPred": 11,
+   "leadSum": 34.274166666666666,
+   "leadN": 11,
    "leadBins": {
     "2–6 h": 2,
-    "6–12 h": 2,
-    "0–2 h": 3
+    "6–12 h": 3,
+    "0–2 h": 6
    },
    "epReactive": 0,
-   "slipDays": 2,
-   "slipSaltedBefore": 1,
+   "slipDays": 5,
+   "slipSaltedBefore": 4,
    "slipSaltedAfter": 0
   },
   "Harjavalta": {
-   "days": 12,
-   "both": 0,
+   "days": 14,
+   "both": 2,
    "salt": 0,
    "alarm": 5,
    "none": 7,
@@ -614,19 +642,21 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
+   "ep": 2,
+   "epPred": 2,
+   "leadSum": 22.660833333333333,
+   "leadN": 2,
+   "leadBins": {
+    "6–12 h": 2
+   },
    "epReactive": 0,
    "slipDays": 0,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Parkano": {
-   "days": 12,
-   "both": 3,
+   "days": 14,
+   "both": 5,
    "salt": 0,
    "alarm": 2,
    "none": 7,
@@ -636,12 +666,13 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 1,
-   "epPred": 1,
-   "leadSum": 10.073611111111111,
-   "leadN": 1,
+   "ep": 3,
+   "epPred": 2,
+   "leadSum": 10.53111111111111,
+   "leadN": 2,
    "leadBins": {
-    "6–12 h": 1
+    "6–12 h": 1,
+    "0–2 h": 1
    },
    "epReactive": 0,
    "slipDays": 0,
@@ -649,30 +680,32 @@
    "slipSaltedAfter": 0
   },
   "Raisio": {
-   "days": 36,
-   "both": 1,
+   "days": 42,
+   "both": 7,
    "salt": 0,
    "alarm": 10,
    "none": 25,
    "slip": {
-    "both": 0,
+    "both": 1,
     "salt": 0,
     "alarm": 1,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
-   "epReactive": 0,
-   "slipDays": 1,
+   "ep": 6,
+   "epPred": 5,
+   "leadSum": 54.77111111111111,
+   "leadN": 5,
+   "leadBins": {
+    "6–12 h": 5
+   },
+   "epReactive": 1,
+   "slipDays": 2,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Merikarvia": {
-   "days": 12,
-   "both": 1,
+   "days": 14,
+   "both": 3,
    "salt": 0,
    "alarm": 3,
    "none": 8,
@@ -682,19 +715,23 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
+   "ep": 3,
+   "epPred": 3,
+   "leadSum": 15.280555555555555,
+   "leadN": 3,
+   "leadBins": {
+    "0–2 h": 1,
+    "2–6 h": 1,
+    "6–12 h": 1
+   },
    "epReactive": 0,
    "slipDays": 0,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Loimaa": {
-   "days": 6,
-   "both": 0,
+   "days": 7,
+   "both": 1,
    "salt": 0,
    "alarm": 2,
    "none": 4,
@@ -704,21 +741,23 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
+   "ep": 1,
+   "epPred": 1,
+   "leadSum": 5.780833333333334,
+   "leadN": 1,
+   "leadBins": {
+    "2–6 h": 1
+   },
    "epReactive": 0,
    "slipDays": 0,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Lieto": {
-   "days": 30,
-   "both": 0,
+   "days": 35,
+   "both": 4,
    "salt": 0,
-   "alarm": 9,
+   "alarm": 10,
    "none": 21,
    "slip": {
     "both": 0,
@@ -726,19 +765,21 @@
     "alarm": 1,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
+   "ep": 1,
+   "epPred": 1,
+   "leadSum": 9.089444444444444,
+   "leadN": 1,
+   "leadBins": {
+    "6–12 h": 1
+   },
    "epReactive": 0,
    "slipDays": 1,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Kankaanpää": {
-   "days": 6,
-   "both": 0,
+   "days": 7,
+   "both": 1,
    "salt": 0,
    "alarm": 3,
    "none": 3,
@@ -748,53 +789,9 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
-   "epReactive": 0,
-   "slipDays": 0,
-   "slipSaltedBefore": 0,
-   "slipSaltedAfter": 0
-  },
-  "Huittinen": {
-   "days": 12,
-   "both": 0,
-   "salt": 0,
-   "alarm": 4,
-   "none": 8,
-   "slip": {
-    "both": 0,
-    "salt": 0,
-    "alarm": 0,
-    "none": 0
-   },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
-   "epReactive": 0,
-   "slipDays": 0,
-   "slipSaltedBefore": 0,
-   "slipSaltedAfter": 0
-  },
-  "Sastamala": {
-   "days": 6,
-   "both": 1,
-   "salt": 0,
-   "alarm": 2,
-   "none": 3,
-   "slip": {
-    "both": 0,
-    "salt": 0,
-    "alarm": 0,
-    "none": 0
-   },
    "ep": 1,
    "epPred": 1,
-   "leadSum": 6.477777777777778,
+   "leadSum": 11.9,
    "leadN": 1,
    "leadBins": {
     "6–12 h": 1
@@ -804,24 +801,23 @@
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
-  "Paimio": {
-   "days": 54,
-   "both": 6,
+  "Huittinen": {
+   "days": 14,
+   "both": 2,
    "salt": 0,
-   "alarm": 10,
-   "none": 38,
+   "alarm": 4,
+   "none": 8,
    "slip": {
     "both": 0,
     "salt": 0,
     "alarm": 0,
     "none": 0
    },
-   "ep": 5,
-   "epPred": 5,
-   "leadSum": 30.126388888888886,
-   "leadN": 5,
+   "ep": 2,
+   "epPred": 2,
+   "leadSum": 19.67861111111111,
+   "leadN": 2,
    "leadBins": {
-    "2–6 h": 3,
     "6–12 h": 2
    },
    "epReactive": 0,
@@ -829,11 +825,61 @@
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
+  "Sastamala": {
+   "days": 7,
+   "both": 2,
+   "salt": 0,
+   "alarm": 2,
+   "none": 3,
+   "slip": {
+    "both": 0,
+    "salt": 0,
+    "alarm": 0,
+    "none": 0
+   },
+   "ep": 2,
+   "epPred": 2,
+   "leadSum": 17.325555555555553,
+   "leadN": 2,
+   "leadBins": {
+    "6–12 h": 2
+   },
+   "epReactive": 0,
+   "slipDays": 0,
+   "slipSaltedBefore": 0,
+   "slipSaltedAfter": 0
+  },
+  "Paimio": {
+   "days": 63,
+   "both": 12,
+   "salt": 0,
+   "alarm": 13,
+   "none": 38,
+   "slip": {
+    "both": 0,
+    "salt": 0,
+    "alarm": 0,
+    "none": 0
+   },
+   "ep": 15,
+   "epPred": 11,
+   "leadSum": 63.23555555555555,
+   "leadN": 11,
+   "leadBins": {
+    "2–6 h": 3,
+    "6–12 h": 6,
+    "0–2 h": 2
+   },
+   "epReactive": 0,
+   "slipDays": 0,
+   "slipSaltedBefore": 0,
+   "slipSaltedAfter": 0
+  },
   "Kotka": {
-   "days": 60,
+   "days": 70,
    "both": 0,
    "salt": 0,
-   "alarm": 20,
+   "alarm": 30,
    "none": 40,
    "slip": {
     "both": 0,
@@ -852,10 +898,10 @@
    "slipSaltedAfter": 0
   },
   "Juva": {
-   "days": 24,
-   "both": 5,
+   "days": 28,
+   "both": 8,
    "salt": 1,
-   "alarm": 6,
+   "alarm": 7,
    "none": 12,
    "slip": {
     "both": 0,
@@ -877,32 +923,32 @@
    "slipSaltedAfter": 0
   },
   "Mikkeli": {
-   "days": 30,
-   "both": 3,
+   "days": 35,
+   "both": 7,
    "salt": 0,
-   "alarm": 11,
+   "alarm": 12,
    "none": 16,
    "slip": {
-    "both": 2,
+    "both": 3,
     "salt": 0,
     "alarm": 0,
     "none": 0
    },
-   "ep": 3,
-   "epPred": 3,
-   "leadSum": 23.83833333333333,
-   "leadN": 3,
+   "ep": 7,
+   "epPred": 7,
+   "leadSum": 58.62833333333333,
+   "leadN": 7,
    "leadBins": {
-    "6–12 h": 3
+    "6–12 h": 7
    },
    "epReactive": 0,
-   "slipDays": 2,
-   "slipSaltedBefore": 0,
+   "slipDays": 3,
+   "slipSaltedBefore": 1,
    "slipSaltedAfter": 0
   },
   "Savonlinna": {
-   "days": 12,
-   "both": 4,
+   "days": 14,
+   "both": 6,
    "salt": 0,
    "alarm": 3,
    "none": 5,
@@ -912,14 +958,14 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 5,
-   "epPred": 4,
-   "leadSum": 15.7425,
-   "leadN": 4,
+   "ep": 7,
+   "epPred": 6,
+   "leadSum": 32.00555555555556,
+   "leadN": 6,
    "leadBins": {
     "0–2 h": 2,
     "2–6 h": 1,
-    "6–12 h": 1
+    "6–12 h": 3
    },
    "epReactive": 0,
    "slipDays": 0,
@@ -927,10 +973,10 @@
    "slipSaltedAfter": 0
   },
   "Kouvola": {
-   "days": 24,
-   "both": 1,
+   "days": 28,
+   "both": 4,
    "salt": 0,
-   "alarm": 10,
+   "alarm": 11,
    "none": 13,
    "slip": {
     "both": 0,
@@ -938,21 +984,24 @@
     "alarm": 1,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
+   "ep": 3,
+   "epPred": 3,
+   "leadSum": 15.277222222222221,
+   "leadN": 3,
+   "leadBins": {
+    "6–12 h": 1,
+    "2–6 h": 2
+   },
    "epReactive": 0,
    "slipDays": 1,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Lappeenranta": {
-   "days": 36,
-   "both": 3,
+   "days": 42,
+   "both": 4,
    "salt": 0,
-   "alarm": 15,
+   "alarm": 20,
    "none": 18,
    "slip": {
     "both": 0,
@@ -960,12 +1009,12 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 3,
-   "epPred": 3,
-   "leadSum": 18.668333333333337,
-   "leadN": 3,
+   "ep": 4,
+   "epPred": 4,
+   "leadSum": 28.25277777777778,
+   "leadN": 4,
    "leadBins": {
-    "6–12 h": 2,
+    "6–12 h": 3,
     "2–6 h": 1
    },
    "epReactive": 0,
@@ -974,10 +1023,10 @@
    "slipSaltedAfter": 0
   },
   "Hamina-Vaalimaa": {
-   "days": 18,
+   "days": 21,
    "both": 0,
    "salt": 0,
-   "alarm": 6,
+   "alarm": 9,
    "none": 12,
    "slip": {
     "both": 0,
@@ -996,10 +1045,10 @@
    "slipSaltedAfter": 0
   },
   "Imatra": {
-   "days": 18,
-   "both": 4,
+   "days": 21,
+   "both": 6,
    "salt": 0,
-   "alarm": 8,
+   "alarm": 9,
    "none": 6,
    "slip": {
     "both": 0,
@@ -1007,12 +1056,13 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 2,
-   "epPred": 2,
-   "leadSum": 5.342222222222222,
-   "leadN": 2,
+   "ep": 4,
+   "epPred": 4,
+   "leadSum": 26.17388888888889,
+   "leadN": 4,
    "leadBins": {
-    "2–6 h": 2
+    "2–6 h": 2,
+    "6–12 h": 2
    },
    "epReactive": 0,
    "slipDays": 0,
@@ -1020,8 +1070,8 @@
    "slipSaltedAfter": 0
   },
   "Lahti": {
-   "days": 36,
-   "both": 6,
+   "days": 42,
+   "both": 12,
    "salt": 0,
    "alarm": 8,
    "none": 22,
@@ -1031,19 +1081,22 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
+   "ep": 12,
+   "epPred": 7,
+   "leadSum": 65.1986111111111,
+   "leadN": 7,
+   "leadBins": {
+    "6–12 h": 6,
+    "0–2 h": 1
+   },
    "epReactive": 0,
    "slipDays": 1,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Hämeenlinna": {
-   "days": 12,
-   "both": 0,
+   "days": 14,
+   "both": 2,
    "salt": 0,
    "alarm": 4,
    "none": 8,
@@ -1064,8 +1117,8 @@
    "slipSaltedAfter": 0
   },
   "Tampere": {
-   "days": 54,
-   "both": 3,
+   "days": 63,
+   "both": 12,
    "salt": 5,
    "alarm": 16,
    "none": 30,
@@ -1075,19 +1128,22 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 6,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
+   "ep": 18,
+   "epPred": 12,
+   "leadSum": 93.85027777777778,
+   "leadN": 12,
+   "leadBins": {
+    "0–2 h": 2,
+    "6–12 h": 10
+   },
    "epReactive": 0,
    "slipDays": 1,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Kangasala": {
-   "days": 12,
-   "both": 3,
+   "days": 14,
+   "both": 5,
    "salt": 2,
    "alarm": 1,
    "none": 6,
@@ -1097,12 +1153,13 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 5,
-   "epPred": 1,
-   "leadSum": 0.1225,
-   "leadN": 1,
+   "ep": 8,
+   "epPred": 4,
+   "leadSum": 26.34472222222222,
+   "leadN": 4,
    "leadBins": {
-    "0–2 h": 1
+    "0–2 h": 1,
+    "6–12 h": 3
    },
    "epReactive": 0,
    "slipDays": 0,
@@ -1110,8 +1167,8 @@
    "slipSaltedAfter": 0
   },
   "Orivesi": {
-   "days": 30,
-   "both": 7,
+   "days": 35,
+   "both": 12,
    "salt": 0,
    "alarm": 4,
    "none": 19,
@@ -1121,13 +1178,14 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 4,
-   "epPred": 3,
-   "leadSum": 6.570555555555555,
-   "leadN": 3,
+   "ep": 13,
+   "epPred": 11,
+   "leadSum": 68.91472222222222,
+   "leadN": 11,
    "leadBins": {
-    "0–2 h": 2,
-    "2–6 h": 1
+    "0–2 h": 4,
+    "2–6 h": 2,
+    "6–12 h": 5
    },
    "epReactive": 0,
    "slipDays": 1,
@@ -1135,30 +1193,32 @@
    "slipSaltedAfter": 0
   },
   "Virrat": {
-   "days": 18,
-   "both": 0,
+   "days": 21,
+   "both": 3,
    "salt": 0,
    "alarm": 8,
    "none": 10,
    "slip": {
-    "both": 0,
+    "both": 1,
     "salt": 0,
     "alarm": 0,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
-   "epReactive": 0,
-   "slipDays": 0,
+   "ep": 3,
+   "epPred": 3,
+   "leadSum": 29.847500000000004,
+   "leadN": 3,
+   "leadBins": {
+    "6–12 h": 3
+   },
+   "epReactive": 1,
+   "slipDays": 1,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Heinola": {
-   "days": 12,
-   "both": 2,
+   "days": 14,
+   "both": 4,
    "salt": 0,
    "alarm": 4,
    "none": 6,
@@ -1168,12 +1228,12 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 2,
-   "epPred": 2,
-   "leadSum": 19.585555555555555,
-   "leadN": 2,
+   "ep": 4,
+   "epPred": 4,
+   "leadSum": 41.39944444444444,
+   "leadN": 4,
    "leadBins": {
-    "6–12 h": 2
+    "6–12 h": 4
    },
    "epReactive": 0,
    "slipDays": 2,
@@ -1181,32 +1241,32 @@
    "slipSaltedAfter": 0
   },
   "Viinijärvi": {
-   "days": 24,
-   "both": 4,
+   "days": 28,
+   "both": 5,
    "salt": 0,
-   "alarm": 12,
+   "alarm": 15,
    "none": 8,
    "slip": {
     "both": 0,
     "salt": 0,
-    "alarm": 2,
+    "alarm": 4,
     "none": 0
    },
-   "ep": 4,
-   "epPred": 3,
-   "leadSum": 31.91638888888889,
-   "leadN": 3,
+   "ep": 5,
+   "epPred": 4,
+   "leadSum": 43.456944444444446,
+   "leadN": 4,
    "leadBins": {
-    "6–12 h": 3
+    "6–12 h": 4
    },
    "epReactive": 0,
-   "slipDays": 2,
+   "slipDays": 4,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Pieksämäki": {
-   "days": 18,
-   "both": 0,
+   "days": 21,
+   "both": 3,
    "salt": 0,
    "alarm": 9,
    "none": 9,
@@ -1216,45 +1276,49 @@
     "alarm": 1,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
+   "ep": 3,
+   "epPred": 3,
+   "leadSum": 31.45777777777778,
+   "leadN": 3,
+   "leadBins": {
+    "6–12 h": 3
+   },
    "epReactive": 0,
    "slipDays": 1,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Kuopio": {
-   "days": 66,
-   "both": 4,
+   "days": 77,
+   "both": 10,
    "salt": 0,
-   "alarm": 35,
+   "alarm": 40,
    "none": 27,
    "slip": {
-    "both": 1,
+    "both": 3,
     "salt": 0,
-    "alarm": 7,
+    "alarm": 8,
     "none": 0
    },
-   "ep": 2,
-   "epPred": 1,
-   "leadSum": 0.8480555555555556,
-   "leadN": 1,
+   "ep": 9,
+   "epPred": 8,
+   "leadSum": 48.23694444444444,
+   "leadN": 8,
    "leadBins": {
-    "0–2 h": 1
+    "0–2 h": 1,
+    "6–12 h": 5,
+    "2–6 h": 2
    },
-   "epReactive": 1,
-   "slipDays": 8,
+   "epReactive": 3,
+   "slipDays": 11,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 1
   },
   "Joensuu": {
-   "days": 42,
-   "both": 7,
+   "days": 49,
+   "both": 12,
    "salt": 0,
-   "alarm": 21,
+   "alarm": 23,
    "none": 14,
    "slip": {
     "both": 2,
@@ -1262,13 +1326,14 @@
     "alarm": 1,
     "none": 0
    },
-   "ep": 7,
-   "epPred": 6,
-   "leadSum": 27.855555555555554,
-   "leadN": 6,
+   "ep": 15,
+   "epPred": 12,
+   "leadSum": 78.69277777777778,
+   "leadN": 12,
    "leadBins": {
-    "6–12 h": 3,
-    "0–2 h": 3
+    "6–12 h": 7,
+    "0–2 h": 3,
+    "2–6 h": 2
    },
    "epReactive": 1,
    "slipDays": 3,
@@ -1276,8 +1341,8 @@
    "slipSaltedAfter": 2
   },
   "Kitee": {
-   "days": 24,
-   "both": 7,
+   "days": 28,
+   "both": 11,
    "salt": 0,
    "alarm": 8,
    "none": 9,
@@ -1287,13 +1352,13 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 6,
-   "epPred": 5,
-   "leadSum": 26.205555555555556,
-   "leadN": 5,
+   "ep": 11,
+   "epPred": 9,
+   "leadSum": 73.19611111111112,
+   "leadN": 9,
    "leadBins": {
     "2–6 h": 2,
-    "6–12 h": 2,
+    "6–12 h": 6,
     "0–2 h": 1
    },
    "epReactive": 0,
@@ -1302,13 +1367,13 @@
    "slipSaltedAfter": 0
   },
   "Nurmes": {
-   "days": 30,
-   "both": 4,
+   "days": 35,
+   "both": 7,
    "salt": 0,
-   "alarm": 16,
+   "alarm": 18,
    "none": 10,
    "slip": {
-    "both": 0,
+    "both": 1,
     "salt": 0,
     "alarm": 5,
     "none": 0
@@ -1321,15 +1386,15 @@
     "6–12 h": 4
    },
    "epReactive": 0,
-   "slipDays": 5,
+   "slipDays": 6,
    "slipSaltedBefore": 2,
    "slipSaltedAfter": 0
   },
   "Ilomantsi": {
-   "days": 12,
-   "both": 1,
+   "days": 14,
+   "both": 2,
    "salt": 0,
-   "alarm": 8,
+   "alarm": 9,
    "none": 3,
    "slip": {
     "both": 0,
@@ -1350,13 +1415,13 @@
    "slipSaltedAfter": 0
   },
   "Iisalmi": {
-   "days": 12,
-   "both": 5,
+   "days": 14,
+   "both": 7,
    "salt": 0,
    "alarm": 3,
    "none": 4,
    "slip": {
-    "both": 3,
+    "both": 4,
     "salt": 0,
     "alarm": 1,
     "none": 0
@@ -1370,40 +1435,42 @@
     "6–12 h": 1
    },
    "epReactive": 1,
-   "slipDays": 4,
+   "slipDays": 5,
    "slipSaltedBefore": 2,
    "slipSaltedAfter": 1
   },
   "Pielavesi": {
-   "days": 6,
-   "both": 0,
+   "days": 7,
+   "both": 1,
    "salt": 0,
    "alarm": 4,
    "none": 2,
    "slip": {
-    "both": 0,
+    "both": 1,
     "salt": 0,
     "alarm": 1,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
-   "epReactive": 0,
-   "slipDays": 1,
+   "ep": 1,
+   "epPred": 1,
+   "leadSum": 11.588333333333333,
+   "leadN": 1,
+   "leadBins": {
+    "6–12 h": 1
+   },
+   "epReactive": 1,
+   "slipDays": 2,
    "slipSaltedBefore": 0,
-   "slipSaltedAfter": 0
+   "slipSaltedAfter": 1
   },
   "Nilsiä": {
-   "days": 12,
-   "both": 3,
+   "days": 14,
+   "both": 4,
    "salt": 0,
-   "alarm": 5,
+   "alarm": 6,
    "none": 4,
    "slip": {
-    "both": 1,
+    "both": 2,
     "salt": 0,
     "alarm": 2,
     "none": 0
@@ -1417,57 +1484,62 @@
     "6–12 h": 2
    },
    "epReactive": 0,
-   "slipDays": 3,
+   "slipDays": 4,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Suonenjoki": {
-   "days": 24,
-   "both": 0,
+   "days": 28,
+   "both": 4,
    "salt": 0,
    "alarm": 16,
    "none": 8,
    "slip": {
-    "both": 0,
+    "both": 1,
     "salt": 0,
     "alarm": 3,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
-   "epReactive": 0,
-   "slipDays": 3,
+   "ep": 6,
+   "epPred": 6,
+   "leadSum": 47.246944444444445,
+   "leadN": 6,
+   "leadBins": {
+    "6–12 h": 5,
+    "2–6 h": 1
+   },
+   "epReactive": 1,
+   "slipDays": 4,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Kiuruvesi": {
-   "days": 6,
-   "both": 0,
+   "days": 7,
+   "both": 1,
    "salt": 0,
    "alarm": 4,
    "none": 2,
    "slip": {
-    "both": 0,
+    "both": 1,
     "salt": 0,
     "alarm": 3,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
-   "epReactive": 0,
-   "slipDays": 3,
+   "ep": 1,
+   "epPred": 1,
+   "leadSum": 10.424166666666666,
+   "leadN": 1,
+   "leadBins": {
+    "6–12 h": 1
+   },
+   "epReactive": 1,
+   "slipDays": 4,
    "slipSaltedBefore": 0,
-   "slipSaltedAfter": 0
+   "slipSaltedAfter": 1
   },
   "Jämsä": {
-   "days": 24,
-   "both": 7,
+   "days": 28,
+   "both": 11,
    "salt": 0,
    "alarm": 5,
    "none": 12,
@@ -1477,21 +1549,22 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 4,
-   "epPred": 4,
-   "leadSum": 32.86527777777778,
-   "leadN": 4,
+   "ep": 8,
+   "epPred": 8,
+   "leadSum": 49.94694444444444,
+   "leadN": 8,
    "leadBins": {
-    "6–12 h": 4
+    "6–12 h": 5,
+    "2–6 h": 3
    },
-   "epReactive": 0,
+   "epReactive": 1,
    "slipDays": 2,
    "slipSaltedBefore": 2,
    "slipSaltedAfter": 0
   },
   "Pihtipudas": {
-   "days": 18,
-   "both": 1,
+   "days": 21,
+   "both": 4,
    "salt": 0,
    "alarm": 8,
    "none": 9,
@@ -1501,12 +1574,12 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 1,
-   "epPred": 1,
-   "leadSum": 11.484722222222222,
-   "leadN": 1,
+   "ep": 4,
+   "epPred": 4,
+   "leadSum": 37.06444444444445,
+   "leadN": 4,
    "leadBins": {
-    "6–12 h": 1
+    "6–12 h": 4
    },
    "epReactive": 0,
    "slipDays": 0,
@@ -1514,32 +1587,32 @@
    "slipSaltedAfter": 0
   },
   "Äänekoski": {
-   "days": 30,
-   "both": 3,
+   "days": 35,
+   "both": 8,
    "salt": 0,
    "alarm": 11,
    "none": 16,
    "slip": {
-    "both": 0,
+    "both": 1,
     "salt": 0,
     "alarm": 0,
     "none": 0
    },
-   "ep": 3,
-   "epPred": 3,
-   "leadSum": 32.06916666666666,
-   "leadN": 3,
+   "ep": 5,
+   "epPred": 5,
+   "leadSum": 54.043611111111105,
+   "leadN": 5,
    "leadBins": {
-    "6–12 h": 3
+    "6–12 h": 5
    },
    "epReactive": 0,
-   "slipDays": 0,
+   "slipDays": 1,
    "slipSaltedBefore": 0,
-   "slipSaltedAfter": 0
+   "slipSaltedAfter": 1
   },
   "Karstula": {
-   "days": 12,
-   "both": 0,
+   "days": 14,
+   "both": 2,
    "salt": 0,
    "alarm": 6,
    "none": 6,
@@ -1549,19 +1622,21 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
+   "ep": 2,
+   "epPred": 2,
+   "leadSum": 23.188333333333333,
+   "leadN": 2,
+   "leadBins": {
+    "6–12 h": 2
+   },
    "epReactive": 0,
    "slipDays": 0,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Keuruu": {
-   "days": 12,
-   "both": 0,
+   "days": 14,
+   "both": 2,
    "salt": 0,
    "alarm": 6,
    "none": 6,
@@ -1571,21 +1646,23 @@
     "alarm": 2,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
+   "ep": 3,
+   "epPred": 3,
+   "leadSum": 31.414166666666667,
+   "leadN": 3,
+   "leadBins": {
+    "6–12 h": 3
+   },
    "epReactive": 0,
    "slipDays": 2,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Kristiinankaupunki": {
-   "days": 42,
-   "both": 0,
+   "days": 49,
+   "both": 3,
    "salt": 0,
-   "alarm": 19,
+   "alarm": 23,
    "none": 23,
    "slip": {
     "both": 0,
@@ -1604,32 +1681,34 @@
    "slipSaltedAfter": 0
   },
   "Kokkola": {
-   "days": 18,
-   "both": 1,
+   "days": 21,
+   "both": 2,
    "salt": 0,
-   "alarm": 9,
+   "alarm": 11,
    "none": 8,
    "slip": {
-    "both": 0,
+    "both": 1,
     "salt": 0,
     "alarm": 3,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
-   "epReactive": 0,
-   "slipDays": 3,
+   "ep": 1,
+   "epPred": 1,
+   "leadSum": 3.04,
+   "leadN": 1,
+   "leadBins": {
+    "2–6 h": 1
+   },
+   "epReactive": 1,
+   "slipDays": 4,
    "slipSaltedBefore": 0,
-   "slipSaltedAfter": 0
+   "slipSaltedAfter": 1
   },
   "Seinäjoki": {
-   "days": 42,
-   "both": 7,
+   "days": 49,
+   "both": 8,
    "salt": 0,
-   "alarm": 14,
+   "alarm": 20,
    "none": 21,
    "slip": {
     "both": 2,
@@ -1651,8 +1730,8 @@
    "slipSaltedAfter": 1
   },
   "Alavus": {
-   "days": 6,
-   "both": 0,
+   "days": 7,
+   "both": 1,
    "salt": 0,
    "alarm": 3,
    "none": 3,
@@ -1673,30 +1752,32 @@
    "slipSaltedAfter": 0
   },
   "Lapua": {
-   "days": 54,
-   "both": 0,
+   "days": 63,
+   "both": 9,
    "salt": 0,
    "alarm": 26,
    "none": 28,
    "slip": {
-    "both": 0,
+    "both": 5,
     "salt": 0,
     "alarm": 6,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
-   "epReactive": 0,
-   "slipDays": 6,
+   "ep": 5,
+   "epPred": 5,
+   "leadSum": 56.890277777777776,
+   "leadN": 5,
+   "leadBins": {
+    "6–12 h": 5
+   },
+   "epReactive": 2,
+   "slipDays": 11,
    "slipSaltedBefore": 0,
-   "slipSaltedAfter": 0
+   "slipSaltedAfter": 1
   },
   "Vaasa": {
-   "days": 24,
-   "both": 1,
+   "days": 28,
+   "both": 5,
    "salt": 0,
    "alarm": 10,
    "none": 13,
@@ -1706,12 +1787,12 @@
     "alarm": 1,
     "none": 0
    },
-   "ep": 2,
-   "epPred": 2,
-   "leadSum": 18.079722222222223,
-   "leadN": 2,
+   "ep": 3,
+   "epPred": 3,
+   "leadSum": 28.14611111111111,
+   "leadN": 3,
    "leadBins": {
-    "6–12 h": 2
+    "6–12 h": 3
    },
    "epReactive": 0,
    "slipDays": 1,
@@ -1719,10 +1800,10 @@
    "slipSaltedAfter": 0
   },
   "Kauhajoki": {
-   "days": 18,
-   "both": 2,
+   "days": 21,
+   "both": 3,
    "salt": 0,
-   "alarm": 7,
+   "alarm": 9,
    "none": 9,
    "slip": {
     "both": 0,
@@ -1730,13 +1811,13 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 2,
-   "epPred": 2,
-   "leadSum": 13.164166666666667,
-   "leadN": 2,
+   "ep": 3,
+   "epPred": 3,
+   "leadSum": 24.349444444444444,
+   "leadN": 3,
    "leadBins": {
     "2–6 h": 1,
-    "6–12 h": 1
+    "6–12 h": 2
    },
    "epReactive": 0,
    "slipDays": 0,
@@ -1744,54 +1825,59 @@
    "slipSaltedAfter": 0
   },
   "Raahe/Ylivieska": {
-   "days": 54,
-   "both": 11,
+   "days": 63,
+   "both": 15,
    "salt": 0,
-   "alarm": 22,
-   "none": 21,
+   "alarm": 26,
+   "none": 22,
    "slip": {
-    "both": 2,
+    "both": 3,
     "salt": 0,
-    "alarm": 0,
+    "alarm": 1,
     "none": 0
    },
-   "ep": 5,
-   "epPred": 3,
-   "leadSum": 33.59638888888889,
-   "leadN": 3,
+   "ep": 9,
+   "epPred": 7,
+   "leadSum": 46.28638888888889,
+   "leadN": 7,
    "leadBins": {
-    "6–12 h": 3
+    "6–12 h": 3,
+    "0–2 h": 1,
+    "2–6 h": 3
    },
-   "epReactive": 2,
-   "slipDays": 2,
-   "slipSaltedBefore": 0,
-   "slipSaltedAfter": 0
+   "epReactive": 3,
+   "slipDays": 4,
+   "slipSaltedBefore": 1,
+   "slipSaltedAfter": 1
   },
   "Veteli": {
-   "days": 30,
-   "both": 2,
+   "days": 35,
+   "both": 6,
    "salt": 0,
-   "alarm": 13,
+   "alarm": 14,
    "none": 15,
    "slip": {
-    "both": 0,
+    "both": 1,
     "salt": 0,
     "alarm": 2,
     "none": 0
    },
-   "ep": 0,
-   "epPred": 0,
-   "leadSum": 0,
-   "leadN": 0,
-   "leadBins": {},
-   "epReactive": 0,
-   "slipDays": 2,
-   "slipSaltedBefore": 0,
+   "ep": 5,
+   "epPred": 5,
+   "leadSum": 33.583333333333336,
+   "leadN": 5,
+   "leadBins": {
+    "2–6 h": 3,
+    "6–12 h": 2
+   },
+   "epReactive": 1,
+   "slipDays": 3,
+   "slipSaltedBefore": 1,
    "slipSaltedAfter": 0
   },
   "Pyhäjärvi": {
-   "days": 18,
-   "both": 6,
+   "days": 21,
+   "both": 9,
    "salt": 0,
    "alarm": 6,
    "none": 6,
@@ -1801,13 +1887,14 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 4,
-   "epPred": 4,
-   "leadSum": 7.663055555555555,
-   "leadN": 4,
+   "ep": 7,
+   "epPred": 7,
+   "leadSum": 41.60527777777777,
+   "leadN": 7,
    "leadBins": {
     "2–6 h": 2,
-    "0–2 h": 2
+    "0–2 h": 2,
+    "6–12 h": 3
    },
    "epReactive": 0,
    "slipDays": 0,
@@ -1815,90 +1902,91 @@
    "slipSaltedAfter": 0
   },
   "Oulu": {
-   "days": 84,
-   "both": 26,
+   "days": 98,
+   "both": 38,
    "salt": 1,
-   "alarm": 33,
+   "alarm": 35,
    "none": 24,
    "slip": {
-    "both": 7,
+    "both": 14,
     "salt": 0,
-    "alarm": 5,
+    "alarm": 6,
     "none": 0
    },
-   "ep": 13,
-   "epPred": 9,
-   "leadSum": 48.485,
-   "leadN": 9,
+   "ep": 25,
+   "epPred": 19,
+   "leadSum": 90.61666666666667,
+   "leadN": 19,
    "leadBins": {
-    "6–12 h": 4,
-    "2–6 h": 2,
-    "0–2 h": 3
+    "6–12 h": 5,
+    "2–6 h": 10,
+    "0–2 h": 4
    },
-   "epReactive": 1,
-   "slipDays": 12,
+   "epReactive": 8,
+   "slipDays": 20,
    "slipSaltedBefore": 1,
-   "slipSaltedAfter": 1
+   "slipSaltedAfter": 8
   },
   "Ii": {
-   "days": 18,
-   "both": 5,
+   "days": 21,
+   "both": 8,
    "salt": 0,
    "alarm": 9,
    "none": 4,
    "slip": {
-    "both": 4,
+    "both": 7,
     "salt": 0,
     "alarm": 1,
     "none": 0
    },
-   "ep": 1,
-   "epPred": 1,
-   "leadSum": 0.5916666666666667,
-   "leadN": 1,
+   "ep": 4,
+   "epPred": 4,
+   "leadSum": 4.236944444444444,
+   "leadN": 4,
    "leadBins": {
-    "0–2 h": 1
+    "0–2 h": 4
    },
-   "epReactive": 1,
-   "slipDays": 5,
+   "epReactive": 4,
+   "slipDays": 8,
    "slipSaltedBefore": 0,
-   "slipSaltedAfter": 3
+   "slipSaltedAfter": 6
   },
   "Pudasjärvi-Taivalkoski": {
-   "days": 30,
-   "both": 9,
+   "days": 35,
+   "both": 10,
    "salt": 0,
-   "alarm": 16,
+   "alarm": 20,
    "none": 5,
    "slip": {
-    "both": 3,
+    "both": 4,
     "salt": 0,
-    "alarm": 8,
+    "alarm": 12,
     "none": 0
    },
-   "ep": 7,
-   "epPred": 7,
-   "leadSum": 48.67611111111111,
-   "leadN": 7,
+   "ep": 8,
+   "epPred": 8,
+   "leadSum": 51.80083333333334,
+   "leadN": 8,
    "leadBins": {
     "6–12 h": 6,
-    "0–2 h": 1
+    "0–2 h": 1,
+    "2–6 h": 1
    },
-   "epReactive": 1,
-   "slipDays": 11,
+   "epReactive": 2,
+   "slipDays": 16,
    "slipSaltedBefore": 0,
-   "slipSaltedAfter": 1
+   "slipSaltedAfter": 2
   },
   "Kuusamo": {
-   "days": 30,
+   "days": 35,
    "both": 3,
    "salt": 0,
-   "alarm": 21,
+   "alarm": 26,
    "none": 6,
    "slip": {
     "both": 3,
     "salt": 0,
-    "alarm": 17,
+    "alarm": 22,
     "none": 0
    },
    "ep": 3,
@@ -1910,15 +1998,15 @@
     "6–12 h": 2
    },
    "epReactive": 3,
-   "slipDays": 20,
+   "slipDays": 25,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 1
   },
   "Siikalatva": {
-   "days": 12,
+   "days": 14,
    "both": 8,
    "salt": 0,
-   "alarm": 0,
+   "alarm": 2,
    "none": 4,
    "slip": {
     "both": 4,
@@ -1941,13 +2029,13 @@
    "slipSaltedAfter": 1
   },
   "Kajaani": {
-   "days": 48,
-   "both": 17,
+   "days": 56,
+   "both": 24,
    "salt": 0,
-   "alarm": 15,
+   "alarm": 16,
    "none": 16,
    "slip": {
-    "both": 2,
+    "both": 4,
     "salt": 0,
     "alarm": 6,
     "none": 0
@@ -1961,16 +2049,16 @@
     "2–6 h": 4
    },
    "epReactive": 1,
-   "slipDays": 8,
+   "slipDays": 10,
    "slipSaltedBefore": 3,
    "slipSaltedAfter": 0
   },
   "Ivalo": {
-   "days": 36,
+   "days": 42,
    "both": 1,
    "salt": 0,
-   "alarm": 33,
-   "none": 2,
+   "alarm": 38,
+   "none": 3,
    "slip": {
     "both": 0,
     "salt": 0,
@@ -1990,16 +2078,16 @@
    "slipSaltedAfter": 0
   },
   "Puolanka": {
-   "days": 18,
+   "days": 21,
    "both": 1,
    "salt": 0,
-   "alarm": 12,
-   "none": 5,
+   "alarm": 14,
+   "none": 6,
    "slip": {
     "both": 0,
     "salt": 0,
-    "alarm": 1,
-    "none": 0
+    "alarm": 2,
+    "none": 1
    },
    "ep": 1,
    "epPred": 1,
@@ -2009,20 +2097,20 @@
     "6–12 h": 1
    },
    "epReactive": 0,
-   "slipDays": 1,
+   "slipDays": 3,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Kuhmo": {
-   "days": 12,
+   "days": 14,
    "both": 1,
    "salt": 0,
-   "alarm": 7,
+   "alarm": 9,
    "none": 4,
    "slip": {
     "both": 0,
     "salt": 0,
-    "alarm": 2,
+    "alarm": 3,
     "none": 0
    },
    "ep": 1,
@@ -2033,20 +2121,20 @@
     "2–6 h": 1
    },
    "epReactive": 0,
-   "slipDays": 2,
+   "slipDays": 3,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Suomussalmi": {
-   "days": 18,
-   "both": 1,
+   "days": 21,
+   "both": 3,
    "salt": 0,
-   "alarm": 13,
+   "alarm": 14,
    "none": 4,
    "slip": {
-    "both": 0,
+    "both": 2,
     "salt": 0,
-    "alarm": 7,
+    "alarm": 8,
     "none": 0
    },
    "ep": 1,
@@ -2057,20 +2145,20 @@
     "6–12 h": 1
    },
    "epReactive": 0,
-   "slipDays": 7,
+   "slipDays": 10,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Kemi": {
-   "days": 42,
+   "days": 50,
    "both": 8,
    "salt": 1,
-   "alarm": 30,
-   "none": 3,
+   "alarm": 34,
+   "none": 7,
    "slip": {
     "both": 1,
     "salt": 0,
-    "alarm": 5,
+    "alarm": 8,
     "none": 0
    },
    "ep": 7,
@@ -2082,20 +2170,20 @@
     "0–2 h": 1
    },
    "epReactive": 1,
-   "slipDays": 6,
-   "slipSaltedBefore": 0,
+   "slipDays": 9,
+   "slipSaltedBefore": 1,
    "slipSaltedAfter": 0
   },
   "Sodankylä": {
-   "days": 24,
+   "days": 28,
    "both": 0,
    "salt": 0,
-   "alarm": 22,
+   "alarm": 26,
    "none": 2,
    "slip": {
     "both": 0,
     "salt": 0,
-    "alarm": 9,
+    "alarm": 10,
     "none": 0
    },
    "ep": 0,
@@ -2104,20 +2192,20 @@
    "leadN": 0,
    "leadBins": {},
    "epReactive": 0,
-   "slipDays": 9,
+   "slipDays": 10,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Pello": {
-   "days": 6,
+   "days": 7,
    "both": 1,
    "salt": 0,
-   "alarm": 5,
+   "alarm": 6,
    "none": 0,
    "slip": {
     "both": 1,
     "salt": 0,
-    "alarm": 0,
+    "alarm": 1,
     "none": 0
    },
    "ep": 1,
@@ -2128,20 +2216,20 @@
     "6–12 h": 1
    },
    "epReactive": 1,
-   "slipDays": 1,
+   "slipDays": 2,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Kemijärvi-Posio": {
-   "days": 18,
+   "days": 21,
    "both": 1,
    "salt": 0,
-   "alarm": 14,
+   "alarm": 17,
    "none": 3,
    "slip": {
     "both": 1,
     "salt": 0,
-    "alarm": 5,
+    "alarm": 6,
     "none": 0
    },
    "ep": 2,
@@ -2152,20 +2240,20 @@
     "6–12 h": 2
    },
    "epReactive": 2,
-   "slipDays": 6,
+   "slipDays": 7,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 1
   },
   "Rovaniemi 17-22": {
-   "days": 12,
+   "days": 14,
    "both": 4,
    "salt": 0,
-   "alarm": 8,
+   "alarm": 10,
    "none": 0,
    "slip": {
     "both": 2,
     "salt": 0,
-    "alarm": 1,
+    "alarm": 2,
     "none": 0
    },
    "ep": 6,
@@ -2177,20 +2265,20 @@
     "2–6 h": 1
    },
    "epReactive": 3,
-   "slipDays": 3,
-   "slipSaltedBefore": 0,
+   "slipDays": 4,
+   "slipSaltedBefore": 1,
    "slipSaltedAfter": 1
   },
   "Kittilä": {
-   "days": 48,
+   "days": 56,
    "both": 0,
    "salt": 0,
-   "alarm": 46,
+   "alarm": 54,
    "none": 2,
    "slip": {
     "both": 0,
     "salt": 0,
-    "alarm": 24,
+    "alarm": 27,
     "none": 1
    },
    "ep": 0,
@@ -2199,15 +2287,15 @@
    "leadN": 0,
    "leadBins": {},
    "epReactive": 0,
-   "slipDays": 25,
+   "slipDays": 28,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "Rovaniemi": {
-   "days": 18,
+   "days": 21,
    "both": 6,
    "salt": 0,
-   "alarm": 9,
+   "alarm": 12,
    "none": 3,
    "slip": {
     "both": 3,
@@ -2230,15 +2318,15 @@
    "slipSaltedAfter": 2
   },
   "Ranua": {
-   "days": 6,
+   "days": 7,
    "both": 2,
    "salt": 0,
-   "alarm": 3,
+   "alarm": 4,
    "none": 1,
    "slip": {
     "both": 1,
     "salt": 0,
-    "alarm": 2,
+    "alarm": 3,
     "none": 0
    },
    "ep": 1,
@@ -2247,13 +2335,13 @@
    "leadN": 0,
    "leadBins": {},
    "epReactive": 0,
-   "slipDays": 3,
+   "slipDays": 4,
    "slipSaltedBefore": 0,
    "slipSaltedAfter": 0
   },
   "E18 Muurla-Lohja": {
-   "days": 36,
-   "both": 12,
+   "days": 42,
+   "both": 18,
    "salt": 0,
    "alarm": 0,
    "none": 24,
@@ -2263,12 +2351,12 @@
     "alarm": 0,
     "none": 0
    },
-   "ep": 6,
-   "epPred": 3,
-   "leadSum": 1.815,
-   "leadN": 3,
+   "ep": 10,
+   "epPred": 4,
+   "leadSum": 1.9825,
+   "leadN": 4,
    "leadBins": {
-    "0–2 h": 3
+    "0–2 h": 4
    },
    "epReactive": 0,
    "slipDays": 0,
@@ -2282,6 +2370,7 @@
   "2026-10-15",
   "2026-10-16",
   "2026-10-17",
-  "2026-10-18"
+  "2026-10-18",
+  "2026-10-19"
  ]
 }
