@@ -10,7 +10,7 @@ jobs:
   retro:
     runs-on: ubuntu-latest
     env:
-      RULES_FILE: .laskenta/collector/collect.mjs   # säännöt luetaan yksityisestä säilöstä, ei julkisesta osoitteesta
+      RULES_FILE: .laskenta/laskenta.html   # säännöt (lohko LIUKKAUSSÄÄNNÖT) luetaan yksityisestä säilöstä, ei julkisesta osoitteesta
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
@@ -22,6 +22,7 @@ jobs:
           path: .laskenta
           sparse-checkout: |
             collector
+            laskenta.html
       - uses: actions/setup-node@v4
         with:
           node-version: 22
