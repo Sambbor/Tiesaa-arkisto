@@ -1,5 +1,5 @@
 // Jälkitarkistus koko Suomen aineistolla: kelisivun liukkaussäännöt ajetaan jälkikäteen Tiesää-arkiston asemille.
-// Säännöt haetaan suoraan kelisivun keruusta (Sambbor/Vantaakeli collector/collect.mjs, lohko LIUKKAUSSÄÄNNÖT),
+// Säännöt haetaan kelisivun laskentasivulta (yksityinen säilö Sambbor/Vantaakeli-laskenta, laskenta.html, lohko LIUKKAUSSÄÄNNÖT; RULES_FILE),
 // joten tarkistus käyttää aina samoja sääntöjä kuin sivu.
 //
 // Jokaiselle asemalle ja tunnille: liukkausindeksi +2/+6/+12 h (aseman mittaus, Fintrafficin tienpintaennuste ja
@@ -65,7 +65,7 @@ function obsOf(r, R){
   const w = [num(r.warn1), num(r.warn2)].filter(v => v != null);
   const fr = [num(r.fric1), num(r.fric2)].filter(v => v != null);
   const td = num(r.td);
-  return {t: new Date(r.mt).getTime(), tr: tr.length ? Math.min(...tr) : null, ta: num(r.ta), td, fp: num(r.fp) ?? (td != null ? R.frostPt(td) : null),
+  return {t: new Date(r.mt).getTime(), tr: tr.length ? Math.min(...tr) : null, ta: num(r.ta), td, fp: td != null ? R.frostPt(td) : null   /* v15 (21.10.2026): kuuran raja kastepisteestä, aseman KUURAPISTE-lukemaa ei käytetä (kuten keruu) */,
     keli: k1 > 0 ? k1 : (k2 > 0 ? k2 : k1), warn: w.length ? w.reduce((a, x) => (R.WARN_RANK[x] ?? 0) > (R.WARN_RANK[a] ?? -1) ? x : a, -1) : null,
     fric: fr.length ? Math.min(...fr) : null, water: num(r.water1), snow: num(r.snow1), ice: num(r.ice1), tf: num(r.tf1), salt: num(r.salt1),
     rain: num(r.rain), raw: r};
