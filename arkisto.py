@@ -60,6 +60,12 @@ FMI_FC_COLS = ['t', 'st', 'h0'] + ['%s%02d' % (c, L) for _, c in FC_PARAMS for L
 OBS_W = [('t2m', 'ta'), ('td', 'td'), ('rh', 'rh'), ('ws_10min', 'ws'), ('wg_10min', 'wg'), ('wd_10min', 'wd'),
          ('n_man', 'cc'), ('snow_aws', 'snow'), ('r_1h', 'r1h'), ('ri_10min', 'ri'), ('vis', 'vis'), ('wawa', 'wawa')]
 OBS_R = [('GLOB_1MIN', 'glob'), ('LWIN_1MIN', 'lwin'), ('LWOUT_1MIN', 'lwout'), ('DIR_1MIN', 'dir'), ('DIFF_1MIN', 'diff')]
+# bl1 (21.10.2026): säämallien ennusteet samoille asemille ja samalla rytmillä mallien yhdistelmän opettamiseen.
+# ECMWF:n kastepiste lasketaan mallin suhteellisesta kosteudesta (FMI:n palvelu ei anna sitä); ECMWF:n pilvisyys ja tuuli puuttuvat palvelusta.
+MODEL_PARAMS = [('Temperature', 't'), ('DewPoint', 'td'), ('Precipitation1h', 'p'), ('TotalCloudCover', 'cc'), ('WindSpeedMS', 'ws')]
+MODEL_FC_COLS = ['t', 'st', 'h0'] + ['%s%02d' % (c, L) for _, c in MODEL_PARAMS for L in FC_LEADS] + ['v']
+MODELS = [('meps', 'fmi::forecast::meps::surface::point::multipointcoverage', 'Temperature,DewPoint,Precipitation1h,TotalCloudCover,WindSpeedMS'),
+          ('ec', 'ecmwf::forecast::surface::point::multipointcoverage', 'Temperature,Humidity,Precipitation1h')]
 FMI_OBS_COLS = ['t', 'fmisid', 'ot'] + [c for _, c in OBS_W] + ['rt'] + [c for _, c in OBS_R] + ['v']
 
 
@@ -205,8 +211,15 @@ def write_csv(path, cols, rows):
             f.write(','.join(cell(r.get(c)) for c in cols) + '\n')
 
 
-def collect_fmi_fc(coords, now):
-    """Toimitettu ennuste (edited) jokaiselle tiesääasemalle tunneittain 0–24 h. Pisteet 90 kpl erissä."""
+def dew_from_rh(t, rh):
+    if t is None or rh is None or rh <= 0:
+        return None
+    g = math.log(min(rh, 100.0) / 100.0) + 17.62 * t / (243.12 + t)
+    return 243.12 * g / (17.62 - g)
+
+
+def collect_fmi_fc(coords, now, query='fmi::forecast::edited::weather::scandinavia::point::multipointcoverage', params=None):
+    """Toimitettu ennuste (edited) tai säämalli (query, params) jokaiselle tiesääasemalle tunneittain 0–24 h. Pisteet 90 kpl erissä."""
     keys = {}
     for sid, (lon, lat) in coords.items():
         if not (59.0 <= lat <= 70.5 and 19.0 <= lon <= 32.0):   # Digitrafficissa on asemia virheellisin koordinaatein
@@ -218,9 +231,9 @@ def collect_fmi_fc(coords, now):
 
     def fetch(chunk):
         nonlocal errors
-        q = 'fmi::forecast::edited::weather::scandinavia::point::multipointcoverage' \
+        q = query \
             + ''.join('&latlon=%s,%s' % tuple(k.split()) for k in chunk) \
-            + '&parameters=' + ','.join(p for p, _ in FC_PARAMS) + '&timestep=60&starttime=' + iso(h0) + '&endtime=' + iso(h0 + 24 * 3600)
+            + '&parameters=' + (params or ','.join(p for p, _ in FC_PARAMS)) + '&timestep=60&starttime=' + iso(h0) + '&endtime=' + iso(h0 + 24 * 3600)
         try:
             _, rows = parse_mpc(fmi_get(q))
         except Exception as e:
@@ -243,12 +256,15 @@ def collect_fmi_fc(coords, now):
     for i in range(0, len(klist), FMI_FC_CHUNK):
         fetch(klist[i:i + FMI_FC_CHUNK])
     if dropped:
-        print('FMI-ennuste: ei dataa pisteille %s' % ', '.join(dropped[:10]))
+        print('%s: ei dataa pisteille %s' % (query.split('::')[0] + '/' + query.split('::')[2], ', '.join(dropped[:10])))
     out = []
+    plist = MODEL_PARAMS if params else FC_PARAMS
     for sid in sorted(res, key=lambda s: int(s) if s.isdigit() else s):
         row = {'t': iso(now), 'st': sid, 'h0': iso(h0), 'v': VERSION}
         for L, rec in res[sid].items():
-            for p, c in FC_PARAMS:
+            if params and 'Humidity' in rec and rec.get('DewPoint') is None:
+                rec = dict(rec, DewPoint=dew_from_rh(rec.get('Temperature'), rec.get('Humidity')))
+            for p, c in plist:
                 row['%s%02d' % (c, L)] = num(rec.get(p), 1 if c in ('t', 'td', 'ws', 'cc') else 2)
         out.append(row)
     return out, errors
@@ -427,6 +443,18 @@ def main():
                 fst['fc_t'] = round(now)
         except Exception as e:
             print('FMI-ennuste jäi hakematta:', e)
+    model_n = {}
+    for name, query, params in MODELS:   # bl1: MEPS ja ECMWF samalla rytmillä, omat tilat (virhe ei estä muuta keruuta)
+        if now - fst.get(name + '_t', 0) < FMI_FC_EVERY_MIN * 60:
+            continue
+        try:
+            mr, _ = collect_fmi_fc(coords, now, query, params)
+            write_csv('data/current/%s-fc-%s.csv' % (name, today), MODEL_FC_COLS, mr)
+            model_n[name] = len(mr)
+            if len(mr) >= 0.8 * len(coords):
+                fst[name + '_t'] = round(now)
+        except Exception as e:
+            print('%s-ennuste jäi hakematta:' % name.upper(), e)
     if now - fst.get('obs_t', 0) >= FMI_OBS_EVERY_MIN * 60:
         try:
             orows = collect_fmi_obs(now, fst.setdefault('last', {}), fmeta)
@@ -448,14 +476,17 @@ def main():
                 'fmi_stations': len(fmeta)})
     if fc_n is not None:
         idx['fmi_fc_last'] = {'t': iso(now), 'rows': fc_n}
+    for name, n in model_n.items():
+        idx[name + '_fc_last'] = {'t': iso(now), 'rows': n}
+    idx['model_fc_cols'] = MODEL_FC_COLS
     if obs_n is not None:
         idx['fmi_obs_last'] = {'t': iso(now), 'rows': obs_n}
     save('meta/state.json', state)
     save('meta/index.json', idx, indent=1)
     print('Tallennettu %d asemariviä (%d ennallaan, %d vanhaa lukemaa), asemia %d, perustiedot %d, ennustekohdat %d, '
-          'FMI-ennuste %s, FMI-havainnot %s, pakattu %d tiedostoa, %.0f s'
+          'FMI-ennuste %s, mallit %s, FMI-havainnot %s, pakattu %d tiedostoa, %.0f s'
           % (len(rows), dup, stale_n, len(coords), len(meta), len(pairs.get('p', {})),
-             '-' if fc_n is None else fc_n, '-' if obs_n is None else obs_n, packed, time.time() - t0))
+             '-' if fc_n is None else fc_n, ' '.join('%s %d' % kv for kv in model_n.items()) or '-', '-' if obs_n is None else obs_n, packed, time.time() - t0))
 
 
 if __name__ == '__main__':
