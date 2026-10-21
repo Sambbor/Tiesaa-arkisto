@@ -62,9 +62,12 @@ OBS_W = [('t2m', 'ta'), ('td', 'td'), ('rh', 'rh'), ('ws_10min', 'ws'), ('wg_10m
 OBS_R = [('GLOB_1MIN', 'glob'), ('LWIN_1MIN', 'lwin'), ('LWOUT_1MIN', 'lwout'), ('DIR_1MIN', 'dir'), ('DIFF_1MIN', 'diff')]
 # bl1 (21.10.2026): säämallien ennusteet samoille asemille ja samalla rytmillä mallien yhdistelmän opettamiseen.
 # ECMWF:n kastepiste lasketaan mallin suhteellisesta kosteudesta (FMI:n palvelu ei anna sitä); ECMWF:n pilvisyys ja tuuli puuttuvat palvelusta.
-MODEL_PARAMS = [('Temperature', 't'), ('DewPoint', 'td'), ('Precipitation1h', 'p'), ('TotalCloudCover', 'cc'), ('WindSpeedMS', 'ws')]
+# bl2 (21.10.2026): MEPSistä lisäksi auringon kokonaissäteily (rg, W/m²), alas tuleva pitkäaaltosäteily (rlw, W/m²) ja maanpinnan
+# lämpötila (tg) – selkeän yön jäähtyminen tienpintamallille. ECMWF:ltä niitä ei saa FMI:n palvelusta (tyhjiä).
+MODEL_PARAMS = [('Temperature', 't'), ('DewPoint', 'td'), ('Precipitation1h', 'p'), ('TotalCloudCover', 'cc'), ('WindSpeedMS', 'ws'),
+                ('RadiationGlobal', 'rg'), ('RadiationLW', 'rlw'), ('GroundTemperature', 'tg')]
 MODEL_FC_COLS = ['t', 'st', 'h0'] + ['%s%02d' % (c, L) for _, c in MODEL_PARAMS for L in FC_LEADS] + ['v']
-MODELS = [('meps', 'fmi::forecast::meps::surface::point::multipointcoverage', 'Temperature,DewPoint,Precipitation1h,TotalCloudCover,WindSpeedMS'),
+MODELS = [('meps', 'fmi::forecast::meps::surface::point::multipointcoverage', 'Temperature,DewPoint,Precipitation1h,TotalCloudCover,WindSpeedMS,RadiationGlobal,RadiationLW,GroundTemperature'),
           ('ec', 'ecmwf::forecast::surface::point::multipointcoverage', 'Temperature,Humidity,Precipitation1h')]
 FMI_OBS_COLS = ['t', 'fmisid', 'ot'] + [c for _, c in OBS_W] + ['rt'] + [c for _, c in OBS_R] + ['v']
 
@@ -204,6 +207,17 @@ def cell(v):
 
 def write_csv(path, cols, rows):
     new = not os.path.exists(path)
+    if not new:   # sarakkeet muuttuneet kesken päivän (esim. bl2): kirjoitetaan tiedosto uudella otsikolla, puuttuvat tyhjiksi
+        with open(path, encoding='utf-8') as f:
+            head = f.readline().rstrip('\n').split(',')
+        if head != cols:
+            import csv
+            with open(path, encoding='utf-8', newline='') as f:
+                old = list(csv.DictReader(f))
+            with open(path, 'w', encoding='utf-8') as f:
+                f.write(','.join(cols) + '\n')
+                for r in old:
+                    f.write(','.join(cell(r.get(c) or None) for c in cols) + '\n')
     with open(path, 'a', encoding='utf-8') as f:
         if new:
             f.write(','.join(cols) + '\n')
@@ -265,7 +279,7 @@ def collect_fmi_fc(coords, now, query='fmi::forecast::edited::weather::scandinav
             if params and 'Humidity' in rec and rec.get('DewPoint') is None:
                 rec = dict(rec, DewPoint=dew_from_rh(rec.get('Temperature'), rec.get('Humidity')))
             for p, c in plist:
-                row['%s%02d' % (c, L)] = num(rec.get(p), 1 if c in ('t', 'td', 'ws', 'cc') else 2)
+                row['%s%02d' % (c, L)] = num(rec.get(p), 0 if c in ('rg', 'rlw') else 1 if c in ('t', 'td', 'ws', 'cc', 'tg') else 2)
         out.append(row)
     return out, errors
 
