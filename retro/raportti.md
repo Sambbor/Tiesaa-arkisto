@@ -1,6 +1,6 @@
 # Jälkitarkistus koko Suomen aineistolla
 
-Kelisivun liukkaussäännöt (v15) ajettuna jälkikäteen Tiesää-arkiston asemille. Päiviä 9 (2026-10-12 – 2026-10-20), laskentoja 92413. Päivitetty 2026-10-22T05:10:37Z.
+Kelisivun liukkaussäännöt (v15) ajettuna jälkikäteen Tiesää-arkiston asemille. Päiviä 10 (2026-10-12 – 2026-10-21), laskentoja 103352. Päivitetty 2026-10-23T05:07:40Z.
 
 Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, tai tienpinnan ollessa enintään +1 °C kitka < 0,45, jäätä tai lunta). Ennuste "liukas" = indeksi ≥ 50.
 
@@ -8,41 +8,41 @@ Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, t
 
 | Ennuste | Osumat | Ohi | Turhat | Oikein ei riskiä | Havaitsemisosuus | Turhien osuus |
 |---|---|---|---|---|---|---|
-| +2 h | 1518 | 293 | 9616 | 80842 | 84 % | 86 % |
-| +6 h | 1386 | 477 | 13685 | 76704 | 74 % | 91 % |
-| +12 h | 1295 | 554 | 14651 | 75732 | 70 % | 92 % |
+| +2 h | 1725 | 324 | 11423 | 89718 | 84 % | 87 % |
+| +6 h | 1523 | 514 | 15560 | 85573 | 75 % | 91 % |
+| +12 h | 1413 | 592 | 16463 | 84679 | 70 % | 92 % |
 
 ## Maakunnittain (+6 h)
 
 | Maakunta | Osumat | Ohi | Turhat | Havaitsemisosuus |
 |---|---|---|---|---|
-| Lappi | 488 | 66 | 2087 | 88 % |
-| Pohjois-Pohjanmaa | 237 | 69 | 1812 | 77 % |
-| Finavia lentokentät | 131 | 197 | 950 | 40 % |
-| Pohjois-Savo | 137 | 42 | 988 | 77 % |
-| Keski-Suomi | 28 | 0 | 978 | 100 % |
-| Kainuu | 111 | 12 | 858 | 90 % |
-| Etelä-Pohjanmaa | 63 | 1 | 882 | 98 % |
-| Pohjois-Karjala | 49 | 12 | 874 | 80 % |
-| Uusimaa | 6 | 3 | 659 | 67 % |
-| Varsinais-Suomi | 20 | 11 | 609 | 65 % |
-| Pirkanmaa | 10 | 9 | 592 | 53 % |
-| Pohjanmaa | 34 | 4 | 471 | 89 % |
-| Etelä-Savo | 19 | 2 | 417 | 90 % |
-| Keski-Pohjanmaa | 16 | 7 | 398 | 70 % |
-| Kymenlaakso | 6 | 0 | 275 | 100 % |
-| Etelä-Karjala | 18 | 42 | 212 | 30 % |
-| Satakunta | 5 | 0 | 265 | 100 % |
-| Päijät-Häme | 5 | 0 | 226 | 100 % |
-| Kanta-Häme | 3 | 0 | 132 | 100 % |
+| Lappi | 533 | 72 | 2373 | 88 % |
+| Pohjois-Pohjanmaa | 252 | 72 | 2122 | 78 % |
+| Finavia lentokentät | 148 | 215 | 1088 | 41 % |
+| Pohjois-Savo | 138 | 42 | 1093 | 77 % |
+| Keski-Suomi | 32 | 0 | 1188 | 100 % |
+| Kainuu | 133 | 12 | 987 | 92 % |
+| Etelä-Pohjanmaa | 65 | 1 | 1035 | 98 % |
+| Pohjois-Karjala | 62 | 14 | 987 | 82 % |
+| Uusimaa | 6 | 3 | 669 | 67 % |
+| Pirkanmaa | 10 | 9 | 652 | 53 % |
+| Varsinais-Suomi | 20 | 11 | 611 | 65 % |
+| Pohjanmaa | 36 | 4 | 523 | 90 % |
+| Keski-Pohjanmaa | 23 | 7 | 503 | 77 % |
+| Etelä-Savo | 19 | 2 | 502 | 90 % |
+| Etelä-Karjala | 27 | 50 | 288 | 35 % |
+| Kymenlaakso | 6 | 0 | 298 | 100 % |
+| Satakunta | 5 | 0 | 266 | 100 % |
+| Päijät-Häme | 5 | 0 | 240 | 100 % |
+| Kanta-Häme | 3 | 0 | 135 | 100 % |
 
 ## Hälytyksen syy (+6 h, indeksi ≥ 50)
 
 | Syy | Osui | Turha |
 |---|---|---|
-| kuura | 1000 | 9325 |
-| tiesääennuste (Digitraffic) | 154 | 2831 |
-| märkä tie jäätyy | 148 | 1277 |
+| kuura | 1112 | 10701 |
+| tiesääennuste (Digitraffic) | 165 | 3264 |
+| märkä tie jäätyy | 162 | 1343 |
 | lumisade | 70 | 91 |
 | jäätävä sade | 11 | 125 |
 | lumi / sohjo | 3 | 36 |
@@ -51,10 +51,10 @@ Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, t
 
 | Havainto | Kpl |
 |---|---|
-| keli jää | 243 |
-| varoitus häly | 166 |
+| keli jää | 263 |
+| varoitus häly | 177 |
 | keli lumi | 33 |
-| keli kuura | 26 |
+| keli kuura | 32 |
 | kitka < 0,45 | 6 |
 | jäätä tiellä | 3 |
 
@@ -64,11 +64,11 @@ Tienpinta enintään +0,5 °C eikä suolan suojaa. Kuinka usein asema mittasi ku
 
 | Kertymä °C·h | Tunteja | Kuura tiellä (keli) | Kuuraava tilanne (varoitus) | Liukasta |
 |---|---|---|---|---|
-| 0–0,5 | 13161 | 0 (0 %) | 2117 (16 %) | 522 (4 %) |
-| 0,5–2 | 2564 | 0 (0 %) | 1349 (53 %) | 196 (8 %) |
-| 2–4 | 1673 | 0 (0 %) | 893 (53 %) | 221 (13 %) |
-| 4–8 | 1914 | 1 (0 %) | 989 (52 %) | 276 (14 %) |
-| yli 8 | 2203 | 126 (6 %) | 903 (41 %) | 454 (21 %) |
+| 0–0,5 | 13913 | 0 (0 %) | 2288 (16 %) | 558 (4 %) |
+| 0,5–2 | 2865 | 0 (0 %) | 1505 (53 %) | 219 (8 %) |
+| 2–4 | 1951 | 0 (0 %) | 1036 (53 %) | 233 (12 %) |
+| 4–8 | 2302 | 2 (0 %) | 1176 (51 %) | 311 (14 %) |
+| yli 8 | 2956 | 171 (6 %) | 1167 (39 %) | 579 (20 %) |
 
 ## Märkä tie pakkasella: suolan vaikutus
 
@@ -76,113 +76,113 @@ Liukasta 6 tunnin sisällä. "Suolaa" = jäätymispiste ≤ −1 °C. Sääntöj
 
 | Tienpinta °C | Suolaa: tunteja | liukasta | Ei suolaa: tunteja | liukasta |
 |---|---|---|---|---|
-| −2…+0,5 | 1127 | 3 % | 5081 | 13 % |
-| −4…−2 | 322 | 4 % | 1173 | 18 % |
-| −6…−4 | 6 | 0 % | 84 | 40 % |
+| −2…+0,5 | 1639 | 2 % | 6129 | 12 % |
+| −4…−2 | 523 | 4 % | 1529 | 17 % |
+| −6…−4 | 26 | 0 % | 123 | 28 % |
 | −8…−6 | 0 | – | 1 | 0 % |
 | alle −8 | 0 | – | 3 | 0 % |
 
 ## Ennuste vs. urakoiden suolaukset
 
-Toteumat (Harjan suolauskirjaukset 2 km säteellä asemasta) 8 päivältä, 3635 asemavuorokautta. Ennuste hälytti = indeksi ≥ 50 jollakin ennustepituudella vuorokauden aikana. Urakka suolasi = suolauskerta vuorokauden aikana tai 6 h sen jälkeen.
+Toteumat (Harjan suolauskirjaukset 2 km säteellä asemasta) 9 päivältä, 4092 asemavuorokautta. Ennuste hälytti = indeksi ≥ 50 jollakin ennustepituudella vuorokauden aikana. Urakka suolasi = suolauskerta vuorokauden aikana tai 6 h sen jälkeen.
 
 | | Asemavuorokausia | Joista asema mittasi liukasta |
 |---|---|---|
-| Ennuste hälytti ja urakka suolasi | 888 | 134 |
-| Vain urakka suolasi | 38 | 0 |
-| Vain ennuste hälytti | 1328 | 254 |
-| Kumpikaan ei | 1381 | 9 |
+| Ennuste hälytti ja urakka suolasi | 945 | 139 |
+| Vain urakka suolasi | 51 | 0 |
+| Vain ennuste hälytti | 1625 | 300 |
+| Kumpikaan ei | 1471 | 9 |
 
-Suolauskertoja 854: ennuste hälytti 0–12 h ennen 696 kertaa (81 %), keskimäärin 6,9 h ennen suolausta. Asema oli mitannut liukasta jo ennen suolausta (12 h sisällä) 65 kertaa (8 %).
-Liukkaista asemavuorokausista 397: suolattu ennen ensimmäistä liukasta mittausta 44, vasta sen jälkeen (6 h sisällä) 43.
+Suolauskertoja 926: ennuste hälytti 0–12 h ennen 734 kertaa (79 %), keskimäärin 6,6 h ennen suolausta. Asema oli mitannut liukasta jo ennen suolausta (12 h sisällä) 66 kertaa (7 %).
+Liukkaista asemavuorokausista 448: suolattu ennen ensimmäistä liukasta mittausta 55, vasta sen jälkeen (6 h sisällä) 43.
 
 ### Urakoittain
 
 | Urakka | Asemavrk | Molemmat | Vain suolaus | Vain ennuste | Suolauskertoja | Ennuste ennakoi | Liukasta jo ennen suolausta |
 |---|---|---|---|---|---|---|---|
-| tuntematon | 664 | 138 | 20 | 232 | 131 | 92 | 3 |
-| Oulu | 112 | 51 | 1 | 36 | 30 | 24 | 8 |
-| Kittilä | 64 | 0 | 0 | 61 | 0 | 0 | 0 |
-| Kuopio | 88 | 17 | 0 | 44 | 16 | 15 | 4 |
-| Kajaani | 64 | 32 | 0 | 16 | 37 | 34 | 1 |
-| Tampere | 72 | 21 | 5 | 16 | 31 | 23 | 0 |
-| Kemi | 58 | 8 | 1 | 39 | 7 | 6 | 1 |
-| Joensuu | 56 | 13 | 0 | 29 | 16 | 13 | 1 |
-| Raahe/Ylivieska | 72 | 17 | 0 | 33 | 11 | 9 | 3 |
-| Ivalo | 48 | 1 | 0 | 43 | 1 | 1 | 0 |
-| Lapua | 72 | 18 | 0 | 26 | 17 | 16 | 2 |
-| Kotka | 80 | 10 | 0 | 30 | 11 | 9 | 0 |
-| Salo | 88 | 31 | 0 | 13 | 24 | 14 | 0 |
-| Nummi | 72 | 16 | 0 | 20 | 16 | 15 | 0 |
-| Paimio | 72 | 14 | 0 | 20 | 16 | 11 | 0 |
-| Seinäjoki | 56 | 15 | 0 | 20 | 16 | 16 | 1 |
-| Espoo 19-24 | 103 | 19 | 2 | 13 | 21 | 14 | 0 |
-| Kristiinankaupunki | 56 | 9 | 0 | 24 | 9 | 7 | 0 |
-| Pudasjärvi-Taivalkoski | 40 | 10 | 0 | 25 | 8 | 8 | 2 |
-| Lappeenranta | 48 | 10 | 0 | 20 | 10 | 10 | 0 |
-| Kuusamo | 40 | 3 | 0 | 27 | 3 | 3 | 3 |
-| Sodankylä | 32 | 0 | 0 | 30 | 0 | 0 | 0 |
-| Suonenjoki | 32 | 8 | 0 | 16 | 13 | 13 | 1 |
-| Hyvinkää | 56 | 11 | 0 | 16 | 11 | 7 | 0 |
-| Nurmes | 40 | 10 | 0 | 20 | 7 | 5 | 0 |
-| Orivesi | 40 | 17 | 0 | 4 | 22 | 20 | 1 |
-| Mikkeli | 40 | 12 | 0 | 12 | 13 | 12 | 0 |
-| Lahti | 48 | 17 | 1 | 8 | 17 | 10 | 0 |
-| Rovaniemi | 24 | 6 | 0 | 13 | 12 | 12 | 6 |
-| Pori | 48 | 14 | 0 | 11 | 13 | 8 | 0 |
-| Veteli | 40 | 7 | 0 | 18 | 6 | 6 | 1 |
-| Kitee | 32 | 15 | 0 | 8 | 15 | 13 | 0 |
-| Äänekoski | 40 | 13 | 0 | 11 | 12 | 10 | 1 |
-| Viinijärvi | 32 | 7 | 0 | 17 | 5 | 4 | 0 |
-| Porvoo | 46 | 6 | 1 | 14 | 7 | 5 | 0 |
-| Jämsä | 32 | 15 | 0 | 5 | 16 | 16 | 1 |
-| Kemijärvi-Posio | 24 | 1 | 0 | 19 | 2 | 2 | 2 |
-| Jyväskylä | 56 | 14 | 4 | 4 | 16 | 11 | 0 |
-| Vaasa | 32 | 9 | 0 | 10 | 10 | 7 | 0 |
-| Juva | 32 | 11 | 1 | 8 | 11 | 10 | 0 |
-| Raisio | 48 | 13 | 0 | 10 | 8 | 6 | 1 |
-| Kouvola | 32 | 7 | 0 | 12 | 6 | 5 | 0 |
-| Pyhäjärvi | 24 | 12 | 0 | 6 | 12 | 11 | 0 |
-| Suomussalmi | 24 | 5 | 0 | 15 | 3 | 2 | 2 |
-| Rovaniemi 17-22 | 16 | 4 | 0 | 12 | 6 | 6 | 3 |
-| Puolanka | 24 | 1 | 0 | 16 | 1 | 1 | 0 |
-| Raasepori | 40 | 9 | 0 | 10 | 6 | 5 | 0 |
-| Imatra | 24 | 8 | 0 | 10 | 6 | 6 | 0 |
-| Kauhajoki | 24 | 6 | 0 | 8 | 8 | 8 | 1 |
-| E18 Muurla-Lohja | 48 | 24 | 0 | 0 | 16 | 10 | 0 |
-| Koskenkylä -Kotka | 32 | 3 | 0 | 11 | 4 | 1 | 0 |
-| Lieto | 40 | 9 | 0 | 10 | 5 | 4 | 0 |
-| Pieksämäki | 24 | 5 | 0 | 10 | 5 | 5 | 0 |
-| Pihtipudas | 24 | 6 | 0 | 9 | 6 | 5 | 0 |
-| Kokkola | 24 | 3 | 0 | 13 | 2 | 2 | 1 |
-| Ii | 24 | 9 | 0 | 11 | 4 | 4 | 4 |
-| Hamina-Vaalimaa | 24 | 3 | 0 | 9 | 5 | 5 | 0 |
-| Kangasala | 16 | 7 | 2 | 1 | 13 | 9 | 0 |
-| Savonlinna | 16 | 8 | 0 | 3 | 10 | 9 | 0 |
-| Mäntsälä | 24 | 6 | 0 | 6 | 6 | 4 | 0 |
-| Virrat | 24 | 5 | 0 | 9 | 3 | 3 | 1 |
-| Ilomantsi | 16 | 3 | 0 | 10 | 2 | 2 | 0 |
-| Keuruu | 16 | 4 | 0 | 6 | 6 | 6 | 0 |
-| Kuhmo | 16 | 2 | 0 | 10 | 2 | 2 | 0 |
-| Nilsiä | 16 | 5 | 0 | 7 | 4 | 4 | 1 |
-| Espoo | 24 | 6 | 0 | 3 | 7 | 5 | 0 |
-| Heinola | 16 | 6 | 0 | 4 | 6 | 6 | 0 |
-| Karstula | 16 | 4 | 0 | 6 | 4 | 4 | 1 |
-| Harjavalta | 16 | 3 | 0 | 6 | 3 | 3 | 0 |
-| Merikarvia | 16 | 5 | 0 | 3 | 6 | 5 | 0 |
-| Iisalmi | 16 | 9 | 0 | 3 | 6 | 6 | 2 |
-| Siikalatva | 16 | 10 | 0 | 2 | 7 | 7 | 2 |
-| Pello | 9 | 1 | 0 | 8 | 1 | 1 | 1 |
-| Huittinen | 16 | 3 | 0 | 5 | 3 | 3 | 0 |
-| Parkano | 16 | 7 | 0 | 2 | 5 | 4 | 0 |
-| Hämeenlinna | 16 | 4 | 0 | 4 | 3 | 3 | 0 |
-| Vantaa | 11 | 3 | 0 | 3 | 3 | 2 | 0 |
-| Pielavesi | 8 | 2 | 0 | 4 | 2 | 2 | 1 |
-| Kiuruvesi | 8 | 2 | 0 | 4 | 2 | 2 | 1 |
-| Ranua | 8 | 2 | 0 | 5 | 1 | 0 | 0 |
-| Kankaanpää | 8 | 2 | 0 | 3 | 2 | 2 | 1 |
-| Sastamala | 8 | 3 | 0 | 2 | 3 | 3 | 0 |
-| Loimaa | 8 | 1 | 0 | 3 | 1 | 1 | 0 |
-| Alavus | 8 | 2 | 0 | 3 | 1 | 1 | 0 |
+| tuntematon | 747 | 150 | 23 | 282 | 146 | 101 | 3 |
+| Oulu | 126 | 59 | 1 | 42 | 38 | 27 | 8 |
+| Kuopio | 99 | 17 | 0 | 52 | 16 | 15 | 4 |
+| Kittilä | 72 | 0 | 0 | 68 | 0 | 0 | 0 |
+| Kajaani | 72 | 33 | 0 | 21 | 38 | 35 | 1 |
+| Tampere | 81 | 25 | 5 | 19 | 35 | 26 | 0 |
+| Kemi | 66 | 8 | 1 | 47 | 7 | 6 | 1 |
+| Raahe/Ylivieska | 81 | 17 | 0 | 42 | 11 | 9 | 3 |
+| Lapua | 81 | 18 | 0 | 35 | 17 | 16 | 2 |
+| Joensuu | 63 | 13 | 0 | 35 | 16 | 13 | 1 |
+| Kotka | 90 | 10 | 0 | 39 | 11 | 9 | 0 |
+| Ivalo | 54 | 1 | 0 | 49 | 1 | 1 | 0 |
+| Nummi | 81 | 17 | 1 | 25 | 18 | 15 | 0 |
+| Salo | 99 | 31 | 0 | 19 | 24 | 14 | 0 |
+| Seinäjoki | 63 | 16 | 0 | 26 | 17 | 17 | 1 |
+| Paimio | 81 | 14 | 1 | 21 | 17 | 11 | 0 |
+| Kristiinankaupunki | 63 | 9 | 0 | 29 | 9 | 7 | 0 |
+| Pudasjärvi-Taivalkoski | 45 | 10 | 0 | 30 | 8 | 8 | 2 |
+| Espoo 19-24 | 116 | 19 | 2 | 15 | 21 | 14 | 0 |
+| Lappeenranta | 54 | 10 | 0 | 26 | 10 | 10 | 0 |
+| Kuusamo | 45 | 3 | 0 | 32 | 3 | 3 | 3 |
+| Hyvinkää | 63 | 12 | 0 | 22 | 12 | 8 | 0 |
+| Sodankylä | 36 | 0 | 0 | 34 | 0 | 0 | 0 |
+| Suonenjoki | 36 | 8 | 0 | 20 | 13 | 13 | 1 |
+| Nurmes | 45 | 12 | 0 | 23 | 9 | 7 | 0 |
+| Orivesi | 45 | 20 | 0 | 6 | 25 | 22 | 1 |
+| Mikkeli | 45 | 12 | 0 | 17 | 13 | 12 | 0 |
+| Lahti | 54 | 20 | 1 | 10 | 20 | 12 | 0 |
+| Pori | 54 | 17 | 0 | 13 | 16 | 9 | 0 |
+| Veteli | 45 | 7 | 0 | 23 | 6 | 6 | 1 |
+| Äänekoski | 45 | 14 | 0 | 15 | 13 | 10 | 1 |
+| Rovaniemi | 27 | 6 | 0 | 16 | 12 | 12 | 6 |
+| Viinijärvi | 36 | 9 | 0 | 19 | 7 | 4 | 1 |
+| Kitee | 36 | 15 | 0 | 11 | 15 | 13 | 0 |
+| Porvoo | 52 | 6 | 1 | 18 | 7 | 5 | 0 |
+| Vaasa | 36 | 11 | 1 | 11 | 14 | 10 | 0 |
+| Kemijärvi-Posio | 27 | 1 | 0 | 22 | 2 | 2 | 2 |
+| Jyväskylä | 63 | 14 | 5 | 6 | 17 | 11 | 0 |
+| Raisio | 54 | 14 | 4 | 10 | 13 | 6 | 1 |
+| Juva | 36 | 11 | 1 | 12 | 11 | 10 | 0 |
+| Jämsä | 36 | 15 | 0 | 7 | 16 | 16 | 1 |
+| Kouvola | 36 | 8 | 0 | 14 | 7 | 6 | 0 |
+| Suomussalmi | 27 | 5 | 0 | 18 | 3 | 2 | 2 |
+| E18 Muurla-Lohja | 54 | 24 | 0 | 5 | 16 | 10 | 0 |
+| Pyhäjärvi | 27 | 12 | 0 | 8 | 12 | 11 | 0 |
+| Puolanka | 27 | 1 | 0 | 19 | 1 | 1 | 0 |
+| Rovaniemi 17-22 | 18 | 4 | 0 | 14 | 6 | 6 | 3 |
+| Lieto | 45 | 12 | 1 | 10 | 9 | 5 | 0 |
+| Imatra | 27 | 8 | 0 | 13 | 6 | 6 | 0 |
+| Pihtipudas | 27 | 8 | 0 | 10 | 9 | 8 | 0 |
+| Kauhajoki | 27 | 6 | 0 | 11 | 8 | 8 | 1 |
+| Pieksämäki | 27 | 5 | 0 | 13 | 5 | 5 | 0 |
+| Kokkola | 27 | 3 | 0 | 16 | 2 | 2 | 1 |
+| Ii | 27 | 10 | 0 | 13 | 5 | 5 | 4 |
+| Koskenkylä -Kotka | 36 | 3 | 0 | 13 | 4 | 1 | 0 |
+| Hamina-Vaalimaa | 27 | 3 | 0 | 12 | 5 | 5 | 0 |
+| Raasepori | 45 | 9 | 0 | 10 | 6 | 5 | 0 |
+| Kangasala | 18 | 7 | 2 | 2 | 13 | 9 | 0 |
+| Mäntsälä | 27 | 6 | 0 | 8 | 6 | 4 | 0 |
+| Savonlinna | 18 | 8 | 0 | 4 | 10 | 9 | 0 |
+| Virrat | 27 | 7 | 0 | 9 | 5 | 5 | 1 |
+| Ilomantsi | 18 | 4 | 0 | 11 | 3 | 3 | 0 |
+| Keuruu | 18 | 4 | 0 | 8 | 6 | 6 | 0 |
+| Kuhmo | 18 | 2 | 0 | 12 | 2 | 2 | 0 |
+| Nilsiä | 18 | 5 | 0 | 9 | 4 | 4 | 1 |
+| Heinola | 18 | 6 | 0 | 6 | 6 | 6 | 0 |
+| Karstula | 18 | 4 | 0 | 8 | 4 | 4 | 1 |
+| Espoo | 27 | 6 | 0 | 4 | 7 | 5 | 0 |
+| Siikalatva | 18 | 11 | 0 | 3 | 8 | 7 | 2 |
+| Pello | 11 | 1 | 0 | 10 | 1 | 1 | 1 |
+| Harjavalta | 18 | 3 | 0 | 7 | 3 | 3 | 0 |
+| Huittinen | 18 | 3 | 0 | 7 | 3 | 3 | 0 |
+| Iisalmi | 18 | 10 | 0 | 3 | 7 | 7 | 2 |
+| Parkano | 18 | 7 | 0 | 4 | 5 | 4 | 0 |
+| Merikarvia | 18 | 5 | 0 | 3 | 6 | 5 | 0 |
+| Hämeenlinna | 18 | 4 | 1 | 5 | 4 | 3 | 0 |
+| Pielavesi | 9 | 2 | 0 | 5 | 2 | 2 | 1 |
+| Kiuruvesi | 9 | 2 | 0 | 5 | 2 | 2 | 1 |
+| Ranua | 9 | 2 | 0 | 6 | 1 | 0 | 0 |
+| Vantaa | 13 | 3 | 0 | 3 | 3 | 2 | 0 |
+| Kankaanpää | 9 | 2 | 0 | 4 | 2 | 2 | 1 |
+| Sastamala | 9 | 3 | 0 | 3 | 3 | 3 | 0 |
+| Loimaa | 9 | 1 | 0 | 4 | 1 | 1 | 0 |
+| Alavus | 9 | 2 | 0 | 4 | 1 | 1 | 0 |
 
 Lähde: Fintraffic / Digitraffic ja Ilmatieteen laitos (CC BY 4.0). Säännöt: Sambbor/Vantaakeli, collector/collect.mjs.
