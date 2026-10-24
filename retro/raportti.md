@@ -1,6 +1,6 @@
 # Jälkitarkistus koko Suomen aineistolla
 
-Kelisivun liukkaussäännöt (v15) ajettuna jälkikäteen Tiesää-arkiston asemille. Päiviä 10 (2026-10-12 – 2026-10-21), laskentoja 103352. Päivitetty 2026-10-23T05:07:40Z.
+Kelisivun liukkaussäännöt (v15) ajettuna jälkikäteen Tiesää-arkiston asemille. Päiviä 11 (2026-10-12 – 2026-10-22), laskentoja 114346. Päivitetty 2026-10-24T05:04:54Z.
 
 Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, tai tienpinnan ollessa enintään +1 °C kitka < 0,45, jäätä tai lunta). Ennuste "liukas" = indeksi ≥ 50.
 
@@ -8,30 +8,30 @@ Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, t
 
 | Ennuste | Osumat | Ohi | Turhat | Oikein ei riskiä | Havaitsemisosuus | Turhien osuus |
 |---|---|---|---|---|---|---|
-| +2 h | 1725 | 324 | 11423 | 89718 | 84 % | 87 % |
-| +6 h | 1523 | 514 | 15560 | 85573 | 75 % | 91 % |
-| +12 h | 1413 | 592 | 16463 | 84679 | 70 % | 92 % |
+| +2 h | 1766 | 336 | 12099 | 99979 | 84 % | 87 % |
+| +6 h | 1537 | 530 | 16397 | 95696 | 74 % | 91 % |
+| +12 h | 1427 | 602 | 17162 | 94946 | 70 % | 92 % |
 
 ## Maakunnittain (+6 h)
 
 | Maakunta | Osumat | Ohi | Turhat | Havaitsemisosuus |
 |---|---|---|---|---|
-| Lappi | 533 | 72 | 2373 | 88 % |
-| Pohjois-Pohjanmaa | 252 | 72 | 2122 | 78 % |
-| Finavia lentokentät | 148 | 215 | 1088 | 41 % |
-| Pohjois-Savo | 138 | 42 | 1093 | 77 % |
-| Keski-Suomi | 32 | 0 | 1188 | 100 % |
-| Kainuu | 133 | 12 | 987 | 92 % |
-| Etelä-Pohjanmaa | 65 | 1 | 1035 | 98 % |
-| Pohjois-Karjala | 62 | 14 | 987 | 82 % |
+| Lappi | 536 | 74 | 2515 | 88 % |
+| Pohjois-Pohjanmaa | 253 | 72 | 2286 | 78 % |
+| Finavia lentokentät | 148 | 215 | 1119 | 41 % |
+| Keski-Suomi | 32 | 0 | 1313 | 100 % |
+| Pohjois-Savo | 138 | 42 | 1153 | 77 % |
+| Kainuu | 138 | 12 | 1096 | 92 % |
+| Pohjois-Karjala | 67 | 14 | 1096 | 83 % |
+| Etelä-Pohjanmaa | 65 | 1 | 1042 | 98 % |
 | Uusimaa | 6 | 3 | 669 | 67 % |
 | Pirkanmaa | 10 | 9 | 652 | 53 % |
 | Varsinais-Suomi | 20 | 11 | 611 | 65 % |
+| Etelä-Savo | 19 | 2 | 547 | 90 % |
+| Keski-Pohjanmaa | 23 | 7 | 537 | 77 % |
 | Pohjanmaa | 36 | 4 | 523 | 90 % |
-| Keski-Pohjanmaa | 23 | 7 | 503 | 77 % |
-| Etelä-Savo | 19 | 2 | 502 | 90 % |
-| Etelä-Karjala | 27 | 50 | 288 | 35 % |
-| Kymenlaakso | 6 | 0 | 298 | 100 % |
+| Etelä-Karjala | 27 | 64 | 298 | 30 % |
+| Kymenlaakso | 6 | 0 | 299 | 100 % |
 | Satakunta | 5 | 0 | 266 | 100 % |
 | Päijät-Häme | 5 | 0 | 240 | 100 % |
 | Kanta-Häme | 3 | 0 | 135 | 100 % |
@@ -40,9 +40,9 @@ Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, t
 
 | Syy | Osui | Turha |
 |---|---|---|
-| kuura | 1112 | 10701 |
-| tiesääennuste (Digitraffic) | 165 | 3264 |
-| märkä tie jäätyy | 162 | 1343 |
+| kuura | 1121 | 11333 |
+| tiesääennuste (Digitraffic) | 170 | 3440 |
+| märkä tie jäätyy | 162 | 1372 |
 | lumisade | 70 | 91 |
 | jäätävä sade | 11 | 125 |
 | lumi / sohjo | 3 | 36 |
@@ -51,7 +51,7 @@ Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, t
 
 | Havainto | Kpl |
 |---|---|
-| keli jää | 263 |
+| keli jää | 279 |
 | varoitus häly | 177 |
 | keli lumi | 33 |
 | keli kuura | 32 |
@@ -64,11 +64,11 @@ Tienpinta enintään +0,5 °C eikä suolan suojaa. Kuinka usein asema mittasi ku
 
 | Kertymä °C·h | Tunteja | Kuura tiellä (keli) | Kuuraava tilanne (varoitus) | Liukasta |
 |---|---|---|---|---|
-| 0–0,5 | 13913 | 0 (0 %) | 2288 (16 %) | 558 (4 %) |
-| 0,5–2 | 2865 | 0 (0 %) | 1505 (53 %) | 219 (8 %) |
-| 2–4 | 1951 | 0 (0 %) | 1036 (53 %) | 233 (12 %) |
-| 4–8 | 2302 | 2 (0 %) | 1176 (51 %) | 311 (14 %) |
-| yli 8 | 2956 | 171 (6 %) | 1167 (39 %) | 579 (20 %) |
+| 0–0,5 | 14079 | 0 (0 %) | 2311 (16 %) | 567 (4 %) |
+| 0,5–2 | 2977 | 0 (0 %) | 1546 (52 %) | 226 (8 %) |
+| 2–4 | 2070 | 0 (0 %) | 1069 (52 %) | 246 (12 %) |
+| 4–8 | 2443 | 2 (0 %) | 1223 (50 %) | 332 (14 %) |
+| yli 8 | 3274 | 180 (5 %) | 1285 (39 %) | 609 (19 %) |
 
 ## Märkä tie pakkasella: suolan vaikutus
 
@@ -76,8 +76,8 @@ Liukasta 6 tunnin sisällä. "Suolaa" = jäätymispiste ≤ −1 °C. Sääntöj
 
 | Tienpinta °C | Suolaa: tunteja | liukasta | Ei suolaa: tunteja | liukasta |
 |---|---|---|---|---|
-| −2…+0,5 | 1639 | 2 % | 6129 | 12 % |
-| −4…−2 | 523 | 4 % | 1529 | 17 % |
+| −2…+0,5 | 1794 | 2 % | 6658 | 11 % |
+| −4…−2 | 527 | 4 % | 1539 | 17 % |
 | −6…−4 | 26 | 0 % | 123 | 28 % |
 | −8…−6 | 0 | – | 1 | 0 % |
 | alle −8 | 0 | – | 3 | 0 % |
