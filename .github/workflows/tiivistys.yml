@@ -1,0 +1,38 @@
+name: Historian tiivistys
+# ta3 (27.10.2026, Samuli): säilön historia korvataan kerran kuussa yhdellä commitilla. Data (archive, data, meta, kuura,
+# retro, naapurit) säilyy täsmälleen ennallaan – vain vanhat välitallennukset poistuvat historiasta, jotta säilö ei kasva.
+on:
+  schedule:
+    - cron: '7 12 1 * *'    # kuun 1. päivä klo 12.07 UTC (kuuran kuvat ajetaan vain klo 2–9 UTC)
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: arkisto        # sama jono kuin keruulla ja jälkitarkistuksella
+jobs:
+  squash:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+      - name: Korvaa historia yhdellä commitilla
+        run: |
+          git config user.name "keli-bot"
+          git config user.email "keli-bot@users.noreply.github.com"
+          for i in 1 2 3; do
+            git fetch -q --depth 1 origin main
+            base=$(git rev-parse origin/main)
+            git checkout -q -f --detach "$base"
+            git branch -D tiivis 2>/dev/null || true
+            git checkout -q --orphan tiivis
+            git commit -q -m "Historia tiivistetty $(date -u +%Y-%m-%d) – data ennallaan (edellinen kärki $base)"
+            # varmistus: sisältö täsmälleen sama kuin ennen
+            if ! git diff --quiet "$base" HEAD; then echo "Sisältö muuttui – keskeytetään"; exit 1; fi
+            # --force-with-lease: jos kuuran kuvat tai muu ajo ehti tallentaa välissä, ei ylikirjoiteta vaan yritetään uudelleen
+            if git push -q --force-with-lease=main:"$base" origin HEAD:main; then
+              echo "Valmis: historia korvattu, kärki oli $base"; exit 0
+            fi
+            echo "Säilö muuttui välissä – uusi yritys ($i)"; sleep 30
+          done
+          exit 1

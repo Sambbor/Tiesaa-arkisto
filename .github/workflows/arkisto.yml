@@ -1,0 +1,47 @@
+name: Tiesää-arkisto
+on:
+  schedule:
+    - cron: '11,41 * * * *'   # 30 min välein
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: arkisto
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # haetaan vain tämän päivän tiedostot ja tilatiedot, ei koko arkistoa
+          sparse-checkout: |
+            meta
+            data/current
+      - name: Kerää asemat ja ennusteet
+        run: python3 arkisto.py
+      - name: Kerää talvihoidon toteumat asemien ympäriltä
+        # ei kaada arkistoa, jos toteumahaku epäonnistuu
+        run: python3 toteumat.py || echo "Toteumakeruu epäonnistui, jatketaan"
+      - name: Naapuriurakat samana yönä (kelisivu)
+        run: python3 naapurit.py || echo "Naapuriurakoiden koonti epäonnistui, jatketaan"
+      - name: Urakoiden tieverkko (kelisivun kartta, 30 vrk välein)
+        run: python3 tieverkko.py || echo "Tieverkon haku epäonnistui, jatketaan"
+      - name: Tallenna säilöön
+        run: |
+          git config user.name "keli-bot"
+          git config user.email "keli-bot@users.noreply.github.com"
+          # Jos toinen ajo ehti tallentaa ensin (GitHub käynnistää joskus kaksi ajoa), ei yritetä yhdistää samoja
+          # tiedostoja: siirrytään uusimpaan versioon ja ajetaan keruu uudelleen sen päälle.
+          for i in 1 2 3; do
+            git add --sparse -A meta data archive naapurit 2>/dev/null || git add --sparse -A meta data archive 2>/dev/null || git add --sparse -A meta data
+            git diff --cached --quiet && exit 0
+            git commit -q -m "Tiesää-arkisto $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push -q && exit 0
+            echo "Säilö muuttui ajon aikana – haetaan uusin versio ja kerätään uudelleen ($i)"
+            sleep $((i*5))
+            git fetch -q origin main && git reset -q --hard origin/main
+            python3 arkisto.py || exit 1
+            python3 toteumat.py || echo "Toteumakeruu epäonnistui, jatketaan"
+            python3 naapurit.py || echo "Naapuriurakoiden koonti epäonnistui, jatketaan"
+          done
+          exit 1
