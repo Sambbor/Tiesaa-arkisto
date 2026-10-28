@@ -1,6 +1,6 @@
 # Jälkitarkistus koko Suomen aineistolla
 
-Kelisivun liukkaussäännöt (v15) ajettuna jälkikäteen Tiesää-arkiston asemille. Päiviä 14 (2026-10-12 – 2026-10-25), laskentoja 147304. Päivitetty 2026-10-27T05:10:36Z.
+Kelisivun liukkaussäännöt (v15) ajettuna jälkikäteen Tiesää-arkiston asemille. Päiviä 15 (2026-10-12 – 2026-10-26), laskentoja 157379. Päivitetty 2026-10-28T05:17:23Z.
 
 Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, tai tienpinnan ollessa enintään +1 °C kitka < 0,45, jäätä tai lunta). Ennuste "liukas" = indeksi ≥ 50.
 
@@ -8,9 +8,9 @@ Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, t
 
 | Ennuste | Osumat | Ohi | Turhat | Oikein ei riskiä | Havaitsemisosuus | Turhien osuus |
 |---|---|---|---|---|---|---|
-| +2 h | 1836 | 373 | 12715 | 132106 | 83 % | 87 % |
-| +6 h | 1583 | 577 | 17026 | 127818 | 73 % | 91 % |
-| +12 h | 1472 | 653 | 17589 | 127262 | 69 % | 92 % |
+| +2 h | 1836 | 392 | 12718 | 141347 | 82 % | 87 % |
+| +6 h | 1583 | 596 | 17026 | 137397 | 73 % | 91 % |
+| +12 h | 1472 | 672 | 17589 | 136757 | 69 % | 92 % |
 
 ## Maakunnittain (+6 h)
 
@@ -30,7 +30,7 @@ Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, t
 | Etelä-Savo | 19 | 2 | 553 | 90 % |
 | Keski-Pohjanmaa | 23 | 7 | 537 | 77 % |
 | Pohjanmaa | 36 | 4 | 523 | 90 % |
-| Etelä-Karjala | 27 | 94 | 298 | 22 % |
+| Etelä-Karjala | 27 | 113 | 298 | 19 % |
 | Kymenlaakso | 6 | 0 | 299 | 100 % |
 | Satakunta | 5 | 0 | 266 | 100 % |
 | Päijät-Häme | 5 | 0 | 240 | 100 % |
@@ -52,7 +52,7 @@ Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, t
 | Havainto | Kpl |
 |---|---|
 | keli jää | 279 |
-| varoitus häly | 213 |
+| varoitus häly | 232 |
 | keli kuura | 43 |
 | keli lumi | 33 |
 | kitka < 0,45 | 6 |
@@ -68,7 +68,7 @@ Tienpinta enintään +0,5 °C eikä suolan suojaa. Kuinka usein asema mittasi ku
 | 0,5–2 | 3088 | 0 (0 %) | 1565 (51 %) | 226 (7 %) |
 | 2–4 | 2203 | 0 (0 %) | 1107 (50 %) | 251 (11 %) |
 | 4–8 | 2582 | 2 (0 %) | 1271 (49 %) | 348 (13 %) |
-| yli 8 | 3642 | 199 (5 %) | 1413 (39 %) | 658 (18 %) |
+| yli 8 | 3663 | 199 (5 %) | 1413 (39 %) | 658 (18 %) |
 
 ## Märkä tie pakkasella: suolan vaikutus
 

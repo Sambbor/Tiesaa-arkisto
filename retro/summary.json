@@ -1,7 +1,7 @@
 {
  "rv": "v15",
  "v": "rt3",
- "updated": "2026-10-27T05:10:36Z",
+ "updated": "2026-10-28T05:17:23Z",
  "days": [
   "2026-10-12",
   "2026-10-13",
@@ -16,27 +16,28 @@
   "2026-10-22",
   "2026-10-23",
   "2026-10-24",
-  "2026-10-25"
+  "2026-10-25",
+  "2026-10-26"
  ],
- "samples": 147304,
+ "samples": 157379,
  "lead": {
   "2": {
    "hit": 1836,
-   "miss": 373,
-   "fa": 12715,
-   "cn": 132106
+   "miss": 392,
+   "fa": 12718,
+   "cn": 141347
   },
   "6": {
    "hit": 1583,
-   "miss": 577,
+   "miss": 596,
    "fa": 17026,
-   "cn": 127818
+   "cn": 137397
   },
   "12": {
    "hit": 1472,
-   "miss": 653,
+   "miss": 672,
    "fa": 17589,
-   "cn": 127262
+   "cn": 136757
   }
  },
  "byProv": {
@@ -44,121 +45,121 @@
    "hit": 6,
    "miss": 3,
    "fa": 669,
-   "cn": 18713
+   "cn": 19988
   },
   "Kymenlaakso": {
    "hit": 6,
    "miss": 0,
    "fa": 299,
-   "cn": 5851
+   "cn": 6250
   },
   "Varsinais-Suomi": {
    "hit": 20,
    "miss": 11,
    "fa": 611,
-   "cn": 12796
+   "cn": 13674
   },
   "Satakunta": {
    "hit": 5,
    "miss": 0,
    "fa": 266,
-   "cn": 3290
+   "cn": 3521
   },
   "Pirkanmaa": {
    "hit": 10,
    "miss": 9,
    "fa": 652,
-   "cn": 6867
+   "cn": 7371
   },
   "Ahvenanmaa": {
    "hit": 0,
    "miss": 0,
    "fa": 0,
-   "cn": 324
+   "cn": 345
   },
   "Etelä-Savo": {
    "hit": 19,
    "miss": 2,
    "fa": 553,
-   "cn": 3725
+   "cn": 4016
   },
   "Etelä-Karjala": {
    "hit": 27,
-   "miss": 94,
+   "miss": 113,
    "fa": 298,
-   "cn": 3112
+   "cn": 3324
   },
   "Päijät-Häme": {
    "hit": 5,
    "miss": 0,
    "fa": 240,
-   "cn": 2994
+   "cn": 3204
   },
   "Kanta-Häme": {
    "hit": 3,
    "miss": 0,
    "fa": 135,
-   "cn": 2129
+   "cn": 2276
   },
   "Pohjois-Savo": {
    "hit": 138,
    "miss": 42,
    "fa": 1164,
-   "cn": 5776
+   "cn": 6238
   },
   "Pohjois-Karjala": {
    "hit": 67,
    "miss": 14,
    "fa": 1166,
-   "cn": 5858
+   "cn": 6307
   },
   "Keski-Suomi": {
    "hit": 32,
    "miss": 0,
    "fa": 1324,
-   "cn": 6418
+   "cn": 6922
   },
   "Pohjanmaa": {
    "hit": 36,
    "miss": 4,
    "fa": 523,
-   "cn": 3948
+   "cn": 4242
   },
   "Keski-Pohjanmaa": {
    "hit": 23,
    "miss": 7,
    "fa": 537,
-   "cn": 1969
+   "cn": 2137
   },
   "Etelä-Pohjanmaa": {
    "hit": 65,
    "miss": 1,
    "fa": 1042,
-   "cn": 6013
+   "cn": 6475
   },
   "Pohjois-Pohjanmaa": {
    "hit": 263,
    "miss": 83,
    "fa": 2404,
-   "cn": 11803
+   "cn": 12748
   },
   "Kainuu": {
    "hit": 157,
    "miss": 12,
    "fa": 1189,
-   "cn": 3492
+   "cn": 3807
   },
   "Lappi": {
    "hit": 549,
    "miss": 74,
    "fa": 2787,
-   "cn": 8841
+   "cn": 9660
   },
   "Finavia lentokentät": {
    "hit": 152,
    "miss": 221,
    "fa": 1167,
-   "cn": 13899
+   "cn": 14892
   }
  },
  "byWhy": {
@@ -189,7 +190,7 @@
  },
  "missObs": {
   "keli jää": 279,
-  "varoitus häly": 213,
+  "varoitus häly": 232,
   "keli lumi": 33,
   "keli kuura": 43,
   "kitka < 0,45": 6,
@@ -221,7 +222,7 @@
    "slip": 348
   },
   "yli 8": {
-   "n": 3642,
+   "n": 3663,
    "frost": 199,
    "warn": 1413,
    "slip": 658
@@ -283,6 +284,15 @@
     "cn": 66264
    },
    "days": 7
+  },
+  "2026-W44": {
+   "lead6": {
+    "hit": 0,
+    "miss": 19,
+    "fa": 0,
+    "cn": 9579
+   },
+   "days": 1
   }
  },
  "toteu": {
