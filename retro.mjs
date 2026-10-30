@@ -23,7 +23,7 @@ async function loadRules(){
   const src = process.env.RULES_FILE ? fs.readFileSync(process.env.RULES_FILE, 'utf8') : await (await fetch(RULES_URL)).text();   // RULES_FILE: paikallinen testaus
   const a = src.indexOf('// ===== LIUKKAUSSÄÄNNÖT'), b = src.indexOf('// ===== /LIUKKAUSSÄÄNNÖT');
   if(a < 0 || b < 0) throw new Error('sääntölohkoa ei löytynyt kelisivun keruusta');
-  return new Function(src.slice(a, b) + '\nreturn {RULES_VERSION, slipSeriesCore, obsSlippery, frostAccHist, frostPt, WET_KELI, WARN_RANK, FROST_SLIP, SALT_LIMIT};')();
+  return new Function(src.slice(a, b) + '\nreturn {RULES_VERSION, slipSeriesCore, obsSlippery, frostAccHist, frostPt, WET_KELI, WARN_RANK, FROST_SLIP, SALT_LIMIT, wetObs: typeof wetObs === "function" ? wetObs : null};')();
 }
 
 function parseCsv(txt){
@@ -150,7 +150,10 @@ function processDay(day, R, prov){
       const rows = fmiRows(is, o.t); if(rows.length < 13) continue;
       const hist = arr.filter(x => x.t > o.t - 12 * H && x.t <= o.t && x.tr != null).map(x => [x.t, x.tr, x.fp]);
       const frAcc0 = hist.length >= 2 ? R.frostAccHist(hist) : 0;
-      const wetNow = (o.water != null && o.water > 0.03) || (o.snow || 0) > 0 || (o.ice || 0) > 0 || R.WET_KELI.includes(o.keli) ? 1 : 0;
+      // v16: märkyys sääntöjen wetObs-funktiosta (vanhat säännöt: entinen ehto); sade 3 h sisällä aseman omista havainnoista
+      const rain3h = arr.some(x => x.t > o.t - 3 * H && x.t <= o.t && ((Number(x.raw && x.raw.rain_i) || 0) > 0 || (x.rain >= 1 && x.rain <= 6)));
+      const wetNow = R.wetObs ? R.wetObs({water: o.water, snow: o.snow, ice: o.ice, keli: o.keli, tr: o.tr, td: o.td, rain3h})
+        : (o.water != null && o.water > 0.03) || (o.snow || 0) > 0 || (o.ice || 0) > 0 || R.WET_KELI.includes(o.keli) ? 1 : 0;
       const slipNow = R.obsSlippery(o);
       let ser;
       try{ ser = R.slipSeriesCore({now: o.t, rows, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0}); }catch(e){ continue; }
