@@ -1,6 +1,6 @@
 # Jälkitarkistus koko Suomen aineistolla
 
-Kelisivun liukkaussäännöt (v15) ajettuna jälkikäteen Tiesää-arkiston asemille. Päiviä 16 (2026-10-12 – 2026-10-27), laskentoja 168316. Päivitetty 2026-10-29T05:20:06Z.
+Kelisivun liukkaussäännöt (v15) ajettuna jälkikäteen Tiesää-arkiston asemille. Päiviä 17 (2026-10-12 – 2026-10-28), laskentoja 179402. Päivitetty 2026-10-30T05:19:56Z.
 
 Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, tai tienpinnan ollessa enintään +1 °C kitka < 0,45, jäätä tai lunta). Ennuste "liukas" = indeksi ≥ 50.
 
@@ -8,15 +8,15 @@ Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, t
 
 | Ennuste | Osumat | Ohi | Turhat | Oikein ei riskiä | Havaitsemisosuus | Turhien osuus |
 |---|---|---|---|---|---|---|
-| +2 h | 1836 | 403 | 12724 | 152261 | 82 % | 87 % |
-| +6 h | 1583 | 605 | 17026 | 148312 | 72 % | 91 % |
-| +12 h | 1472 | 675 | 17589 | 147680 | 69 % | 92 % |
+| +2 h | 1850 | 403 | 12752 | 163300 | 82 % | 87 % |
+| +6 h | 1601 | 605 | 17062 | 159279 | 73 % | 91 % |
+| +12 h | 1487 | 676 | 17653 | 158612 | 69 % | 92 % |
 
 ## Maakunnittain (+6 h)
 
 | Maakunta | Osumat | Ohi | Turhat | Havaitsemisosuus |
 |---|---|---|---|---|
-| Lappi | 549 | 74 | 2787 | 88 % |
+| Lappi | 567 | 74 | 2823 | 88 % |
 | Pohjois-Pohjanmaa | 263 | 83 | 2404 | 76 % |
 | Finavia lentokentät | 152 | 221 | 1167 | 41 % |
 | Kainuu | 157 | 12 | 1189 | 93 % |
@@ -40,9 +40,9 @@ Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, t
 
 | Syy | Osui | Turha |
 |---|---|---|
-| kuura | 1160 | 11797 |
-| tiesääennuste (Digitraffic) | 173 | 3567 |
-| märkä tie jäätyy | 166 | 1401 |
+| kuura | 1174 | 11828 |
+| tiesääennuste (Digitraffic) | 176 | 3567 |
+| märkä tie jäätyy | 167 | 1406 |
 | lumisade | 70 | 91 |
 | jäätävä sade | 11 | 134 |
 | lumi / sohjo | 3 | 36 |
@@ -65,10 +65,10 @@ Tienpinta enintään +0,5 °C eikä suolan suojaa. Kuinka usein asema mittasi ku
 | Kertymä °C·h | Tunteja | Kuura tiellä (keli) | Kuuraava tilanne (varoitus) | Liukasta |
 |---|---|---|---|---|
 | 0–0,5 | 14183 | 0 (0 %) | 2320 (16 %) | 569 (4 %) |
-| 0,5–2 | 3090 | 0 (0 %) | 1565 (51 %) | 226 (7 %) |
-| 2–4 | 2204 | 0 (0 %) | 1107 (50 %) | 251 (11 %) |
-| 4–8 | 2582 | 2 (0 %) | 1271 (49 %) | 348 (13 %) |
-| yli 8 | 3685 | 199 (5 %) | 1413 (38 %) | 658 (18 %) |
+| 0,5–2 | 3095 | 0 (0 %) | 1566 (51 %) | 226 (7 %) |
+| 2–4 | 2208 | 0 (0 %) | 1110 (50 %) | 252 (11 %) |
+| 4–8 | 2589 | 2 (0 %) | 1274 (49 %) | 351 (14 %) |
+| yli 8 | 3720 | 202 (5 %) | 1419 (38 %) | 666 (18 %) |
 
 ## Märkä tie pakkasella: suolan vaikutus
 
@@ -76,7 +76,7 @@ Liukasta 6 tunnin sisällä. "Suolaa" = jäätymispiste ≤ −1 °C. Sääntöj
 
 | Tienpinta °C | Suolaa: tunteja | liukasta | Ei suolaa: tunteja | liukasta |
 |---|---|---|---|---|
-| −2…+0,5 | 1908 | 2 % | 7179 | 10 % |
+| −2…+0,5 | 1908 | 2 % | 7206 | 11 % |
 | −4…−2 | 529 | 4 % | 1544 | 17 % |
 | −6…−4 | 26 | 0 % | 123 | 28 % |
 | −8…−6 | 0 | – | 1 | 0 % |
