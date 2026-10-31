@@ -17,3 +17,27 @@ pvm,vaihe,kuva_aika,st,asema,cam,preset,suunta,tie,maakunta,dist_m,aurinko,tr,td
 2026-10-30,A,2026-10-30T05:03,14019,"Tie 21 Enontekiö, Saarikoski",C14581,C1458101,Kilpisjärvi,21,Lappi,0,-19.5,-0.7,-1.6,-1.6,0.0,1.0,0.0,-0.7,0.8,0.0,raja,kuura/kuvat/2026-10/30/C1458101_A.jpg,,ku2
 2026-10-30,A,2026-10-30T04:58,14057,"Tie 21 Enontekiö, Kelottijärvi",C14585,C1458501,Kilpisjärvelle,21,Lappi,0,-19.3,-1.0,-0.4,-0.2,0.0,1.0,3.0,-1.0,-0.6,0.5,kuura,kuura/kuvat/2026-10/30/C1458501_A.jpg,,ku2
 2026-10-30,A,2026-10-30T04:55,14059,"Tie 21 Enontekiö, Hietajoki",C14586,C1458601,Kilpisjärvelle,21,Lappi,0,-19.1,0.1,-0.9,-0.5,0.0,2.0,0.0,0.1,0.9,0.0,raja,kuura/kuvat/2026-10/30/C1458601_A.jpg,,ku2
+2026-10-31,B,2026-10-31T10:23,12038,"Tie 5 Kuusamo, Jokivaara",C12565,C1256501,Kuusamoon,5,Pohjois-Pohjanmaa,14,8.8,-0.1,-0.5,-0.5,0.0,3.0,1.0,0.4,-0.2,0.0,kuura,kuura/kuvat/2026-10/31/C1256501_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:21,12028,"Tie 5 Kuusamo, Petäjälampi",C12573,C1257301,Kemijärvelle,5,Pohjois-Pohjanmaa,0,8.6,1.1,-1.6,-0.6,0.0,3.0,0.0,0.4,0.9,0.0,raja,kuura/kuvat/2026-10/31/C1257301_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:26,12036,Tie 20 Taivalkoski,C12578,C1257801,Kuusamoon,20,Pohjois-Pohjanmaa,92,8.8,1.0,-1.2,-0.8,0.0,3.0,0.0,0.5,0.7,0.0,raja,kuura/kuvat/2026-10/31/C1257801_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:26,12008,"Tie 5 Kuusamo, Kitka",C12601,C1260101,Kemijärvi,5,Pohjois-Pohjanmaa,0,8.3,1.2,-0.4,-0.4,0.0,3.0,0.0,-0.5,0.3,0.0,raja,kuura/kuvat/2026-10/31/C1260101_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:25,12057,"Tie 8690 Kuusamo, Vuotunki",C12604,C1260401,Vuotunki,8690,Pohjois-Pohjanmaa,0,8.5,-1.2,-1.4,-0.9,0.0,7.0,2.0,0.7,0.3,0.0,raja,kuura/kuvat/2026-10/31/C1260401_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:20,14021,"Tie 29 Tornio, Luukkaankangas",C14519,C1451901,Tornioon,29,Lappi,70,8.0,1.9,2.1,2.1,0.0,2.0,0.0,-1.9,0.1,0.0,raja,kuura/kuvat/2026-10/31/C1451901_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:27,14016,"Tie 4 Inari, Petsikko",C14523,C1452301,Utsjoelle,4,Lappi,5,5.1,-0.5,0.4,0.6,0.0,7.0,2.0,-2.0,-2.8,11.0,kuura,kuura/kuvat/2026-10/31/C1452301_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:22,14017,"Tie 5 Pelkosenniemi, Kairala",C14527,C1452701,Sodankylään,5,Lappi,3,7.2,1.5,-1.2,-1.2,-0.1,3.0,0.0,-0.6,0.0,0.0,raja,kuura/kuvat/2026-10/31/C1452701_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:28,14027,"Tie 970 Utsjoki, Nuorgam",C14533,C1453301,Norjan rajalle,970,Lappi,13,4.6,-0.5,1.9,2.4,-0.2,8.0,0.0,-1.2,-3.9,8.0,kuura,kuura/kuvat/2026-10/31/C1453301_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:28,14028,"Tie 9401 Ylläs, maisematie",C14544,C1454401,Äkäslompoloon,9401,Lappi,0,6.4,0.3,0.1,2.0,0.0,3.0,1.0,-2.1,-3.4,12.0,kuura,kuura/kuvat/2026-10/31/C1454401_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:28,14043,"Tie 962, Pelkosenniemi, Py",C14546,C1454601,Vuostimoon,962,Lappi,0,7.3,-0.2,-1.4,-1.4,0.0,3.0,1.0,-1.0,-1.0,3.0,kuura,kuura/kuvat/2026-10/31/C1454601_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:25,14018,"Tie 21 Muonio, Tapojärvi",C14563,C1456301,Kilpisjärvelle,21,Lappi,52,6.4,-0.3,-1.5,-1.2,0.0,1.0,0.0,-3.6,-0.1,0.5,kuura,kuura/kuvat/2026-10/31/C1456301_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:27,14023,"Tie 29 Tornio, Kyläjoki",C14567,C1456701,Tornioon,29,Lappi,0,8.0,2.0,2.2,2.3,-0.1,2.0,0.0,-2.5,0.5,0.0,raja,kuura/kuvat/2026-10/31/C1456701_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:25,14047,Tie 21 Muonio Pahtonen,C14574,C1457401,Kilpisjärvi,21,Lappi,0,6.0,-0.4,0.5,0.5,0.0,1.0,3.0,-3.6,-0.4,1.5,kuura,kuura/kuvat/2026-10/31/C1457401_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:26,14049,Tie 21 Muonio,C14575,C1457501,Kilpisjärvi,21,Lappi,0,6.0,-0.7,0.5,0.5,0.0,1.0,3.0,-4.1,-0.5,1.0,kuura,kuura/kuvat/2026-10/31/C1457501_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:23,14055,"Tie 81 Posio, Mourusalmi",C14579,C1457901,Kuusamo,81,Lappi,0,8.4,1.9,0.6,0.6,0.0,1.0,0.0,0.0,0.1,0.0,raja,kuura/kuvat/2026-10/31/C1457901_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:26,14061,"Tie 965 Salla, Kotala",C14580,C1458001,Savukoski,965,Lappi,0,7.6,0.3,-1.9,-1.9,0.0,3.0,0.0,-0.2,0.9,0.0,raja,kuura/kuvat/2026-10/31/C1458001_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:23,14019,"Tie 21 Enontekiö, Saarikoski",C14581,C1458101,Kilpisjärvi,21,Lappi,0,4.8,-0.4,-0.5,2.1,0.0,7.0,2.0,-3.9,-2.9,6.0,kuura,kuura/kuvat/2026-10/31/C1458101_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:28,14057,"Tie 21 Enontekiö, Kelottijärvi",C14585,C1458501,Kilpisjärvelle,21,Lappi,0,5.2,-0.2,0.6,1.6,0.0,2.0,3.0,-3.1,-3.1,10.5,kuura,kuura/kuvat/2026-10/31/C1458501_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:25,14059,"Tie 21 Enontekiö, Hietajoki",C14586,C1458601,Kilpisjärvelle,21,Lappi,0,5.3,-0.7,-0.9,-0.4,0.0,1.0,3.0,-3.5,-1.3,3.5,kuura,kuura/kuvat/2026-10/31/C1458601_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:28,14026,"Tie 863 Posio, Sirniö",C14589,C1458901,Posiolle,863,Lappi,0,8.6,-0.1,-0.5,-0.4,0.0,1.0,0.0,-0.5,0.5,0.0,raja,kuura/kuvat/2026-10/31/C1458901_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:21,14010,"Tie 21 Tornio, Kukkola",C14590,C1459001,Kilpisjärvelle,21,Lappi,0,7.9,1.2,0.9,0.9,0.0,2.0,0.0,-1.7,-1.0,4.0,kuura,kuura/kuvat/2026-10/31/C1459001_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:24,14005,"Tie 21 Ylitornio, Kattilakoski",C14596,C1459601,Kilpisjärvelle,21,Lappi,0,7.3,-0.9,-1.7,-1.5,0.0,7.0,2.0,-3.7,-0.6,9.0,kuura,kuura/kuvat/2026-10/31/C1459601_B.jpg,,ku2
+2026-10-31,B,2026-10-31T10:26,18006,"Tie 4 Sodankylä, Petäjämaa",C18534,C1853409,Rovaniemi,4,Lappi,0,7.0,0.7,-1.5,-1.5,0.0,2.0,0.0,-1.6,0.7,0.0,raja,kuura/kuvat/2026-10/31/C1853409_B.jpg,,ku2
