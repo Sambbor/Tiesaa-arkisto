@@ -1,0 +1,964 @@
+{
+"100683": {
+"name": "Porvoo Kilpilahti satama",
+"lat": 60.3037,
+"lon": 25.5492
+},
+"100907": {
+"name": "Jomala Maarianhamina lentoasema",
+"lat": 60.1273,
+"lon": 19.9004
+},
+"100908": {
+"name": "Parainen Utö",
+"lat": 59.7791,
+"lon": 21.3748,
+"rad": true
+},
+"100909": {
+"name": "Lemland Nyhamn",
+"lat": 59.9591,
+"lon": 19.9537
+},
+"100917": {
+"name": "Jomala Jomalaby",
+"lat": 60.1782,
+"lon": 19.9869
+},
+"100919": {
+"name": "Hammarland Märket",
+"lat": 60.301,
+"lon": 19.1314
+},
+"100924": {
+"name": "Parainen Fagerholm",
+"lat": 60.1116,
+"lon": 21.6983
+},
+"100928": {
+"name": "Kumlinge kirkonkylä",
+"lat": 60.2582,
+"lon": 20.747
+},
+"100932": {
+"name": "Hanko Russarö",
+"lat": 59.7736,
+"lon": 22.9487
+},
+"100934": {
+"name": "Kaarina Yltöinen",
+"lat": 60.3869,
+"lon": 22.5518
+},
+"100945": {
+"name": "Kemiönsaari Vänö",
+"lat": 59.8695,
+"lon": 22.1934
+},
+"100946": {
+"name": "Hanko Tulliniemi",
+"lat": 59.8086,
+"lon": 22.9125
+},
+"100947": {
+"name": "Turku Rajakari",
+"lat": 60.3779,
+"lon": 22.0964
+},
+"100949": {
+"name": "Turku Artukainen",
+"lat": 60.4544,
+"lon": 22.1787
+},
+"100953": {
+"name": "Hanko Tvärminne",
+"lat": 59.8438,
+"lon": 23.2486
+},
+"100955": {
+"name": "Salo Kärkkä",
+"lat": 60.3747,
+"lon": 23.1166
+},
+"100967": {
+"name": "Salo Kiikala lentokenttä",
+"lat": 60.4641,
+"lon": 23.6498
+},
+"100968": {
+"name": "Vantaa Helsinki-Vantaan lentoasema",
+"lat": 60.3294,
+"lon": 24.9727,
+"rad": true
+},
+"100969": {
+"name": "Inkoo Bågaskär",
+"lat": 59.9311,
+"lon": 24.0141
+},
+"100971": {
+"name": "Helsinki Kaisaniemi",
+"lat": 60.1752,
+"lon": 24.9446
+},
+"100974": {
+"name": "Lohja Porla",
+"lat": 60.2445,
+"lon": 24.0495
+},
+"100976": {
+"name": "Vihti Maasoja",
+"lat": 60.4188,
+"lon": 24.3986
+},
+"100996": {
+"name": "Helsinki Harmaja",
+"lat": 60.1051,
+"lon": 24.9754
+},
+"100997": {
+"name": "Kirkkonummi Mäkiluoto",
+"lat": 59.9198,
+"lon": 24.3502
+},
+"101004": {
+"name": "Helsinki Kumpula",
+"lat": 60.2031,
+"lon": 24.9613,
+"rad": true
+},
+"101022": {
+"name": "Porvoo Kalbådagrund",
+"lat": 59.9857,
+"lon": 25.5988
+},
+"101023": {
+"name": "Porvoo Emäsalo",
+"lat": 60.2038,
+"lon": 25.6255
+},
+"101028": {
+"name": "Porvoo Harabacka",
+"lat": 60.3917,
+"lon": 25.6073
+},
+"101030": {
+"name": "Kotka Rankki",
+"lat": 60.3754,
+"lon": 26.9589
+},
+"101039": {
+"name": "Loviisa Orrengrund",
+"lat": 60.2748,
+"lon": 26.4476
+},
+"101042": {
+"name": "Kotka Haapasaari",
+"lat": 60.2868,
+"lon": 27.1848
+},
+"101044": {
+"name": "Pori lentoasema",
+"lat": 61.4601,
+"lon": 21.8084
+},
+"101059": {
+"name": "Kustavi Isokari",
+"lat": 60.7222,
+"lon": 21.0268
+},
+"101061": {
+"name": "Rauma Kylmäpihlaja",
+"lat": 61.1448,
+"lon": 21.3027
+},
+"101065": {
+"name": "Turku lentoasema",
+"lat": 60.5157,
+"lon": 22.2792
+},
+"101103": {
+"name": "Kokemäki Tulkkila",
+"lat": 61.2529,
+"lon": 22.3461
+},
+"101104": {
+"name": "Jokioinen Ilmala",
+"lat": 60.814,
+"lon": 23.4982,
+"rad": true
+},
+"101118": {
+"name": "Pirkkala Tampere-Pirkkala lentoasema",
+"lat": 61.4194,
+"lon": 23.6226
+},
+"101124": {
+"name": "Tampere Härmälä",
+"lat": 61.4656,
+"lon": 23.7468
+},
+"101130": {
+"name": "Hyvinkää Hyvinkäänkylä",
+"lat": 60.5959,
+"lon": 24.803
+},
+"101149": {
+"name": "Nurmijärvi Röykkä",
+"lat": 60.5087,
+"lon": 24.6537
+},
+"101150": {
+"name": "Hämeenlinna Katinen",
+"lat": 60.9992,
+"lon": 24.4916
+},
+"101151": {
+"name": "Hattula Lepaa",
+"lat": 61.1145,
+"lon": 24.3245
+},
+"101154": {
+"name": "Hämeenlinna Lammi Pappila",
+"lat": 61.0541,
+"lon": 25.0384
+},
+"101191": {
+"name": "Kouvola Utti lentoasema",
+"lat": 60.8984,
+"lon": 26.9488
+},
+"101194": {
+"name": "Kouvola Anjala",
+"lat": 60.6965,
+"lon": 26.8111
+},
+"101196": {
+"name": "Heinola Asemantaus",
+"lat": 61.2001,
+"lon": 26.0497
+},
+"101231": {
+"name": "Virolahti Koivuniemi",
+"lat": 60.5272,
+"lon": 27.6727
+},
+"101237": {
+"name": "Lappeenranta lentoasema",
+"lat": 61.0403,
+"lon": 28.1292
+},
+"101246": {
+"name": "Lappeenranta Konnunsuo",
+"lat": 61.0388,
+"lon": 28.5639
+},
+"101252": {
+"name": "Lappeenranta Hiekkapakka",
+"lat": 61.1982,
+"lon": 28.4731
+},
+"101254": {
+"name": "Parikkala Koitsanlahti",
+"lat": 61.4447,
+"lon": 29.4611
+},
+"101256": {
+"name": "Kaskinen Sälgrund",
+"lat": 62.3338,
+"lon": 21.1908
+},
+"101267": {
+"name": "Pori Tahkoluoto satama",
+"lat": 61.6304,
+"lon": 21.3762
+},
+"101272": {
+"name": "Karvia Alkkia",
+"lat": 62.1833,
+"lon": 22.7998
+},
+"101289": {
+"name": "Kauhajoki Kuja-Kokko",
+"lat": 62.4134,
+"lon": 22.1837
+},
+"101291": {
+"name": "Kankaanpää Niinisalo lentokenttä",
+"lat": 61.8386,
+"lon": 22.4637
+},
+"101310": {
+"name": "Virrat Äijänneva",
+"lat": 62.3278,
+"lon": 23.5423
+},
+"101311": {
+"name": "Tampere Siilinkari",
+"lat": 61.5176,
+"lon": 23.7539
+},
+"101315": {
+"name": "Jämsä Halli lentoasema",
+"lat": 61.8555,
+"lon": 24.8046
+},
+"101317": {
+"name": "Juupajoki Hyytiälä",
+"lat": 61.8459,
+"lon": 24.287
+},
+"101362": {
+"name": "Luhanka Judinsalo",
+"lat": 61.7045,
+"lon": 25.5053
+},
+"101367": {
+"name": "Joutsa Savenaho",
+"lat": 61.8794,
+"lon": 26.0948
+},
+"101418": {
+"name": "Juva Partala",
+"lat": 61.8923,
+"lon": 27.8853
+},
+"101421": {
+"name": "Varkaus Kosulanniemi",
+"lat": 62.3222,
+"lon": 27.9078
+},
+"101430": {
+"name": "Savonlinna lentoasema",
+"lat": 61.9464,
+"lon": 28.9324
+},
+"101436": {
+"name": "Rantasalmi Rukkasluoto",
+"lat": 62.063,
+"lon": 28.5662
+},
+"101441": {
+"name": "Savonlinna Punkaharju Laukansaari",
+"lat": 61.8019,
+"lon": 29.3151
+},
+"101459": {
+"name": "Tohmajärvi Kemie",
+"lat": 62.2354,
+"lon": 30.3466
+},
+"101462": {
+"name": "Vaasa lentoasema",
+"lat": 63.0586,
+"lon": 21.7546
+},
+"101464": {
+"name": "Mustasaari Valassaaret",
+"lat": 63.4351,
+"lon": 21.0686
+},
+"101479": {
+"name": "Korsnäs Bredskäret",
+"lat": 62.9349,
+"lon": 21.1849
+},
+"101481": {
+"name": "Maalahti Strömmingsbådan",
+"lat": 62.9784,
+"lon": 20.7401
+},
+"101485": {
+"name": "Vaasa Klemettilä",
+"lat": 63.0987,
+"lon": 21.6394
+},
+"101486": {
+"name": "Seinäjoki Pelmaa",
+"lat": 62.9381,
+"lon": 22.4888
+},
+"101503": {
+"name": "Kauhava lentokenttä",
+"lat": 63.1203,
+"lon": 23.0436
+},
+"101520": {
+"name": "Ähtäri Inha",
+"lat": 62.5546,
+"lon": 24.1424
+},
+"101528": {
+"name": "Halsua Purola",
+"lat": 63.4456,
+"lon": 24.4442
+},
+"101533": {
+"name": "Alajärvi Möksy",
+"lat": 63.089,
+"lon": 24.2608
+},
+"101536": {
+"name": "Multia Karhila",
+"lat": 62.5104,
+"lon": 24.8076
+},
+"101537": {
+"name": "Viitasaari Haapaniemi",
+"lat": 63.0823,
+"lon": 25.8586
+},
+"101555": {
+"name": "Vesanto kirkonkylä",
+"lat": 62.9218,
+"lon": 26.4247
+},
+"101570": {
+"name": "Siilinjärvi Kuopio lentoasema",
+"lat": 62.9984,
+"lon": 27.8082
+},
+"101572": {
+"name": "Kuopio Maaninka",
+"lat": 63.1434,
+"lon": 27.3132
+},
+"101580": {
+"name": "Kuopio Ritoniemi",
+"lat": 62.7989,
+"lon": 27.9049
+},
+"101586": {
+"name": "Kuopio Savilahti",
+"lat": 62.8926,
+"lon": 27.6333
+},
+"101603": {
+"name": "Rautavaara Ylä-Luosta",
+"lat": 63.3781,
+"lon": 28.6617
+},
+"101608": {
+"name": "Liperi Joensuu lentoasema",
+"lat": 62.657,
+"lon": 29.6361
+},
+"101609": {
+"name": "Juuka Niemelä",
+"lat": 63.2324,
+"lon": 29.234
+},
+"101628": {
+"name": "Liperi Tuiskavanluoto",
+"lat": 62.546,
+"lon": 29.6682
+},
+"101632": {
+"name": "Joensuu Linnunlahti",
+"lat": 62.6018,
+"lon": 29.7271
+},
+"101636": {
+"name": "Lieksa Lampela",
+"lat": 63.3211,
+"lon": 30.0458
+},
+"101651": {
+"name": "Ilomantsi Mekrijärvi",
+"lat": 62.7694,
+"lon": 30.9747
+},
+"101660": {
+"name": "Pietarsaari Kallan",
+"lat": 63.7514,
+"lon": 22.5228
+},
+"101661": {
+"name": "Kokkola Tankar",
+"lat": 63.9511,
+"lon": 22.8454
+},
+"101662": {
+"name": "Kruunupyy Kokkola-Pietarsaari lentoasema",
+"lat": 63.7266,
+"lon": 23.1436
+},
+"101673": {
+"name": "Kalajoki Ulkokalla",
+"lat": 64.3307,
+"lon": 23.4463
+},
+"101675": {
+"name": "Kokkola Santahaka",
+"lat": 63.8388,
+"lon": 23.0971
+},
+"101689": {
+"name": "Toholampi Laitala",
+"lat": 63.8213,
+"lon": 24.1632
+},
+"101690": {
+"name": "Ylivieska lentokenttä",
+"lat": 64.0503,
+"lon": 24.7247
+},
+"101695": {
+"name": "Haapavesi Mustikkamäki",
+"lat": 64.1426,
+"lon": 25.4233
+},
+"101705": {
+"name": "Pyhäjärvi Ojakylä",
+"lat": 63.7359,
+"lon": 25.7057
+},
+"101725": {
+"name": "Kajaani lentoasema",
+"lat": 64.2829,
+"lon": 27.6711
+},
+"101726": {
+"name": "Vieremä Kaarakkala",
+"lat": 63.8409,
+"lon": 27.2206
+},
+"101743": {
+"name": "Nurmes Valtimo",
+"lat": 63.6673,
+"lon": 28.8293
+},
+"101756": {
+"name": "Sotkamo Kuolaniemi",
+"lat": 64.112,
+"lon": 28.3364,
+"rad": true
+},
+"101773": {
+"name": "Kuhmo Kalliojoki",
+"lat": 64.2976,
+"lon": 30.1707
+},
+"101775": {
+"name": "Raahe Nahkiainen",
+"lat": 64.6118,
+"lon": 23.8967
+},
+"101776": {
+"name": "Hailuoto Keskikylä",
+"lat": 65.0197,
+"lon": 24.7276
+},
+"101783": {
+"name": "Kemi I majakka",
+"lat": 65.3851,
+"lon": 24.0957
+},
+"101784": {
+"name": "Hailuoto Marjaniemi",
+"lat": 65.0397,
+"lon": 24.5612
+},
+"101785": {
+"name": "Raahe Lapaluoto satama",
+"lat": 64.6659,
+"lon": 24.4069
+},
+"101786": {
+"name": "Oulu lentoasema",
+"lat": 64.935,
+"lon": 25.3392
+},
+"101787": {
+"name": "Siikajoki Ruukki",
+"lat": 64.6842,
+"lon": 25.0892
+},
+"101794": {
+"name": "Oulu Vihreäsaari satama",
+"lat": 65.0064,
+"lon": 25.3932
+},
+"101800": {
+"name": "Vaala Pelso",
+"lat": 64.5014,
+"lon": 26.4239
+},
+"101805": {
+"name": "Pudasjärvi lentokenttä",
+"lat": 65.4001,
+"lon": 26.9631
+},
+"101826": {
+"name": "Suomussalmi Pesiö",
+"lat": 64.9313,
+"lon": 28.7467
+},
+"101831": {
+"name": "Puolanka Paljakka",
+"lat": 64.6639,
+"lon": 28.0567
+},
+"101840": {
+"name": "Kemi Kemi-Tornio lentoasema",
+"lat": 65.7894,
+"lon": 24.5828
+},
+"101846": {
+"name": "Kemi Ajos",
+"lat": 65.6732,
+"lon": 24.5152
+},
+"101851": {
+"name": "Tornio Kaakkuri",
+"lat": 65.8689,
+"lon": 24.1794
+},
+"101873": {
+"name": "Ranua lentokenttä",
+"lat": 65.9772,
+"lon": 26.3676
+},
+"101885": {
+"name": "Taivalkoski kirkonkylä",
+"lat": 65.5749,
+"lon": 28.2177
+},
+"101886": {
+"name": "Kuusamo lentoasema",
+"lat": 65.9933,
+"lon": 29.2272
+},
+"101887": {
+"name": "Kuusamo Kiutaköngäs",
+"lat": 66.37,
+"lon": 29.3119
+},
+"101897": {
+"name": "Kuusamo Rukatunturi",
+"lat": 66.1661,
+"lon": 29.1518
+},
+"101899": {
+"name": "Kuusamo Juuma",
+"lat": 66.3203,
+"lon": 29.3997
+},
+"101908": {
+"name": "Ylitornio Meltosjärvi",
+"lat": 66.5295,
+"lon": 24.6496
+},
+"101914": {
+"name": "Pello kirkonkylä",
+"lat": 66.7728,
+"lon": 23.963
+},
+"101928": {
+"name": "Rovaniemi rautatieasema",
+"lat": 66.4983,
+"lon": 25.7088
+},
+"101932": {
+"name": "Sodankylä Tähtelä",
+"lat": 67.3666,
+"lon": 26.629,
+"rad": true
+},
+"101933": {
+"name": "Rovaniemi Apukka",
+"lat": 66.5794,
+"lon": 26.0109
+},
+"101939": {
+"name": "Sodankylä Luosto",
+"lat": 67.1391,
+"lon": 26.8969
+},
+"101950": {
+"name": "Kemijärvi lentokenttä",
+"lat": 66.7156,
+"lon": 27.1591
+},
+"101952": {
+"name": "Savukoski kirkonkylä",
+"lat": 67.283,
+"lon": 28.1786
+},
+"101959": {
+"name": "Salla kirkonkylä",
+"lat": 66.8166,
+"lon": 28.6883
+},
+"101966": {
+"name": "Salla Naruska",
+"lat": 67.1623,
+"lon": 29.1777
+},
+"101976": {
+"name": "Enontekiö lentoasema",
+"lat": 68.3614,
+"lon": 23.4276
+},
+"101982": {
+"name": "Muonio Laukukero",
+"lat": 68.0628,
+"lon": 24.0333
+},
+"101983": {
+"name": "Muonio Sammaltunturi",
+"lat": 67.9733,
+"lon": 24.1156
+},
+"101985": {
+"name": "Kittilä Matorova",
+"lat": 68.0,
+"lon": 24.2402
+},
+"101986": {
+"name": "Kittilä lentoasema",
+"lat": 67.6917,
+"lon": 24.8554
+},
+"101987": {
+"name": "Kittilä Kenttärova",
+"lat": 67.9872,
+"lon": 24.243
+},
+"101990": {
+"name": "Kittilä Pakatti",
+"lat": 67.6692,
+"lon": 24.9293
+},
+"101994": {
+"name": "Kittilä Pokka",
+"lat": 68.1696,
+"lon": 25.7832
+},
+"102000": {
+"name": "Sodankylä Lokka",
+"lat": 67.8215,
+"lon": 27.746
+},
+"102001": {
+"name": "Sodankylä Vuotso",
+"lat": 68.0842,
+"lon": 27.185
+},
+"102005": {
+"name": "Inari Saariselkä matkailukeskus",
+"lat": 68.4151,
+"lon": 27.4132
+},
+"102006": {
+"name": "Inari Saariselkä Kaunispää",
+"lat": 68.434,
+"lon": 27.4452
+},
+"102008": {
+"name": "Inari Raja-Jooseppi Kontiojärvi",
+"lat": 68.4706,
+"lon": 28.3157
+},
+"102012": {
+"name": "Salla Värriötunturi",
+"lat": 67.7486,
+"lon": 29.6113
+},
+"102016": {
+"name": "Enontekiö Kilpisjärvi kyläkeskus",
+"lat": 69.0391,
+"lon": 20.8138
+},
+"102017": {
+"name": "Enontekiö Kilpisjärvi Saana",
+"lat": 69.0428,
+"lon": 20.8509
+},
+"102019": {
+"name": "Enontekiö Näkkälä",
+"lat": 68.603,
+"lon": 23.5759
+},
+"102026": {
+"name": "Inari Angeli Lintupuoliselkä",
+"lat": 68.903,
+"lon": 25.7365
+},
+"102033": {
+"name": "Inari Ivalo lentoasema",
+"lat": 68.6134,
+"lon": 27.4189
+},
+"102035": {
+"name": "Utsjoki Kevo",
+"lat": 69.7564,
+"lon": 27.0068,
+"rad": true
+},
+"102036": {
+"name": "Utsjoki Nuorgam",
+"lat": 70.082,
+"lon": 27.8965
+},
+"102047": {
+"name": "Inari Kaamanen",
+"lat": 69.1409,
+"lon": 27.2657
+},
+"102052": {
+"name": "Inari Nellim",
+"lat": 68.8493,
+"lon": 28.2991
+},
+"102055": {
+"name": "Inari Kirakkajärvi",
+"lat": 69.5825,
+"lon": 28.8941
+},
+"103786": {
+"name": "Järvenpää Sorto",
+"lat": 60.4982,
+"lon": 25.0676
+},
+"103794": {
+"name": "Mäntsälä Hirvihaara",
+"lat": 60.6277,
+"lon": 25.1934
+},
+"103943": {
+"name": "Helsinki Vuosaari Käärmeniementie",
+"lat": 60.2193,
+"lon": 25.1727
+},
+"104590": {
+"name": "Oripää lentokenttä",
+"lat": 60.871,
+"lon": 22.7478
+},
+"104796": {
+"name": "Lahti Sopenkorpi",
+"lat": 60.9746,
+"lon": 25.6202
+},
+"105392": {
+"name": "Sipoo Itätoukki",
+"lat": 60.1012,
+"lon": 25.1944
+},
+"105427": {
+"name": "Rauma Pyynpää",
+"lat": 61.1366,
+"lon": 21.5152
+},
+"106435": {
+"name": "Muonio Oustajärvi",
+"lat": 67.9482,
+"lon": 23.7078
+},
+"107029": {
+"name": "Pyhtää lentokenttä",
+"lat": 60.486,
+"lon": 26.5914
+},
+"107113": {
+"name": "Sotkamo Tuhkakylä",
+"lat": 63.9962,
+"lon": 28.0597
+},
+"107201": {
+"name": "Tervola Loue",
+"lat": 66.1535,
+"lon": 24.9903
+},
+"107383": {
+"name": "Maarianhamina Lotsberget",
+"lat": 60.0876,
+"lon": 19.9355
+},
+"107565": {
+"name": "Savukoski Tulppio",
+"lat": 67.7687,
+"lon": 29.211
+},
+"108020": {
+"name": "Inkoo Jakobramsjö",
+"lat": 59.9946,
+"lon": 23.9956
+},
+"108040": {
+"name": "Oulu Kaukovainio",
+"lat": 64.9968,
+"lon": 25.5223
+},
+"108133": {
+"name": "Ranua Aho",
+"lat": 66.1502,
+"lon": 26.1078
+},
+"108346": {
+"name": "Enontekiö Goddejávri",
+"lat": 69.1756,
+"lon": 21.0975
+},
+"126737": {
+"name": "Utsjoki Kevo Kevojärvi",
+"lat": 69.757,
+"lon": 27.012
+},
+"129963": {
+"name": "Inari Seitalaassa",
+"lat": 69.0485,
+"lon": 27.757
+},
+"137188": {
+"name": "Ilmajoki Seinäjoki lentoasema",
+"lat": 62.6857,
+"lon": 22.8427
+},
+"137190": {
+"name": "Rovaniemi lentoasema AWOS",
+"lat": 66.5728,
+"lon": 25.8485
+},
+"137208": {
+"name": "Jyväskylä lentoasema AWOS",
+"lat": 62.3933,
+"lon": 25.6886
+},
+"150168": {
+"name": "Puumala kirkonkylä",
+"lat": 61.5224,
+"lon": 28.1849
+},
+"151029": {
+"name": "Maarianhamina Länsisatama",
+"lat": 60.0914,
+"lon": 19.9291
+},
+"151048": {
+"name": "Lumparland Långnäs satama",
+"lat": 60.1158,
+"lon": 20.2977
+},
+"778135": {
+"name": "Kittilä Lompolonvuoma",
+"lat": 67.9975,
+"lon": 24.2096
+},
+"852678": {
+"name": "Espoo Nuuksio",
+"lat": 60.2913,
+"lon": 24.5678
+},
+"855522": {
+"name": "Mikkeli Lentoasema AWOS",
+"lat": 61.6875,
+"lon": 27.2067
+},
+"874863": {
+"name": "Espoo Tapiola",
+"lat": 60.178,
+"lon": 24.7874
+}
+}

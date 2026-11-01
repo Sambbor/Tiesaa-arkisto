@@ -1,0 +1,70 @@
+name: Tiesää-arkisto
+on:
+  schedule:
+    - cron: '11,41 * * * *'   # varalla; varsinainen tahti Arkiston ajastimesta (ajastin.yml), ks. vahti-työ
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: arkisto
+jobs:
+  # ka3 (30.10.2026): Arkiston ajastin (ajastin.yml) käynnistää arkiston tasan :11/:41. Ajastettu (schedule) ajo on varalla:
+  # se ohitetaan, jos käsin/ajastimella käynnistetty arkistoajo on alkanut alle 35 min sitten.
+  vahti:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      actions: read
+    outputs:
+      aja: ${{ steps.v.outputs.aja }}
+    steps:
+      - id: v
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          aja=true
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            n=$(gh run list --workflow arkisto.yml --event workflow_dispatch --limit 5 --json createdAt --jq '[.[] | select(now - (.createdAt | fromdateiso8601) < 2100)] | length' || echo 0)
+            if [ "${n:-0}" -gt 0 ]; then aja=false; echo "Ajastin hoitaa arkiston – ajastettu varakeruu ohitetaan"; fi
+          fi
+          echo "aja=$aja" >> "$GITHUB_OUTPUT"
+  collect:
+    needs: vahti
+    if: needs.vahti.outputs.aja == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # haetaan vain tämän päivän tiedostot ja tilatiedot, ei koko arkistoa
+          sparse-checkout: |
+            meta
+            data/current
+      - name: Kerää asemat ja ennusteet
+        run: python3 arkisto.py
+      - name: Kerää talvihoidon toteumat asemien ympäriltä
+        # ei kaada arkistoa, jos toteumahaku epäonnistuu
+        run: python3 toteumat.py || echo "Toteumakeruu epäonnistui, jatketaan"
+      - name: Naapuriurakat samana yönä (kelisivu)
+        run: python3 naapurit.py || echo "Naapuriurakoiden koonti epäonnistui, jatketaan"
+      - name: Urakoiden tieverkko (kelisivun kartta, 30 vrk välein)
+        run: python3 tieverkko.py || echo "Tieverkon haku epäonnistui, jatketaan"
+      - name: Tallenna säilöön
+        run: |
+          git config user.name "keli-bot"
+          git config user.email "keli-bot@users.noreply.github.com"
+          # Jos toinen ajo ehti tallentaa ensin (GitHub käynnistää joskus kaksi ajoa), ei yritetä yhdistää samoja
+          # tiedostoja: siirrytään uusimpaan versioon ja ajetaan keruu uudelleen sen päälle.
+          for i in 1 2 3; do
+            git add --sparse -A meta data archive naapurit 2>/dev/null || git add --sparse -A meta data archive 2>/dev/null || git add --sparse -A meta data
+            git diff --cached --quiet && exit 0
+            git commit -q -m "Tiesää-arkisto $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push -q && exit 0
+            echo "Säilö muuttui ajon aikana – haetaan uusin versio ja kerätään uudelleen ($i)"
+            sleep $((i*5))
+            git fetch -q origin main && git reset -q --hard origin/main
+            python3 arkisto.py || exit 1
+            python3 toteumat.py || echo "Toteumakeruu epäonnistui, jatketaan"
+            python3 naapurit.py || echo "Naapuriurakoiden koonti epäonnistui, jatketaan"
+          done
+          exit 1
