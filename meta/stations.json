@@ -7348,5 +7348,33 @@
 "mun": "Rovaniemi",
 "prov": "Finavia lentokentät",
 "t": 1791809143
+},
+"1194": {
+"name": "st103 Vuosaaren Tunneli IoT",
+"lon": 25.161791,
+"lat": 60.232479,
+"road": 103,
+"sec": 1,
+"dist": 3282,
+"cw": "ONE_CARRIAGEWAY",
+"area": null,
+"area_code": null,
+"mun": "Helsinki",
+"prov": "Uusimaa",
+"t": 1793697090
+},
+"9051": {
+"name": "mt610 Jyväskylä Vaaruvuori",
+"lon": 25.721972,
+"lat": 61.936425,
+"road": 610,
+"sec": 3,
+"dist": 2050,
+"cw": "ONE_CARRIAGEWAY",
+"area": null,
+"area_code": null,
+"mun": "Jyväskylä",
+"prov": "Keski-Suomi",
+"t": 1793697090
 }
 }
