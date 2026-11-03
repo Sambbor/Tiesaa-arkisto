@@ -25,6 +25,18 @@ jobs:
         run: pip install -q --disable-pip-version-check -r tm_requirements.txt
       - name: Opeta malli (+2/+4/+6/+12 h)
         run: python3 tm_varjo.py train
+      # om2 (3.11.2026): oppiva liukkausmalli (+3 h) opetetaan samassa ajossa; koodi yksityisestä säilöstä, malli samaan välimuistiin.
+      - name: Hae oppivan mallin koodi (yksityinen säilö, CODE_TOKEN)
+        continue-on-error: true
+        uses: actions/checkout@v5
+        with:
+          repository: Sambbor/Vantaakeli-laskenta
+          token: ${{ secrets.CODE_TOKEN }}
+          path: .laskenta
+          sparse-checkout: om
+      - name: Opeta oppiva liukkausmalli (om2)
+        continue-on-error: true
+        run: python3 .laskenta/om/om_varjo.py train
       - name: Tallenna malli välimuistiin
         uses: actions/cache/save@v4
         with:
