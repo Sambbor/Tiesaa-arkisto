@@ -165,6 +165,8 @@ def shrink(b):
         o = io.BytesIO(); im.save(o, 'JPEG', quality=72, optimize=True); return o.getvalue()
     except ImportError:
         return b
+    except Exception:
+        return None   # ur2 (3.11.2026): rikkinäinen kuva ohitetaan (ennen yksi huono kuva kaatoi koko ajon, eikä mitään tallennettu)
 
 
 def main():
@@ -209,9 +211,13 @@ def main():
             it = now
         if (now - it).total_seconds() > 3 * 3600:
             return None   # kamera ei päivity
+        img = shrink(b)
+        if img is None:
+            print('Rikkinäinen kuva ohitettu: %s' % c['preset'])
+            return None
         fn = ('/tmp/kuura-testi/' if test else 'kuura/kuvat/%s/%s/' % (ds[:7], ds[8:])) + '%s_%s.jpg' % (c['preset'], ph)
         os.makedirs(os.path.dirname(fn), exist_ok=True)
-        open(fn, 'wb').write(shrink(b))
+        open(fn, 'wb').write(img)
         r = o['last'] or {}; m = meta.get(str(c['st']), {})
         return {'pvm': ds, 'vaihe': ph, 'kuva_aika': it.astimezone(HEL).strftime('%Y-%m-%dT%H:%M'), 'st': c['st'],
                 'asema': m.get('name', ''), 'cam': c['cam'], 'preset': c['preset'], 'suunta': c['dir'], 'tie': c.get('road') or m.get('road', ''),
