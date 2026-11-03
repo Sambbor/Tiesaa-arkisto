@@ -3,6 +3,8 @@ name: Arkiston ajastin
 # Tämä ajo käynnistää arkiston (arkisto.yml) tasan :11 ja :41 UTC noin 5 h 40 min ajan ja käynnistää lopuksi itsensä uudelleen.
 # Varalla cron: jos ketju katkeaa, ajastin käynnistyy uudelleen viimeistään 3 h kuluttua (jonoon jäävä varakäynnistys peruuntuu –
 # "cancelled" Actionsissa on normaalia). Käsin peruttu ajastin ei käynnisty itse uudelleen. Julkisessa säilössä ajominuutit ovat ilmaisia.
+# ka4 (3.11.2026): myös kuura-kuvat (kuura-kuvat.yml) käynnistetään täältä :23 ja :53 UTC, kun Suomen aikaa on klo 04.30–12.00.
+# Pelkällä cronilla kuura-kuvat ajettiin 27.10.–3.11. noin 1–2 kertaa päivässä, osin iltapäivällä, ja A-kuva (ennen klo 06) saatiin vain kerran.
 on:
   workflow_dispatch:
   schedule:
@@ -15,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 355
     steps:
-      - name: Käynnistä arkisto puolen tunnin välein (:11 ja :41 UTC)
+      - name: Käynnistä arkisto (:11 ja :41 UTC) ja aamuisin kuura-kuvat (:23 ja :53 UTC)
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
@@ -23,11 +25,21 @@ jobs:
           loppu=$(( $(date +%s) + 340*60 ))
           while :; do
             nyt=$(date +%s)
-            seuraava=$(( nyt - (nyt - 660) % 1800 + 1800 ))   # 660 s = 11 min; jakso 30 min
+            ark=$(( nyt - (nyt - 660) % 1800 + 1800 ))    # 660 s = 11 min; jakso 30 min (:11, :41)
+            kuu=$(( nyt - (nyt - 1380) % 1800 + 1800 ))   # 1380 s = 23 min (:23, :53)
+            seuraava=$(( ark < kuu ? ark : kuu ))
             [ "$seuraava" -gt "$loppu" ] && break
             sleep $(( seuraava - nyt ))
-            echo "$(date -u +%H:%M:%S) käynnistetään arkisto"
-            gh workflow run arkisto.yml --ref main || echo "::warning::Arkiston käynnistys epäonnistui"
+            if [ "$seuraava" = "$ark" ]; then
+              echo "$(date -u +%H:%M:%S) käynnistetään arkisto"
+              gh workflow run arkisto.yml --ref main || echo "::warning::Arkiston käynnistys epäonnistui"
+            else
+              hm=$(TZ=Europe/Helsinki date -d "@$seuraava" +%H%M)
+              if [ $((10#$hm)) -ge 430 ] && [ $((10#$hm)) -lt 1200 ]; then
+                echo "$(date -u +%H:%M:%S) käynnistetään kuura-kuvat (Suomen aikaa $hm)"
+                gh workflow run kuura-kuvat.yml --ref main -f testi=false || echo "::warning::Kuura-kuvien käynnistys epäonnistui"
+              fi
+            fi
           done
       - name: Käynnistä ajastin uudelleen
         if: success() || failure()   # ei peruttaessa: käsin peruttu ketju pysähtyy

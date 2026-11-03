@@ -16,7 +16,7 @@ Ajetaan GitHub Actionsissa 30 min välein (säilö Sambbor/Tiesaa-arkisto).
   sade, näkyvyys, sää ja säteilyasemilta auringon- ja pitkäaaltosäteily. Havaintoasemat meta/fmi_stations.json.
 Data: Fintraffic / Digitraffic ja Ilmatieteen laitos, CC BY 4.0. Vain Pythonin vakiokirjasto.
 """
-import gzip, json, math, os, re, time, urllib.request
+import gzip, http.client, json, math, os, re, time, urllib.error, urllib.request
 from datetime import datetime, timezone
 
 VERSION = 'ta3'   # ta3 (27.10.2026): päivän rivit paloina (säilön kasvu noin 12 → 2–3 Mt/vrk)
@@ -74,21 +74,43 @@ MODELS = [('meps', 'fmi::forecast::meps::surface::point::multipointcoverage', 'T
 FMI_OBS_COLS = ['t', 'fmisid', 'ot'] + [c for _, c in OBS_W] + ['rt'] + [c for _, c in OBS_R] + ['v']
 
 
+# ur2 (3.11.2026): yksittäinen 5xx-, 429-, verkko- tai aikakatkaisuvirhe ei enää kaada koko ajoa
+# (3.11. klo 08.11 UTC yksi HTTP 503 = koko Suomen puolen tunnin arkisto, naapurit ja varjomalli jäivät väliin).
+RETRY_WAIT = (5, 15)
+
+
+def read_retry(req, timeout, wait=RETRY_WAIT, opener=None):
+    """Lukee pyynnön; uusii 5xx-, 429- ja verkkovirheet (3 yritystä). Palauttaa (data, otsakkeet)."""
+    opener = opener or urllib.request.urlopen
+    for i in range(len(wait) + 1):
+        try:
+            with opener(req, timeout=timeout) as r:
+                return r.read(), r.headers
+        except urllib.error.HTTPError as e:
+            if (e.code < 500 and e.code != 429) or i >= len(wait):
+                raise
+            err = 'HTTP %s' % e.code
+        except (urllib.error.URLError, OSError, http.client.HTTPException) as e:   # myös aikakatkaisu ja katkennut vastaus
+            if i >= len(wait):
+                raise
+            err = str(e)
+        print('Uusitaan haku (%d/%d): %s – %s' % (i + 2, len(wait) + 1, req.full_url[:100], err), flush=True)
+        time.sleep(wait[i])
+
+
 def get(path, timeout=90):
     req = urllib.request.Request(DT + path, headers=HDR)
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        b = r.read()
-        if r.headers.get('Content-Encoding', '').lower() == 'gzip' or b[:2] == b'\x1f\x8b':
-            b = gzip.decompress(b)
+    b, h = read_retry(req, timeout)
+    if h.get('Content-Encoding', '').lower() == 'gzip' or b[:2] == b'\x1f\x8b':
+        b = gzip.decompress(b)
     return json.loads(b)
 
 
 def fmi_get(q, timeout=90):
     req = urllib.request.Request(FMI + q, headers={'User-Agent': 'tiesaa-arkisto/1', 'Accept-Encoding': 'gzip'})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        b = r.read()
-        if b[:2] == b'\x1f\x8b':
-            b = gzip.decompress(b)
+    b, _ = read_retry(req, timeout)
+    if b[:2] == b'\x1f\x8b':
+        b = gzip.decompress(b)
     return b.decode('utf-8')
 
 
