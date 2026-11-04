@@ -14,7 +14,7 @@ import numpy as np, pandas as pd, warnings
 warnings.simplefilter('ignore', pd.errors.PerformanceWarning)
 
 H = [2, 4, 6, 12]
-VANTAA = {1034, 1041, 1004, 1005, 1115, 1011, 1036, 1084, 1085, 1117}
+VANTAA = {1034, 1041, 1004, 1005, 1115, 1011, 1036, 1084, 1085, 1117, 1193, 1049}   # st2 4.11.: + Vantaankoski, Porttipuisto
 MODEL = '.tm_model/model.pkl'
 TM = 'tm'
 HIST_H = 8          # tm/hist-*: Vantaan asemien viimeiset 8 h (vuorokauden vaihde: eilisen palat ovat jo arkistossa)

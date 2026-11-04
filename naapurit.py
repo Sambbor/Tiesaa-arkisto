@@ -23,6 +23,8 @@ GROUPS = {'vantaa': [301, 283, 288, 342, 360], 'salo': [333, 282, 279, 349, 344,
 SLIP_KELI = {5, 6, 7, 9}
 # Samuli 25.10.: vanhan Espoo 19–24 -urakan (142) asemat kuuluvat nykyiseen Espoon urakkaan (283); Digitraffic käyttää yhä vanhaa koodia
 ALIAS = {142: 283}
+# st2 (4.11.2026, Samuli: "Lisää kaikki puuttuvat"): Vantaan urakan teillä olevat asemat, joilla Digitrafficissa vanha (142) tai puuttuva urakkakoodi
+ST_CODE = {'1193': 301, '1049': 301}
 
 
 def f(v):
@@ -91,7 +93,7 @@ def summarize(now):
     night, fr, to = night_window(now)
     days = sorted({fr.date().isoformat(), min(to, now).date().isoformat()})
     meta = json.load(open('meta/stations.json', encoding='utf-8'))
-    code = {str(k): ALIAS.get(v.get('area_code'), v.get('area_code')) for k, v in meta.items()}
+    code = {str(k): ST_CODE.get(str(k)) or ALIAS.get(v.get('area_code'), v.get('area_code')) for k, v in meta.items()}
     want = {c for g in GROUPS.values() for c in g}
     A = {c: {'code': c, 'name': NAMES.get(c, str(c)), 'st': set(), 'slipSt': set(), 'slipFirst': None, 'frostSt': set(), 'trMin': None,
              'trMinSt': None, 'w': {'salt': {}, 'plow': {}, 'sand': {}}} for c in want}
