@@ -2,7 +2,7 @@
 """Koko Suomen yökooste: urakoiden riski ja toimenpiteet samana yönä (su1, 6.11.2026, Samuli: "Koko Suomi, julkinen ilman nimiä").
 
 su2: riskin rinnalle havaittu liukkaus optisesta kitkasta (riski liioittelee: 2026 loka–marraskuussa vain noin joka seitsemäs
-riskiyö näkyi kitkassa), kuura vain heikolla tuulella, poikkeavat tienpinta- ja kitka-anturit pois laskuista.
+riskiyö näkyi kitkassa), poikkeavat tienpinta- ja kitka-anturit pois laskuista.
 
 Jokaiselle maanteiden hoitourakalle illan klo 18 – aamun klo 08 (Suomen aikaa) yhteenveto tämän arkiston aineistosta:
 - riski urakan tiesääasemilta: alin tienpinta, kuura- ja jäätymisaskeleet (fysikaalinen ehto, ei anturin keli-koodia, koska
@@ -29,7 +29,7 @@ from zoneinfo import ZoneInfo
 
 from naapurit import read_day, f, ts, plaus, slippery
 
-VERSION = 'su2'   # su2 (6.11.2026, Samuli: "Tee 1"): havaittu liukkaus optisesta kitkasta, tuuli kuuraan, poikkeavat anturit pois
+VERSION = 'su3'   # su2 (6.11.2026, Samuli: "Tee 1"): havaittu liukkaus optisesta kitkasta, poikkeavat anturit pois; su3: tuuliehto pois kuurasta
 HEL = ZoneInfo('Europe/Helsinki')
 WFS = 'https://avoinapi.vaylapilvi.fi/vaylatiedot/ows'
 UA = {'User-Agent': 'tiesaa-arkisto/1'}
@@ -37,7 +37,6 @@ TOT_M = 1000          # toteuma enintään näin kaukana asemasta
 RISK_MIN = 2          # riskiyö: vähintään 2 puolen tunnin askelta (1 h) riskissä
 NOPEA_MIN = 120
 RECOMPUTE_H = 6
-KUURA_WS = 3.5        # m/s: kovemmalla tuulella kuura ei kerry ajoradalle (3.–4.11. 4–5 m/s, kuura jäi pientareille)
 KITKA_LIUKAS = 0.6    # optinen kitka: 0,82 kuiva, 0,6–0,75 märkä tai ohut kuura, alle 0,6 liukas
 TR_POIKKEAMA = 4.0    # °C: aseman tienpinta yön mediaanina näin paljon urakan muiden asemien alle (tai 1,5 × yli) → viallinen
 
@@ -129,15 +128,14 @@ def kitka(r):
 
 def risk_kind(r):
     """Fysikaalinen jäätymisriski yhdessä mittauksessa: 'kuura', 'marka' (märkä tai sade pakkasella), 'lumi' tai None.
-    Kuura vain, kun tuuli on enintään KUURA_WS (tuulella kuura jää pientareille, ajoradat pysyvät kuivina)."""
+    Tuulta ei käytetä (Samuli 6.11.: tuuli ei estä kuuraantumista; pohjoinen kuiva tuuli voi vain vähän auttaa)."""
     tr, ta, td = f(r.get('tr1')), f(r.get('ta')), f(r.get('td'))
     if not plaus(tr, ta) or tr > 0.5: return None
     rain, form = f(r.get('rain_i')) or f(r.get('rain')) or 0, f(r.get('rain_form'))
     water = f(r.get('water1')) or 0
     if rain > 0 and form is not None and int(form) in (3, 4, 5, 6) and (ta is None or ta <= 1): return 'lumi'
     if tr <= 0 and (rain > 0 or water >= 0.1): return 'marka'
-    ws = f(r.get('ws'))
-    if td is not None and tr <= 0 and td >= tr and (ws is None or ws <= KUURA_WS): return 'kuura'
+    if td is not None and tr <= 0 and td >= tr: return 'kuura'
     return None
 
 
@@ -347,7 +345,7 @@ def main(argv):
     K['note'] = ('Urakat urakkakoodeina (Väylävirasto). Riski: tienpinta ≤ 0 °C ja kuura (kastepiste ≥ tienpinta), märkä tie tai sade, '
                  'tai lumisade, vähintään 1 h ja vähintään 20 %:lla urakan asemista. Toimenpiteet: kirjaukset 1 km päässä urakan asemista. '
                  'Ennakoiva = suolattu 0–6 h ennen riskin alkua (suolaus luetaan klo 15 alkaen), nopea = alle 2 h alusta. '
-                 'Kuura vain, kun tuuli on enintään 3,5 m/s. Havaittu liukkaus = optinen kitka alle 0,6 kylmällä tiellä vähintään '
+                 'Havaittu liukkaus = optinen kitka alle 0,6 kylmällä tiellä vähintään '
                  '1 h yhdellä asemalla (noin puolella asemista on optinen anturi). Poikkeavat anturit (tienpinta yli 4 °C muista, '
                  'kitka-anturi liukas lämpimällä tiellä) jätetään pois.')
     os.makedirs('data', exist_ok=True)
