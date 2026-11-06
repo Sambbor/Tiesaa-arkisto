@@ -3,6 +3,7 @@ name: Arkiston ajastin
 # Tämä ajo käynnistää arkiston (arkisto.yml) tasan :11 ja :41 UTC noin 5 h 40 min ajan ja käynnistää lopuksi itsensä uudelleen.
 # Varalla cron: jos ketju katkeaa, ajastin käynnistyy uudelleen viimeistään 3 h kuluttua (jonoon jäävä varakäynnistys peruuntuu –
 # "cancelled" Actionsissa on normaalia). Käsin peruttu ajastin ei käynnisty itse uudelleen. Julkisessa säilössä ajominuutit ovat ilmaisia.
+# su6 (6.11.2026): jälkitarkistus (retro.yml) käynnistetään täältä klo 08.11 Suomen aikaa; GitHubin oma ajastus viivästyi noin 8 h.
 # ka4 (3.11.2026): myös kuura-kuvat (kuura-kuvat.yml) käynnistetään täältä :23 ja :53 UTC, kun Suomen aikaa on klo 04.30–12.00.
 # Pelkällä cronilla kuura-kuvat ajettiin 27.10.–3.11. noin 1–2 kertaa päivässä, osin iltapäivällä, ja A-kuva (ennen klo 06) saatiin vain kerran.
 on:
@@ -33,6 +34,11 @@ jobs:
             if [ "$seuraava" = "$ark" ]; then
               echo "$(date -u +%H:%M:%S) käynnistetään arkisto"
               gh workflow run arkisto.yml --ref main || echo "::warning::Arkiston käynnistys epäonnistui"
+              # su6: jälkitarkistus kerran aamussa klo 08.11 Suomen aikaa (oma jono, ks. retro.yml)
+              if [ "$(TZ=Europe/Helsinki date -d "@$seuraava" +%H%M)" = "0811" ]; then
+                echo "$(date -u +%H:%M:%S) käynnistetään jälkitarkistus"
+                gh workflow run retro.yml --ref main || echo "::warning::Jälkitarkistuksen käynnistys epäonnistui"
+              fi
             else
               hm=$(TZ=Europe/Helsinki date -d "@$seuraava" +%H%M)
               if [ $((10#$hm)) -ge 430 ] && [ $((10#$hm)) -lt 1200 ]; then

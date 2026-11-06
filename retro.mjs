@@ -285,6 +285,15 @@ async function main(){
     state.done.push(d);
     console.log(`${d}: ${res.samples} laskentaa, ${res.stations} asemaa, +6 h osumat ${res.lead[6].hit} / ohi ${res.lead[6].miss} / turhat ${res.lead[6].fa} (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
   }
+  // rt5 (6.11.2026): illan päätöshetket heti aamulla. Täysi tarkistus odottaa seuraavaa vuorokautta (+12 h tarkistus), mutta
+  // klo 18 ja 22 indeksi tarvitsee vain yön klo 08 asti: lasketaan ne heti, kun yö on ohi ja seuraavan päivän mittauksia on.
+  // Ajastin käynnistää tarkistuksen klo 08.11 Suomen aikaa, joten Päivystyskirjan paketti (klo 8.27) saa tuoreen joukon taulukon.
+  const early = days.filter(d => !todo.includes(d) && !fs.existsSync(`retro/yot/${d}.json`) && days.includes(addDay(d, 1)) && Date.now() > nightEnd(d) + 5 * 6e4);
+  for(const d of early.slice(-3)){
+    const t0 = Date.now(), res = processDay(d, R, prov);
+    save(`retro/yot/${d}.json`, {day: d, rv: R.RULES_VERSION, v: VERSION, st: res.yot, ennakko: true});
+    console.log(`${d}: illan päätöshetket ${Object.keys(res.yot).length} asemaa (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
+  }
   state.rv = R.RULES_VERSION; state.v = VERSION; state.done = [...new Set(state.done)].sort(); state.updated = iso(Date.now());
   save('retro/state.json', state, 1);
   // yhteenveto kaikista saman sääntöversion päivistä

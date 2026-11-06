@@ -1,11 +1,12 @@
 name: Jälkitarkistus (koko Suomi)
 on:
   schedule:
-    - cron: '37 4 * * *'      # kerran vuorokaudessa aamulla; käsittelee uudet päivät (vain päivät, joiden jälkeinen päivä on valmis)
+    - cron: '37 4 * * *'      # varalla (GitHubin ajastus käynnistyi 2.–6.11. vasta noin klo 12.20–12.50 UTC); varsinainen käynnistys
+                              # Arkiston ajastimesta klo 08.11 Suomen aikaa (ajastin.yml, su6)
   workflow_dispatch:
 permissions:
   contents: write
-concurrency: arkisto          # sama jono kuin keruulla, ettei tallennus mene päällekkäin
+concurrency: retro            # su6: oma jono (arkiston jonossa odottava ajo peruuntui, kun seuraava arkistoajo tuli jonoon); tallennuksen törmäys hoidetaan alla uudelleenyrityksellä
 jobs:
   retro:
     runs-on: ubuntu-latest
@@ -28,12 +29,15 @@ jobs:
           node-version: 22
       - name: Aja kelisivun liukkaussäännöt jälkikäteen
         run: node retro.mjs
+      # su6: koko Suomen kausi, ennustevertailu ja joukon taulukko heti uusilla päätöshetkillä (data/suomi.json, data/joukko.json)
+      - name: Koko Suomen kausi ja joukon taulukko
+        run: python3 suomi.py --kausi || echo '::warning::Koko Suomen kauden päivitys epäonnistui'
       - name: Tallenna säilöön
         run: |
           git config user.name "keli-bot"
           git config user.email "keli-bot@users.noreply.github.com"
           for i in 1 2 3; do
-            git add retro
+            git add retro data/suomi.json data/joukko.json
             git diff --cached --quiet && exit 0
             git commit -q -m "Jälkitarkistus $(date -u +%Y-%m-%d)"
             git push -q && exit 0
@@ -41,5 +45,6 @@ jobs:
             sleep $((i*5))
             git fetch -q origin main && git reset -q --hard origin/main
             node retro.mjs || exit 1
+            python3 suomi.py --kausi || true
           done
           exit 1
