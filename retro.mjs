@@ -13,7 +13,7 @@ import fs from 'node:fs';
 import zlib from 'node:zlib';
 
 const RULES_URL = 'https://raw.githubusercontent.com/Sambbor/Vantaakeli/main/collector/collect.mjs';
-const VERSION = 'rt3';   // 15.10.: tienpinta +0,5 °C mukaan suolataulukon ylimpään luokkaan; 16.10. (rt3): ennuste vs. urakoiden suolaukset (toteumat)
+const VERSION = 'rt4';   // rt4 (6.11.2026): kelikeskuksen päätöshetket klo 18 ja 22 asemittain → retro/yot/ (koko Suomen yökooste vertaa havaittuun liukkauteen)   // 15.10.: tienpinta +0,5 °C mukaan suolataulukon ylimpään luokkaan; 16.10. (rt3): ennuste vs. urakoiden suolaukset (toteumat)
 const LEADS = [2, 6, 12];
 const MATCH_MIN = 40;          // myöhempi mittaus enintään näin kaukana tarkistushetkestä
 const RECOMPUTE_DAYS = 60;
@@ -122,6 +122,12 @@ function saltEpisodes(rows){   // rows: yhden aseman suolauskirjaukset → [{sta
   const out = []; for(const x of t){ const l = out[out.length - 1]; if(l && x.s - l.end <= EP_GAP) l.end = Math.max(l.end, x.e); else out.push({start: x.s, end: x.e}); }
   return out;
 }
+// rt4: illan päätöshetket (Suomen aikaa klo 18 ja 22): indeksin huippu ja ensimmäinen hetki ≥ 50 ennen aamua klo 08
+const HEL_PARTS = new Intl.DateTimeFormat('en-CA', {timeZone: 'Europe/Helsinki', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23'});
+function helParts(t){ const p = Object.fromEntries(HEL_PARTS.formatToParts(new Date(t)).map(x => [x.type, x.value])); return {day: `${p.year}-${p.month}-${p.day}`, hour: +p.hour}; }
+function nightEnd(day){   // aamu klo 08 Suomen aikaa illan päivää seuraavana päivänä (UTC-aika: kokeillaan 05 ja 06 UTC)
+  const n = addDay(day, 1); for(const h of [5, 6]){ const t = new Date(n + 'T0' + h + ':00:00Z').getTime(); if(helParts(t).hour === 8) return t; }
+  return new Date(n + 'T06:00:00Z').getTime(); }
 const T0 = () => ({days: 0, both: 0, salt: 0, alarm: 0, none: 0, slip: {both: 0, salt: 0, alarm: 0, none: 0}, ep: 0, epPred: 0, leadSum: 0, leadN: 0, leadBins: {}, epReactive: 0, slipDays: 0, slipSaltedBefore: 0, slipSaltedAfter: 0});
 function processDay(day, R, prov){
   const obsRows = [addDay(day, -1), day, addDay(day, 1)].flatMap(d => readDay('obs', d) || []);
@@ -141,6 +147,7 @@ function processDay(day, R, prov){
   if(totRows) for(const r of totRows){ if(r.task !== 'salt') continue; (saltBy.get(r.st) || saltBy.set(r.st, []).get(r.st)).push(r); }
   if(totRows){ res.toteu = T0(); res.toteuArea = {}; }
   for(const L of LEADS) res.lead[L] = C0();
+  const yot = {}, tEnd = nightEnd(day);
   for(const [st, arr] of byS){
     const iss = issues.get(st) || []; let used = false, lastHour = -1; const alarms = [];   // [{issue, target}] indeksi ≥ 50
     for(const o of arr){
@@ -158,6 +165,13 @@ function processDay(day, R, prov){
       let ser;
       try{ ser = R.slipSeriesCore({now: o.t, rows, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0}); }catch(e){ continue; }
       used = true; res.samples++;
+      const hp = helParts(o.t);
+      if(hp.day === day && (hp.hour === 18 || hp.hour === 22)){
+        const k = String(hp.hour), Y = yot[st] = yot[st] || {};
+        if(!Y[k]){ const w = ser.filter(c => c.t >= o.t && c.t <= tEnd && c.idx != null);
+          const on = w.find(c => c.idx >= 50), mx = w.reduce((a, c) => Math.max(a, c.idx), 0);
+          Y[k] = {max: mx, alku: on ? iso(on.t) : null, why: on ? (on.why || null) : null}; }
+      }
       const p = prov[st] || 'tuntematon';
       for(const L of LEADS){
         const c = ser.find(c => Math.abs(c.lead - L) < 0.5); if(!c || c.idx == null) continue;
@@ -205,6 +219,7 @@ function processDay(day, R, prov){
     }
   }
   if(res.toteu) res.toteu.leadSum = Math.round(res.toteu.leadSum * 10) / 10;
+  res.yot = yot;
   return res;
 }
 
@@ -265,6 +280,7 @@ async function main(){
   else todo = ready.filter(d => !state.done.includes(d));
   for(const d of todo){
     const t0 = Date.now(), res = processDay(d, R, prov);
+    save(`retro/yot/${d}.json`, {day: d, rv: R.RULES_VERSION, v: VERSION, st: res.yot}); delete res.yot;
     save(`retro/days/${d}.json`, res);
     state.done.push(d);
     console.log(`${d}: ${res.samples} laskentaa, ${res.stations} asemaa, +6 h osumat ${res.lead[6].hit} / ohi ${res.lead[6].miss} / turhat ${res.lead[6].fa} (${((Date.now() - t0) / 1000).toFixed(1)} s)`);

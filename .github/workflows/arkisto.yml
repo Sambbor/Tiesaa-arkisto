@@ -43,6 +43,7 @@ jobs:
             tm
             om
             suomi
+            retro/yot
       - name: Kerää asemat ja ennusteet
         run: python3 arkisto.py
       - name: Kerää talvihoidon toteumat asemien ympäriltä
