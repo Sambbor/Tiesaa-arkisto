@@ -45,6 +45,10 @@ muista, kitka-anturi liukas yli +3 °C:n tiellä. Kausi: `liukasYot`, `ehtiEnnen
   huippu ja ensimmäinen hetki ≥ 50 ennen aamua klo 08) vs. havaittu liukkaus urakoittain: osumat, ohi, turhat, oikein ei riskiä,
   ennakko tunteina, hälytyksen syy, ELY ja urakka, klo 22 tiedossa olleet piirteet (riskin alku, tienpinta, tie − kastepiste, kitka)
   ja sääntöehdokkaiden vaikutus. Jälkitarkistus valmistuu noin vuorokauden viiveellä.
+- `data/joukko.json` (su5, kollektiivinen päivystäjä): päätöshetkittäin (klo 18 / 22) kelikeskuksen indeksiluokka × urakan alin
+  tienpinta → urakkayötä (`n`), suolasi (`suolasiPros`), oli jo suolannut (`joPros`), ensimmäisen suolauksen mediaani tunteina
+  päätöksestä (`suolaH`), liukasta kitka-anturillisista (`liukasPros`) sekä suolatuista ja suolaamattomista erikseen. Solut alle
+  15 yön: pelkkä indeksiluokka (`|*`). Kelikeskus ja Päivystyskirja hakevat tästä Vantaan illan arvion varjokomennon luvuilla.
 
 ## Sarakkeet
 - `t` tallennusaika, `st` asema, `mt` aseman uusin mittausaika (UTC). Rivi tallennetaan vain, kun asemalla on uusi mittaus.
