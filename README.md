@@ -41,6 +41,10 @@ havaitun liukkauden: optinen kitka alle 0,6 kylmällä tiellä vähintään 1 h 
 `tulos` liukasta / ei_liukasta / ei_optista, `suolaVsLiukas` ennen / jalkeen / ei).
 Poikkeavat anturit (`vika`) jätetään pois: tienpinta yön mediaanina yli 4 °C urakan muista tai yksittäinen mittaus yli 4 °C
 muista, kitka-anturi liukas yli +3 °C:n tiellä. Kausi: `liukasYot`, `ehtiEnnen`, `ehtiPros`, `eiSuolaLiukas`, `riskiEiLiukasta`.
+- `data/suomi.json` → `ennuste` (su4): kelikeskuksen indeksi klo 18 ja 22 (`retro/yot/YYYY-MM-DD.json`, retro.mjs rt4: asemittain
+  huippu ja ensimmäinen hetki ≥ 50 ennen aamua klo 08) vs. havaittu liukkaus urakoittain: osumat, ohi, turhat, oikein ei riskiä,
+  ennakko tunteina, hälytyksen syy, ELY ja urakka, klo 22 tiedossa olleet piirteet (riskin alku, tienpinta, tie − kastepiste, kitka)
+  ja sääntöehdokkaiden vaikutus. Jälkitarkistus valmistuu noin vuorokauden viiveellä.
 
 ## Sarakkeet
 - `t` tallennusaika, `st` asema, `mt` aseman uusin mittausaika (UTC). Rivi tallennetaan vain, kun asemalla on uusi mittaus.

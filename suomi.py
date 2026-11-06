@@ -29,7 +29,7 @@ from zoneinfo import ZoneInfo
 
 from naapurit import read_day, f, ts, plaus, slippery
 
-VERSION = 'su3'   # su2 (6.11.2026, Samuli: "Tee 1"): havaittu liukkaus optisesta kitkasta, poikkeavat anturit pois; su3: tuuliehto pois kuurasta
+VERSION = 'su4'   # su4: kelikeskuksen ennuste vs. havaittu liukkaus (ennuste()), klo 22 tila riveihin; su2 (6.11.2026, Samuli: "Tee 1"): havaittu liukkaus optisesta kitkasta, poikkeavat anturit pois; su3: tuuliehto pois kuurasta
 HEL = ZoneInfo('Europe/Helsinki')
 WFS = 'https://avoinapi.vaylapilvi.fi/vaylatiedot/ows'
 UA = {'User-Agent': 'tiesaa-arkisto/1'}
@@ -231,8 +231,19 @@ def night(ev, U):
             if not e or e > to or (dd is not None and dd > TOT_M): continue
             if e < (fr_tot if r['task'] == 'salt' else fr): continue
             a_of(c)['w'][r['task']][r.get('rid') or (r.get('start'), r.get('end'))] = e
+    d22 = datetime(*map(int, ev.split('-')), 22, tzinfo=HEL).astimezone(timezone.utc)
     for a in A.values():
         analyse(a)
+        X = []   # klo 22 tiedossa ollut tila (ehjät asemat): kelikeskuksen päätöksen piirteet
+        for st, x in a['rows'].items():
+            if st in a['trVika']: continue
+            r = x.get(step(d22)) or x.get(step(d22 - timedelta(minutes=30)))
+            if r and f(r.get('tr1')) is not None: X.append(r)
+        if X:
+            gaps = [f(r['tr1']) - f(r['td']) for r in X if f(r.get('td')) is not None]
+            ks = [kitka(r) for r in X if kitka(r) is not None]
+            a['k22'] = {'tr': round(min(f(r['tr1']) for r in X), 1), 'gap': round(min(gaps), 1) if gaps else None,
+                        'kitka': round(min(ks), 2) if ks else None}
     rows = []
     for c, a in sorted(A.items()):
         n = len(a['st'])
@@ -265,7 +276,7 @@ def night(ev, U):
                      'riskiH': round(len(rs) / 2, 1), 'riski': riski, 'alku': z(alku),
                      'laji': max(a['kind'], key=a['kind'].get) if a['kind'] else None, 'anturiLiukas': len(a['slip']),
                      'suola': kerrat(salt), 'suolaEka': z(ens), 'aura': kerrat(w['plow']), 'hiekka': kerrat(w['sand']),
-                     'luokka': luokka, 'viive': viive, **havaittu(a, salt, riski)})
+                     'luokka': luokka, 'viive': viive, 'k22': a.get('k22'), **havaittu(a, salt, riski)})
     return {'v': VERSION, 'yo': ev, 'from': z(fr), 'to': z(to), 'laskettu': z(datetime.now(timezone.utc)),
             'toteumat': not puuttuu, 'urakat': rows}
 
@@ -307,6 +318,95 @@ def kausi():
                     'ehtiMed': round(statistics.median(rh)) if rh else None}}
 
 
+def ennuste(U):
+    """Kelikeskuksen liukkausennuste (retro.mjs rt4: indeksi klo 18 ja 22, ≥ 50 ennen aamua klo 08) vs. havaittu liukkaus (kitka).
+    Urakka hälyttää, kun jollakin sen ehjällä asemalla tai vähintään 20 %:lla asemista indeksi nousee 50:een. Vain urakat, joilla on
+    kitka-anturi. Lisäksi piirteet hälytysöiltä: mikä erottaa oikeat liukkaat yöt turhista."""
+    by = {}
+    for sid, c in U['st'].items(): by.setdefault(c, []).append(sid)
+    C = lambda: {'hit': 0, 'miss': 0, 'fa': 0, 'cn': 0, 'ennakko': []}
+    S = {sl: {'jokin': C(), 'osuus20': C()} for sl in ('18', '22')}
+    why, ely, urk, oma, pii, yot = {}, {}, {}, [], [], []
+    for p in sorted(glob.glob('suomi/????-??-??.json')):
+        N = json.load(open(p, encoding='utf-8'))
+        try:
+            Y = json.load(open('retro/yot/%s.json' % N['yo'], encoding='utf-8'))['st']
+        except Exception:
+            continue
+        yot.append(N['yo'])
+        dec = {sl: datetime(*map(int, N['yo'].split('-')), int(sl), tzinfo=HEL).astimezone(timezone.utc) for sl in ('18', '22')}
+        for r in N['urakat']:
+            if r.get('havaittu') is None: continue
+            ok = [s for s in by.get(r['u'], []) if s in Y and s not in (r.get('vika') or {})]
+            if not ok: continue
+            hav = r['havaittu']; ha = ts(r['havAlku']) if r.get('havAlku') else None
+            rec = {'yo': N['yo'], 'u': r['u'], 'hav': hav}
+            for sl in ('18', '22'):
+                al = [Y[s][sl] for s in ok if (Y[s].get(sl) or {}).get('alku')]
+                n_ok = sum(1 for s in ok if Y[s].get(sl))
+                if not n_ok: continue
+                osuus = len(al) / n_ok
+                for rule, a in (('jokin', bool(al)), ('osuus20', osuus >= 0.2 and bool(al))):
+                    k = 'hit' if a and hav else 'miss' if hav else 'fa' if a else 'cn'
+                    S[sl][rule][k] += 1
+                    if k == 'hit' and ha:
+                        alku = min(ts(x['alku']) for x in al)
+                        S[sl][rule]['ennakko'].append(round((ha - dec[sl]).total_seconds() / 3600, 1))
+                    if sl == '22' and rule == 'jokin':
+                        rec.update({'k': k, 'osuus': round(osuus, 2), 'max': max(Y[s][sl]['max'] for s in ok if Y[s].get(sl))})
+                        e = ely.setdefault(r['ely'] or '?', C()); e[k] += 1
+                        u = urk.setdefault(r['u'], C()); u[k] += 1
+                        if a:
+                            ws = [x['why'] for x in al if x.get('why')]
+                            w = max(set(ws), key=ws.count) if ws else '?'
+                            why.setdefault(w, {'hit': 0, 'fa': 0})['hit' if hav else 'fa'] += 1
+                            k22 = r.get('k22') or {}
+                            pii.append({'hav': hav, 'osuus': osuus, 'max': rec['max'], 'laji': r.get('laji'),
+                                        'alkuH': round(min((ts(x['alku']) - dec['22']).total_seconds() / 3600 for x in al), 1),
+                                        'tr22': k22.get('tr'), 'gap22': k22.get('gap'), 'kit22': k22.get('kitka')})
+            if r['u'] == 'PR00054053': oma.append({**rec, 'riski': r['riski'], 'kitkaMin': r.get('kitkaMin')})
+    def fin(c):
+        e = c.pop('ennakko'); n = c['hit'] + c['miss']; a = c['hit'] + c['fa']
+        c['havaitsee'] = round(100 * c['hit'] / n) if n else None
+        c['turhia'] = round(100 * c['fa'] / a) if a else None
+        c['ennakkoMed'] = statistics.median(e) if e else None
+        return c
+    for sl in S:
+        for rule in S[sl]: fin(S[sl][rule])
+    for d in (ely, urk):
+        for k in d: fin(d[k])
+    # piirteet: hälytysöiden osuus, jolloin liukasta todella tuli, piirteen luokittain
+    fn = lambda v: ('%g' % v).replace('.', ',').replace('-', '−')
+    def bins(key, edges, fmt):
+        out = []
+        for lo, hi in edges:
+            v = [x for x in pii if x.get(key) is not None and lo <= x[key] < hi]
+            if v: out.append({'luokka': fmt(lo, hi), 'n': len(v), 'liukasta': sum(x['hav'] for x in v),
+                              'pros': round(100 * sum(x['hav'] for x in v) / len(v))})
+        return out
+    inf = float('inf')
+    lab = lambda u: lambda a, b: ('alle %s %s' % (fn(b), u)) if a == -inf else (('yli %s %s' % (fn(a), u)) if b == inf else '%s…%s %s' % (fn(a), fn(b), u))
+    piirteet = {   # klo 22 tiedossa olleet: hälytysöiden osuus, jolloin liukasta todella tuli
+        'alkuH': bins('alkuH', [(-inf, 2), (2, 5), (5, 8), (8, inf)], lab('h')),
+        'tr22': bins('tr22', [(-inf, -2), (-2, 0), (0, 1), (1, 2), (2, inf)], lab('°C')),
+        'gap22': bins('gap22', [(-inf, 0), (0, 1), (1, inf)], lab('°C')),
+        'kit22': bins('kit22', [(0, 0.7), (0.7, 0.78), (0.78, 1.01)], lambda a, b: '%s–%s' % (fn(a), fn(min(b, 1)))),
+        'laji': [{'luokka': l or 'ei riskiä', 'n': len(v), 'liukasta': sum(x['hav'] for x in v), 'pros': round(100 * sum(x['hav'] for x in v) / len(v))}
+                 for l in sorted({x['laji'] for x in pii}, key=lambda q: q or '') for v in [[x for x in pii if x['laji'] == l]]],
+    }
+    ehd = []
+    for nimi, cond in (('Riskin alku enintään 5 h päässä', lambda x: x['alkuH'] <= 5),
+                       ('Tienpinta klo 22 alle +2 °C', lambda x: x['tr22'] is not None and x['tr22'] < 2),
+                       ('Molemmat', lambda x: x['alkuH'] <= 5 and x['tr22'] is not None and x['tr22'] < 2),
+                       ('Molemmat ja tie alle 1 °C kastepisteen yläpuolella', lambda x: x['alkuH'] <= 5 and x['tr22'] is not None and x['tr22'] < 2 and (x['gap22'] is None or x['gap22'] < 1))):
+        k = [x for x in pii if cond(x)]
+        ehd.append({'ehto': nimi, 'halytyksia': len(k), 'kaikki': len(pii), 'osumia': sum(x['hav'] for x in k), 'osumiaKaikki': sum(x['hav'] for x in pii)})
+    return {'yot': yot, 'slots': S, 'why': why, 'ely': ely, 'urakat': urk, 'piirteet': piirteet, 'ehdokkaat': ehd, 'oma': oma,
+            'note': 'Kelikeskuksen indeksi klo 18 ja 22 (Tiesää-arkiston jälkitarkistus, samat säännöt kuin sivulla) ≥ 50 jollakin urakan '
+                    'ehjällä asemalla ennen aamua klo 08 vs. havaittu liukkaus (optinen kitka alle 0,6 vähintään 1 h). Vain urakat, joilla on '
+                    'kitka-anturi. Ennakko = tunteja päätöshetkestä havaittuun liukkauteen. Jälkitarkistus valmistuu noin vuorokauden viiveellä.'}
+
+
 def write(ev, U):
     N = night(ev, U)
     os.makedirs('suomi', exist_ok=True)
@@ -342,6 +442,10 @@ def main(argv):
     if last is None and K['yot']:
         last = json.load(open('suomi/%s.json' % K['yot'][-1], encoding='utf-8'))
     K['viimeisin'] = last
+    try:
+        K['ennuste'] = ennuste(U)
+    except Exception as e:
+        print('Ennustevertailu epäonnistui: %s' % e)
     K['note'] = ('Urakat urakkakoodeina (Väylävirasto). Riski: tienpinta ≤ 0 °C ja kuura (kastepiste ≥ tienpinta), märkä tie tai sade, '
                  'tai lumisade, vähintään 1 h ja vähintään 20 %:lla urakan asemista. Toimenpiteet: kirjaukset 1 km päässä urakan asemista. '
                  'Ennakoiva = suolattu 0–6 h ennen riskin alkua (suolaus luetaan klo 15 alkaen), nopea = alle 2 h alusta. '
