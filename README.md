@@ -49,6 +49,11 @@ muista, kitka-anturi liukas yli +3 °C:n tiellä. Kausi: `liukasYot`, `ehtiEnnen
   tienpinta → urakkayötä (`n`), suolasi (`suolasiPros`), oli jo suolannut (`joPros`), ensimmäisen suolauksen mediaani tunteina
   päätöksestä (`suolaH`), liukasta kitka-anturillisista (`liukasPros`) sekä suolatuista ja suolaamattomista erikseen. Solut alle
   15 yön: pelkkä indeksiluokka (`|*`). Kelikeskus ja Päivystyskirja hakevat tästä Vantaan illan arvion varjokomennon luvuilla.
+- Aukkovahti (su6): jokaisessa yössä `aukot` = toteumapäivät, jotka puuttuvat (`toteumaPaivat`), puolen tunnin askeleet, joilla alle
+  puolet asemista mittasi (`mittausVajaat`), ja yli 4 h katkot toteumakeruussa riskiöinä (`toteumaKatkot`); `data/suomi.json` →
+  `aukot` = viimeisten 30 yön puutteet. Aukosta tulee Actionsiin varoitus, ja Päivystyskirja näyttää sen.
+- Jälkitarkistus (retro.yml) käynnistyy Arkiston ajastimesta klo 08.11 Suomen aikaa. Illan päätöshetket (`retro/yot/`) lasketaan heti
+  yön jälkeen (rt5, `ennakko: true`), täysi tarkistus seuraavana päivänä. Lopuksi `suomi.py --kausi` päivittää kauden ja joukon taulukon.
 
 ## Sarakkeet
 - `t` tallennusaika, `st` asema, `mt` aseman uusin mittausaika (UTC). Rivi tallennetaan vain, kun asemalla on uusi mittaus.

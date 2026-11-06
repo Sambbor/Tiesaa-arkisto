@@ -29,7 +29,7 @@ from zoneinfo import ZoneInfo
 
 from naapurit import read_day, f, ts, plaus, slippery
 
-VERSION = 'su5'   # su5: kollektiivinen päivystäjä (joukko(), data/joukko.json), klo 18 tila riveihin; su4: su4: kelikeskuksen ennuste vs. havaittu liukkaus (ennuste()), klo 22 tila riveihin; su2 (6.11.2026, Samuli: "Tee 1"): havaittu liukkaus optisesta kitkasta, poikkeavat anturit pois; su3: tuuliehto pois kuurasta
+VERSION = 'su6'   # su6: aukkovahti (aukot), --kausi; su5: su5: kollektiivinen päivystäjä (joukko(), data/joukko.json), klo 18 tila riveihin; su4: su4: kelikeskuksen ennuste vs. havaittu liukkaus (ennuste()), klo 22 tila riveihin; su2 (6.11.2026, Samuli: "Tee 1"): havaittu liukkaus optisesta kitkasta, poikkeavat anturit pois; su3: tuuliehto pois kuurasta
 HEL = ZoneInfo('Europe/Helsinki')
 WFS = 'https://avoinapi.vaylapilvi.fi/vaylatiedot/ows'
 UA = {'User-Agent': 'tiesaa-arkisto/1'}
@@ -209,6 +209,7 @@ def night(ev, U):
     days = sorted({fr_tot.date().isoformat(), fr.date().isoformat(), to.date().isoformat()})
     code = U['st']
     A, puuttuu = {}, []
+    obsSteps, totT = {}, []   # aukkovahti (su6): asemia mittausaskelittain, toteumien keruuhetket
     def a_of(c):
         if c not in A:
             A[c] = {'st': set(), 'rows': {}, 'trSt': {}, 'risk': {}, 'kind': {}, 'slip': set(), 'obs': {}, 'opt': set(),
@@ -222,9 +223,12 @@ def night(ev, U):
             if not t or t < fr or t > to: continue
             a = a_of(c); a['st'].add(r['st'])
             a['rows'].setdefault(r['st'], {})[step(t)] = r
+            obsSteps.setdefault(step(t), set()).add(r['st'])
         T = read_day('toteumat', d)
         if not T: puuttuu.append(d)
         for r in T:
+            tt = ts(r.get('t'))
+            if tt and fr <= tt <= to + timedelta(minutes=45): totT.append(tt)
             c = code.get(r.get('st'))
             if not c or r.get('task') not in ('salt', 'plow', 'sand'): continue
             e, dd = ts(r.get('end')), f(r.get('d'))
@@ -278,8 +282,20 @@ def night(ev, U):
                      'laji': max(a['kind'], key=a['kind'].get) if a['kind'] else None, 'anturiLiukas': len(a['slip']),
                      'suola': kerrat(salt), 'suolaEka': z(ens), 'aura': kerrat(w['plow']), 'hiekka': kerrat(w['sand']),
                      'luokka': luokka, 'viive': viive, 'k18': a.get('k18'), 'k22': a.get('k22'), **havaittu(a, salt, riski)})
+    # aukkovahti: puuttuvat toteumapäivät, asemamittausten kattavuus (askel, jolla alle puolet asemista) ja yli 4 h katkot toteumakeruussa
+    n_st = len(set(code))
+    steps, s_ = [], fr
+    while s_ < to: steps.append(s_); s_ += timedelta(minutes=30)
+    vajaat = [z(s_) for s_ in steps if len(obsSteps.get(s_, ())) < 0.5 * n_st]
+    tt = sorted(set(totT)); katkot = []
+    for a_, b_ in zip([fr] + tt, tt + [to]):
+        if (b_ - a_).total_seconds() > 4 * 3600: katkot.append([z(a_), z(b_)])
+    riskissa = sum(1 for r in rows if r['riski'])
+    aukot = {'toteumaPaivat': puuttuu, 'mittausVajaat': vajaat, 'asemiaPros': round(100 * len({s for v in obsSteps.values() for s in v}) / n_st) if n_st else None,
+             'toteumaKatkot': katkot if riskissa >= 5 else []}
+    aukot['ok'] = not (puuttuu or len(vajaat) >= 2 or aukot['toteumaKatkot'])
     return {'v': VERSION, 'yo': ev, 'from': z(fr), 'to': z(to), 'laskettu': z(datetime.now(timezone.utc)),
-            'toteumat': not puuttuu, 'urakat': rows}
+            'toteumat': not puuttuu, 'aukot': aukot, 'urakat': rows}
 
 
 def kausi():
@@ -483,6 +499,8 @@ def write(ev, U):
     os.makedirs('suomi', exist_ok=True)
     json.dump(N, open('suomi/%s.json' % ev, 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
     r = N['urakat']
+    if not N['aukot']['ok']:
+        print('::warning::Koko Suomen yö %s: aineistossa aukko %s' % (ev, json.dumps({k: v for k, v in N['aukot'].items() if v and k != 'ok'}, ensure_ascii=False)))
     print('Suomi yö %s: %d urakkaa, riskiyö %d, suolasi %d, ennakoiva %d, nopea %d, myöhäinen %d, ei %d' % (
         ev, len(r), sum(x['riski'] for x in r), sum(1 for x in r if x['suola']),
         *[sum(1 for x in r if x['luokka'] == l) for l in ('ennakoiva', 'nopea', 'myohainen', 'ei')]))
@@ -508,11 +526,16 @@ def main(argv):
     last = None
     for ev in evs:
         last = write(ev, U)
-    if not evs: return
+    if not evs and '--kausi' not in argv: return   # --kausi: vain kausi, ennustevertailu ja joukon taulukko (retro.yml, su6)
     K = kausi()
     if last is None and K['yot']:
         last = json.load(open('suomi/%s.json' % K['yot'][-1], encoding='utf-8'))
     K['viimeisin'] = last
+    K['aukot'] = []   # aukkovahti: viimeiset 30 yötä, joilta puuttuu aineistoa
+    for p in sorted(glob.glob('suomi/????-??-??.json'))[-30:]:
+        try: a = json.load(open(p, encoding='utf-8')).get('aukot')
+        except Exception: a = None
+        if a and not a.get('ok', True): K['aukot'].append(dict(a, yo=os.path.basename(p)[:10]))
     try:
         J = joukko(U)
         json.dump(J, open('data/joukko.json', 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
