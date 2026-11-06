@@ -29,7 +29,7 @@ from zoneinfo import ZoneInfo
 
 from naapurit import read_day, f, ts, plaus, slippery
 
-VERSION = 'su4'   # su4: kelikeskuksen ennuste vs. havaittu liukkaus (ennuste()), klo 22 tila riveihin; su2 (6.11.2026, Samuli: "Tee 1"): havaittu liukkaus optisesta kitkasta, poikkeavat anturit pois; su3: tuuliehto pois kuurasta
+VERSION = 'su5'   # su5: kollektiivinen päivystäjä (joukko(), data/joukko.json), klo 18 tila riveihin; su4: su4: kelikeskuksen ennuste vs. havaittu liukkaus (ennuste()), klo 22 tila riveihin; su2 (6.11.2026, Samuli: "Tee 1"): havaittu liukkaus optisesta kitkasta, poikkeavat anturit pois; su3: tuuliehto pois kuurasta
 HEL = ZoneInfo('Europe/Helsinki')
 WFS = 'https://avoinapi.vaylapilvi.fi/vaylatiedot/ows'
 UA = {'User-Agent': 'tiesaa-arkisto/1'}
@@ -231,19 +231,20 @@ def night(ev, U):
             if not e or e > to or (dd is not None and dd > TOT_M): continue
             if e < (fr_tot if r['task'] == 'salt' else fr): continue
             a_of(c)['w'][r['task']][r.get('rid') or (r.get('start'), r.get('end'))] = e
-    d22 = datetime(*map(int, ev.split('-')), 22, tzinfo=HEL).astimezone(timezone.utc)
     for a in A.values():
         analyse(a)
-        X = []   # klo 22 tiedossa ollut tila (ehjät asemat): kelikeskuksen päätöksen piirteet
-        for st, x in a['rows'].items():
-            if st in a['trVika']: continue
-            r = x.get(step(d22)) or x.get(step(d22 - timedelta(minutes=30)))
-            if r and f(r.get('tr1')) is not None: X.append(r)
-        if X:
-            gaps = [f(r['tr1']) - f(r['td']) for r in X if f(r.get('td')) is not None]
-            ks = [kitka(r) for r in X if kitka(r) is not None]
-            a['k22'] = {'tr': round(min(f(r['tr1']) for r in X), 1), 'gap': round(min(gaps), 1) if gaps else None,
-                        'kitka': round(min(ks), 2) if ks else None}
+        for hh in (18, 22):   # päätöshetkellä tiedossa ollut tila (ehjät asemat): kelikeskuksen päätöksen ja joukon arvion piirteet
+            dh = datetime(*map(int, ev.split('-')), hh, tzinfo=HEL).astimezone(timezone.utc)
+            X = []
+            for st, x in a['rows'].items():
+                if st in a['trVika']: continue
+                r = x.get(step(dh)) or x.get(step(dh - timedelta(minutes=30)))
+                if r and f(r.get('tr1')) is not None: X.append(r)
+            if X:
+                gaps = [f(r['tr1']) - f(r['td']) for r in X if f(r.get('td')) is not None]
+                ks = [kitka(r) for r in X if kitka(r) is not None]
+                a['k%d' % hh] = {'tr': round(min(f(r['tr1']) for r in X), 1), 'gap': round(min(gaps), 1) if gaps else None,
+                                 'kitka': round(min(ks), 2) if ks else None}
     rows = []
     for c, a in sorted(A.items()):
         n = len(a['st'])
@@ -276,7 +277,7 @@ def night(ev, U):
                      'riskiH': round(len(rs) / 2, 1), 'riski': riski, 'alku': z(alku),
                      'laji': max(a['kind'], key=a['kind'].get) if a['kind'] else None, 'anturiLiukas': len(a['slip']),
                      'suola': kerrat(salt), 'suolaEka': z(ens), 'aura': kerrat(w['plow']), 'hiekka': kerrat(w['sand']),
-                     'luokka': luokka, 'viive': viive, 'k22': a.get('k22'), **havaittu(a, salt, riski)})
+                     'luokka': luokka, 'viive': viive, 'k18': a.get('k18'), 'k22': a.get('k22'), **havaittu(a, salt, riski)})
     return {'v': VERSION, 'yo': ev, 'from': z(fr), 'to': z(to), 'laskettu': z(datetime.now(timezone.utc)),
             'toteumat': not puuttuu, 'urakat': rows}
 
@@ -407,6 +408,76 @@ def ennuste(U):
                     'kitka-anturi. Ennakko = tunteja päätöshetkestä havaittuun liukkauteen. Jälkitarkistus valmistuu noin vuorokauden viiveellä.'}
 
 
+IDX_B = [(0, 30, 'alle 30'), (30, 50, '30–49'), (50, 90, '50–89'), (90, 101, '90–100')]
+TR_B = [(-99, -2, 'alle −2'), (-2, 0, '−2…0'), (0, 2, '0…+2'), (2, 4, '+2…+4'), (4, 99, 'yli +4')]
+JOUKKO_MIN = 15       # solussa vähintään näin monta urakkayötä, muuten käytetään pelkkää indeksiluokkaa
+
+
+def luokka(v, B):
+    return next((l for a, b, l in B if v is not None and a <= v < b), None)
+
+
+def joukko(U):
+    """Kollektiivinen päivystäjä (su5, 6.11.2026, Samuli: "Tee 1–3"): mitä urakat tekivät, kun kelikeskuksen indeksi ja tienpinta
+    päätöshetkellä (klo 18 / 22) olivat tietyt, ja tuliko liukasta. Indeksi = urakan ehjien asemien huippu päätöshetkestä aamuun
+    (retro/yot, samat säännöt ja sama laskenta kuin kelikeskuksen varjokomennossa), tienpinta = urakan alin klo 18 / 22.
+    Suolaus = urakan ensimmäinen suolauskirjaus klo 15–08 (1 km asemista). Liukasta = optinen kitka alle 0,6 vähintään 1 h."""
+    by = {}
+    for sid, c in U['st'].items(): by.setdefault(c, []).append(sid)
+    T = {sl: {} for sl in ('18', '22')}
+    nights = []
+    for p in sorted(glob.glob('suomi/????-??-??.json')):
+        N = json.load(open(p, encoding='utf-8'))
+        if not N.get('toteumat', True): continue
+        try:
+            Y = json.load(open('retro/yot/%s.json' % N['yo'], encoding='utf-8'))['st']
+        except Exception:
+            continue
+        nights.append(N['yo'])
+        for sl in ('18', '22'):
+            dec = datetime(*map(int, N['yo'].split('-')), int(sl), tzinfo=HEL).astimezone(timezone.utc)
+            for r in N['urakat']:
+                ok = [s for s in by.get(r['u'], []) if s in Y and Y[s].get(sl) and s not in (r.get('vika') or {})]
+                k = r.get('k' + sl) or {}
+                if not ok or k.get('tr') is None: continue
+                ix = max(Y[s][sl]['max'] for s in ok)
+                se = ts(r['suolaEka']) if r.get('suolaEka') else None
+                for key in (luokka(ix, IDX_B) + '|' + luokka(k['tr'], TR_B), luokka(ix, IDX_B) + '|*'):
+                    c = T[sl].setdefault(key, {'n': 0, 'suolasi': 0, 'jo': 0, 'ajat': [], 'opt': 0, 'liukas': 0, 'lS': 0, 'nS': 0, 'lE': 0, 'nE': 0})
+                    c['n'] += 1
+                    if se:
+                        c['suolasi'] += 1; c['jo'] += se <= dec
+                        c['ajat'].append((se - dec).total_seconds() / 3600)
+                    if r.get('havaittu') is not None:
+                        c['opt'] += 1; c['liukas'] += r['havaittu']
+                        if se: c['nS'] += 1; c['lS'] += r['havaittu']
+                        else: c['nE'] += 1; c['lE'] += r['havaittu']
+    out = {}
+    for sl, D in T.items():
+        out[sl] = {}
+        for key, c in D.items():
+            a = c.pop('ajat')
+            pc = lambda x, n: round(100 * x / n) if n else None
+            out[sl][key] = {'n': c['n'], 'suolasiPros': pc(c['suolasi'], c['n']), 'joPros': pc(c['jo'], c['n']),
+                            'suolaH': round(statistics.median(a), 1) if a else None, 'opt': c['opt'], 'liukasPros': pc(c['liukas'], c['opt']),
+                            'liukasSuolatut': pc(c['lS'], c['nS']), 'liukasEi': pc(c['lE'], c['nE'])}
+    return {'v': VERSION, 'yot': nights, 'min': JOUKKO_MIN, 'idx': [l for *_, l in IDX_B], 'tr': [l for *_, l in TR_B], 'taulu': out,
+            'note': 'Urakkayöt, joilta on kelikeskuksen indeksi (jälkitarkistus) ja toteumat. Solu = indeksiluokka | tienpintaluokka päätöshetkellä; '
+                    'pienissä soluissa (alle %d yötä) käytetään pelkkää indeksiluokkaa (|*). suolaH = ensimmäisen suolauksen mediaani tunteina '
+                    'päätöshetkestä (negatiivinen = jo ennen). liukasPros = kitka-anturillisista öistä liukas.' % JOUKKO_MIN}
+
+
+def arvio(J, slot, idx, tr):
+    """Joukon arvio yhdelle urakalle: taulukon solu (riittävän suuri) tai pelkkä indeksiluokka."""
+    if not J or idx is None: return None
+    T = J['taulu'].get(slot) or {}
+    i = luokka(idx, IDX_B)
+    c = T.get('%s|%s' % (i, luokka(tr, TR_B))) if tr is not None else None
+    key = '%s|%s' % (i, luokka(tr, TR_B))
+    if not c or c['n'] < J['min']: c, key = T.get(i + '|*'), i + '|*'
+    return dict(c, solu=key) if c else None
+
+
 def write(ev, U):
     N = night(ev, U)
     os.makedirs('suomi', exist_ok=True)
@@ -442,6 +513,11 @@ def main(argv):
     if last is None and K['yot']:
         last = json.load(open('suomi/%s.json' % K['yot'][-1], encoding='utf-8'))
     K['viimeisin'] = last
+    try:
+        J = joukko(U)
+        json.dump(J, open('data/joukko.json', 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
+    except Exception as e:
+        print('Joukon taulukko epäonnistui: %s' % e)
     try:
         K['ennuste'] = ennuste(U)
     except Exception as e:
