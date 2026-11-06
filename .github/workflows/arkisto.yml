@@ -42,6 +42,7 @@ jobs:
             data/current
             tm
             om
+            suomi
       - name: Kerää asemat ja ennusteet
         run: python3 arkisto.py
       - name: Kerää talvihoidon toteumat asemien ympäriltä
@@ -49,6 +50,9 @@ jobs:
         run: python3 toteumat.py || echo "Toteumakeruu epäonnistui, jatketaan"
       - name: Naapuriurakat samana yönä (kelisivu)
         run: python3 naapurit.py || echo "Naapuriurakoiden koonti epäonnistui, jatketaan"
+      # su1 (6.11.2026, Samuli: "Koko Suomi, julkinen ilman nimiä"): kaikkien hoitourakoiden yö (riski ja toimenpiteet) → suomi/, data/suomi.json
+      - name: Koko Suomen yökooste (su1)
+        run: python3 suomi.py || echo "Koko Suomen yökooste epäonnistui, jatketaan"
       - name: Urakoiden tieverkko (kelisivun kartta, 30 vrk välein)
         run: python3 tieverkko.py || echo "Tieverkon haku epäonnistui, jatketaan"
       # tv1 (2.11.2026): oma tienpintamalli varjona Vantaan asemille. Malli opetetaan tienpintamalli.yml:ssä kerran vuorokaudessa ja
@@ -90,6 +94,7 @@ jobs:
           # tiedostoja: siirrytään uusimpaan versioon ja ajetaan keruu uudelleen sen päälle.
           for i in 1 2 3; do
             git add --sparse -A tm om 2>/dev/null || git add --sparse -A tm 2>/dev/null || true   # tv1: oma rivi (alla oleva ketju päätyy yleensä 'meta data' -muotoon, koska archive ja naapurit puuttuvat)
+            git add --sparse -A suomi 2>/dev/null || true   # su1
             git add --sparse -A meta data archive naapurit 2>/dev/null || git add --sparse -A meta data archive 2>/dev/null || git add --sparse -A meta data
             git diff --cached --quiet && exit 0
             git commit -q -m "Tiesää-arkisto $(date -u +%Y-%m-%dT%H:%MZ)"
@@ -100,6 +105,7 @@ jobs:
             python3 arkisto.py || exit 1
             python3 toteumat.py || echo "Toteumakeruu epäonnistui, jatketaan"
             python3 naapurit.py || echo "Naapuriurakoiden koonti epäonnistui, jatketaan"
+            python3 suomi.py || echo "Koko Suomen yökooste epäonnistui, jatketaan"
             python3 tm_varjo.py predict || echo "Tienpintamallin varjo epäonnistui, jatketaan"
             [ -f .laskenta/om/om_varjo.py ] && { python3 .laskenta/om/om_varjo.py predict || echo "Oppivan mallin varjo epäonnistui, jatketaan"; }
           done
