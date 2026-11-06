@@ -26,6 +26,18 @@ Tila ja yhteenveto: `meta/toteumat_state.json`. Asemien urakka-alue on tiedostos
 Käyttö: koko maan urakoiden suolaus- ja auraushetket suhteessa asemien keliin (ennakoiva vai jälkikäteinen toiminta)
 ja päivystäjän simulaattorin "mitä oikeasti tehtiin".
 
+## Koko Suomen yökooste (suomi)
+`suomi.py` (su1) laskee joka aamu jokaiselle maanteiden hoitourakalle edellisen yön (klo 18–08 Suomen aikaa) riskin ja toimenpiteet:
+- `meta/urakat.json`: asema → urakkakoodi (Väylävirasto, Maanteiden hoitourakan tiet; tieosoite urakan tieosuudella). Urakat ovat
+  julkisissa tiedostoissa urakkakoodeina ja ELY-alueina, ei nimiä eikä urakoitsijoita.
+- `suomi/YYYY-MM-DD.json` (illan päivämäärä): urakoittain asemat, alin tienpinta (2. kylmin asema), riskitunnit ja riskin alku
+  (tienpinta ≤ 0 °C ja kuura, märkä tie tai sade, tai lumisade, vähintään 20 %:lla urakan asemista ja vähintään 1 h),
+  anturien liukashälytykset, suolaus-, auraus- ja hiekoituskerrat (kirjaus enintään 1 km päässä urakan asemasta) ja ajoitusluokka:
+  ennakoiva (suolattu 0–6 h ennen riskin alkua, suolaus luetaan klo 15 alkaen), nopea (alle 2 h), myöhäinen, ei, ilman_riskia,
+  ei_tarvetta, tuntematon (toteumakeruussa aukko).
+- `data/suomi.json`: kausi urakoittain ja viimeisin yö. Yöt, joilta toteumat puuttuvat, eivät ole mukana kausiluvuissa.
+Riski on mittauksista laskettu, ei havaittu liukkaus: anturit näyttävät kuuraa myös öinä, jolloin ajoradat pysyvät kuivina.
+
 ## Sarakkeet
 - `t` tallennusaika, `st` asema, `mt` aseman uusin mittausaika (UTC). Rivi tallennetaan vain, kun asemalla on uusi mittaus.
 - Mittaukset: `ta` ilma, `td` kastepiste, `rh` kosteus, `fp` kuurapiste, `tr1/tr2` tienpinta, `tg1` maa, `safe1` turvallisuuslämpö,
