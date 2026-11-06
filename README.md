@@ -38,7 +38,7 @@ ja päivystäjän simulaattorin "mitä oikeasti tehtiin".
 - `data/suomi.json`: kausi urakoittain ja viimeisin yö. Yöt, joilta toteumat puuttuvat, eivät ole mukana kausiluvuissa.
 Riski on mittauksista laskettu: anturit näyttävät kuuraa myös öinä, jolloin ajoradat pysyvät kuivina. Siksi su2 lisää
 havaitun liukkauden: optinen kitka alle 0,6 kylmällä tiellä vähintään 1 h (`havaittu`, `havAlku`, `kitkaMin`, `opt` = optisia asemia,
-`tulos` liukasta / ei_liukasta / ei_optista, `suolaVsLiukas` ennen / jalkeen / ei). Kuura lasketaan vain tuulella ≤ 3,5 m/s.
+`tulos` liukasta / ei_liukasta / ei_optista, `suolaVsLiukas` ennen / jalkeen / ei).
 Poikkeavat anturit (`vika`) jätetään pois: tienpinta yön mediaanina yli 4 °C urakan muista tai yksittäinen mittaus yli 4 °C
 muista, kitka-anturi liukas yli +3 °C:n tiellä. Kausi: `liukasYot`, `ehtiEnnen`, `ehtiPros`, `eiSuolaLiukas`, `riskiEiLiukasta`.
 
