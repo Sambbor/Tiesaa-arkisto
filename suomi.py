@@ -23,13 +23,13 @@ Käyttö: python3 suomi.py (arkiston ajo: valmis yö lasketaan uudelleen 6 h aja
         python3 suomi.py --yo 2026-11-03 | --alku 2026-10-12 [--loppu 2026-11-05]
 Varaukset: toteuma näkyy vain asemien lähellä (1 km), rajan lähellä naapurin kone voi osua. Riski asemamittauksista, ei koko tieverkolta.
 """
-import glob, json, os, statistics, sys, urllib.parse, urllib.request
+import glob, gzip, json, math, os, statistics, sys, urllib.parse, urllib.request
 from datetime import date, datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 from naapurit import read_day, f, ts, plaus, slippery
 
-VERSION = 'su6'   # su6: aukkovahti (aukot), --kausi; su5: su5: kollektiivinen päivystäjä (joukko(), data/joukko.json), klo 18 tila riveihin; su4: su4: kelikeskuksen ennuste vs. havaittu liukkaus (ennuste()), klo 22 tila riveihin; su2 (6.11.2026, Samuli: "Tee 1"): havaittu liukkaus optisesta kitkasta, poikkeavat anturit pois; su3: tuuliehto pois kuurasta
+VERSION = 'su7'   # su7: toteumat koneen urakalle (urakkaverkko, toteumat.py ku); su6: su6: aukkovahti (aukot), --kausi; su5: su5: kollektiivinen päivystäjä (joukko(), data/joukko.json), klo 18 tila riveihin; su4: su4: kelikeskuksen ennuste vs. havaittu liukkaus (ennuste()), klo 22 tila riveihin; su2 (6.11.2026, Samuli: "Tee 1"): havaittu liukkaus optisesta kitkasta, poikkeavat anturit pois; su3: tuuliehto pois kuurasta
 HEL = ZoneInfo('Europe/Helsinki')
 WFS = 'https://avoinapi.vaylapilvi.fi/vaylatiedot/ows'
 UA = {'User-Agent': 'tiesaa-arkisto/1'}
@@ -62,6 +62,7 @@ def urakat(today, force=False):
         pass
     lay = layer(today)
     if old and not force and old.get('layer') == lay and (today - date.fromisoformat(old['haettu'])).days < 30:
+        if not os.path.exists(UV_PATH): urakkaverkko(lay)
         return old
     meta = json.load(open('meta/stations.json', encoding='utf-8'))
     try:
@@ -100,9 +101,35 @@ def urakat(today, force=False):
            'note': 'Lähde: Väylävirasto, Maanteiden hoitourakan tiet (CC BY 4.0). Asemat ilman urakkaa: kadut, Ahvenanmaa, elinkaariurakat.'}
     os.makedirs('meta', exist_ok=True)
     json.dump(out, open(path, 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
+    urakkaverkko(lay)
     print('Urakat: %d asemaa %d urakkaan (%d sijainnista), %d ilman urakkaa' % (
         len(st), len(U), sum(1 for v in src.values() if v == 'sijainti'), len(out['ilman_urakkaa'])))
     return out
+
+
+UV_PATH = 'meta/urakkaverkko.json.gz'
+UV_G, UV_KX = 250.0, 111320 * 0.5
+
+
+def urakkaverkko(lay):
+    """su7 (7.11.2026): kaikkien hoitourakoiden tieverkko 250 m ruuduiksi (ruutu → urakkakoodi, eniten tiepisteitä). toteumat.py
+    antaa sillä jokaiselle koneelle urakan sen mukaan, kenen teillä kone ajaa (Porvoon auto kääntyi Vantaan puolella 6.11.)."""
+    try:
+        j = wfs({'typeNames': lay, 'srsName': 'EPSG:4326', 'propertyName': 'urakkakoodi,geom'}, 600)
+    except Exception as e:
+        print('Urakkaverkko ei saatavilla (%s)' % e); return
+    import collections
+    cnt = collections.defaultdict(collections.Counter)
+    for ft in j.get('features', []):
+        c, g = ft['properties'].get('urakkakoodi'), ft.get('geometry')
+        if not c or not g: continue
+        for l in (g['coordinates'] if g['type'] == 'MultiLineString' else [g['coordinates']]):
+            for q in l[::2]: cnt[(int(q[0] * UV_KX // UV_G), int(q[1] * 111320 // UV_G))][c] += 1
+    U = sorted({v.most_common(1)[0][0] for v in cnt.values()}); ix = {u: i for i, u in enumerate(U)}
+    out = {'v': 'uv1', 'layer': lay, 'g': UV_G, 'kx': UV_KX, 'u': U, 'c': {}}
+    for (x, y), v in cnt.items(): out['c'].setdefault(str(ix[v.most_common(1)[0][0]]), []).append(x * 100000 + y)
+    with gzip.open(UV_PATH, 'wt', encoding='utf-8', compresslevel=9) as f: json.dump(out, f, separators=(',', ':'))
+    print('Urakkaverkko: %d ruutua, %d urakkaa' % (len(cnt), len(U)))
 
 
 def window(ev):
@@ -209,7 +236,7 @@ def night(ev, U):
     days = sorted({fr_tot.date().isoformat(), fr.date().isoformat(), to.date().isoformat()})
     code = U['st']
     A, puuttuu = {}, []
-    obsSteps, totT = {}, []   # aukkovahti (su6): asemia mittausaskelittain, toteumien keruuhetket
+    obsSteps, totT, naapuri = {}, [], {}   # aukkovahti (su6): asemia mittausaskelittain, toteumien keruuhetket
     def a_of(c):
         if c not in A:
             A[c] = {'st': set(), 'rows': {}, 'trSt': {}, 'risk': {}, 'kind': {}, 'slip': set(), 'obs': {}, 'opt': set(),
@@ -234,6 +261,8 @@ def night(ev, U):
             e, dd = ts(r.get('end')), f(r.get('d'))
             if not e or e > to or (dd is not None and dd > TOT_M): continue
             if e < (fr_tot if r['task'] == 'salt' else fr): continue
+            if r.get('ku') and r['ku'] != c:   # su7: koneen urakka (toteumat.py tt2) on toinen → naapurin kone, ei tämän urakan työ
+                naapuri[c] = naapuri.get(c, 0) + 1; continue
             a_of(c)['w'][r['task']][r.get('rid') or (r.get('start'), r.get('end'))] = e
     for a in A.values():
         analyse(a)
@@ -294,6 +323,8 @@ def night(ev, U):
     aukot = {'toteumaPaivat': puuttuu, 'mittausVajaat': vajaat, 'asemiaPros': round(100 * len({s for v in obsSteps.values() for s in v}) / n_st) if n_st else None,
              'toteumaKatkot': katkot if riskissa >= 5 else []}
     aukot['ok'] = not (puuttuu or len(vajaat) >= 2 or aukot['toteumaKatkot'])
+    for r in rows:   # su7: naapuriurakan koneiden kirjauksia, joita ei laskettu urakalle
+        if naapuri.get(r['u']): r['naapuriPois'] = naapuri[r['u']]
     return {'v': VERSION, 'yo': ev, 'from': z(fr), 'to': z(to), 'laskettu': z(datetime.now(timezone.utc)),
             'toteumat': not puuttuu, 'aukot': aukot, 'urakat': rows}
 
