@@ -55,6 +55,9 @@ muista, kitka-anturi liukas yli +3 °C:n tiellä. Kausi: `liukasYot`, `ehtiEnnen
 - rt6/su8 (7.11.2026): päätöshetkiin myös kelikeskuksen varjokomennon toimenpidetaso (`toim`, `toimWhy`: indeksi ≥ 50, ei yli 12 h
   arviota, ennustettu kuura vasta kun kuuraa on alkanut kertyä; mallien yhtäpitävyyttä ei arkistossa ole). `ennuste.slots.*.toimenpide`
   ja syy-, alue-, urakka- ja piirre-erittelyt tällä tasolla (raaka indeksi `jokin` vertailuna).
+- rt7/su9 (7.11.2026): toimenpidetasoon mallien yhtäpitävyys (MEPS ja EC arkistosta, kuten kelikeskuksessa; MET puuttuu), päätöshetkeen
+  tienpinta (`tr`). Illan tila: Arkiston ajastin käynnistää retro.yml:n (`ilta=true`) klo 18.23 ja 22.23 → `retro.mjs --ilta` ja
+  `suomi.py --ilta` → `data/joukko-ilta.json` (joukon arvio kaikille urakoille samalla laskennalla kuin `data/joukko.json`).
 - Jälkitarkistus (retro.yml) käynnistyy Arkiston ajastimesta klo 08.11 Suomen aikaa. Illan päätöshetket (`retro/yot/`) lasketaan heti
   yön jälkeen (rt5, `ennakko: true`), täysi tarkistus seuraavana päivänä. Lopuksi `suomi.py --kausi` päivittää kauden ja joukon taulukon.
 

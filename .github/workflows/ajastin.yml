@@ -45,6 +45,11 @@ jobs:
                 echo "$(date -u +%H:%M:%S) käynnistetään kuura-kuvat (Suomen aikaa $hm)"
                 gh workflow run kuura-kuvat.yml --ref main -f testi=false || echo "::warning::Kuura-kuvien käynnistys epäonnistui"
               fi
+              # su9: illan päätöshetki koko maalle klo 18.23 ja 22.23 (arkiston :11-ajo on silloin tallentanut päätöshetken mittaukset)
+              if [ "$hm" = "1823" ] || [ "$hm" = "2223" ]; then
+                echo "$(date -u +%H:%M:%S) käynnistetään illan päätöshetki (Suomen aikaa $hm)"
+                gh workflow run retro.yml --ref main -f ilta=true || echo "::warning::Illan päätöshetken käynnistys epäonnistui"
+              fi
             fi
           done
       - name: Käynnistä ajastin uudelleen
