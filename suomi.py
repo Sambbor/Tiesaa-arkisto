@@ -29,7 +29,7 @@ from zoneinfo import ZoneInfo
 
 from naapurit import read_day, f, ts, plaus, slippery
 
-VERSION = 'su8'   # su8: ennustevertailu kelikeskuksen toimenpidetasolla (retro rt6); su7: su7: toteumat koneen urakalle (urakkaverkko, toteumat.py ku); su6: su6: aukkovahti (aukot), --kausi; su5: su5: kollektiivinen päivystäjä (joukko(), data/joukko.json), klo 18 tila riveihin; su4: su4: kelikeskuksen ennuste vs. havaittu liukkaus (ennuste()), klo 22 tila riveihin; su2 (6.11.2026, Samuli: "Tee 1"): havaittu liukkaus optisesta kitkasta, poikkeavat anturit pois; su3: tuuliehto pois kuurasta
+VERSION = 'su9'   # su9: illan joukon arvio (--ilta, data/joukko-ilta.json), tienpinta retron laskennasta; su8: su8: ennustevertailu kelikeskuksen toimenpidetasolla (retro rt6); su7: su7: toteumat koneen urakalle (urakkaverkko, toteumat.py ku); su6: su6: aukkovahti (aukot), --kausi; su5: su5: kollektiivinen päivystäjä (joukko(), data/joukko.json), klo 18 tila riveihin; su4: su4: kelikeskuksen ennuste vs. havaittu liukkaus (ennuste()), klo 22 tila riveihin; su2 (6.11.2026, Samuli: "Tee 1"): havaittu liukkaus optisesta kitkasta, poikkeavat anturit pois; su3: tuuliehto pois kuurasta
 HEL = ZoneInfo('Europe/Helsinki')
 WFS = 'https://avoinapi.vaylapilvi.fi/vaylatiedot/ows'
 UA = {'User-Agent': 'tiesaa-arkisto/1'}
@@ -489,8 +489,11 @@ def joukko(U):
             dec = datetime(*map(int, N['yo'].split('-')), int(sl), tzinfo=HEL).astimezone(timezone.utc)
             for r in N['urakat']:
                 ok = [s for s in by.get(r['u'], []) if s in Y and Y[s].get(sl) and s not in (r.get('vika') or {})]
-                k = r.get('k' + sl) or {}
-                if not ok or k.get('tr') is None: continue
+                if not ok: continue
+                # su9: tienpinta samasta laskennasta kuin indeksi (retro rt7 'tr'), jotta illan arvio ja taulukko ovat yhteneväiset
+                trs = [Y[s][sl]['tr'] for s in ok if Y[s][sl].get('tr') is not None and -45 < Y[s][sl]['tr'] < 65]
+                k = {'tr': min(trs)} if trs else (r.get('k' + sl) or {})
+                if k.get('tr') is None: continue
                 ix = max(Y[s][sl]['max'] for s in ok)
                 se = ts(r['suolaEka']) if r.get('suolaEka') else None
                 for key in (luokka(ix, IDX_B) + '|' + luokka(k['tr'], TR_B), luokka(ix, IDX_B) + '|*'):
@@ -529,6 +532,35 @@ def arvio(J, slot, idx, tr):
     return dict(c, solu=key) if c else None
 
 
+def ilta(U):
+    """su9 (7.11.2026, Samuli: "Tee B"): illan joukon arvio heti päätöshetkellä kaikille urakoille. Retro --ilta laskee klo 18.23 ja
+    22.23 kelikeskuksen indeksin ja tienpinnan asemittain (retro/yot/<ilta>.json); tästä urakan huippu ja alin tienpinta ja joukon
+    taulukosta arvio → data/joukko-ilta.json. Kelikeskus näyttää Vantaan rivin tästä (sama laskenta kuin taulukossa)."""
+    now = datetime.now(timezone.utc).astimezone(HEL)
+    ev = (now - timedelta(hours=12)).date().isoformat() if now.hour < 8 else now.date().isoformat()
+    try:
+        Y = json.load(open('retro/yot/%s.json' % ev, encoding='utf-8'))['st']
+        J = json.load(open('data/joukko.json', encoding='utf-8'))
+    except Exception as e:
+        print('Illan arvio: tiedot puuttuvat (%s)' % e); return
+    sl = '22' if any(v.get('22') for v in Y.values()) else '18' if any(v.get('18') for v in Y.values()) else None
+    if not sl: print('Illan arvio: päätöshetkeä ei vielä ole'); return
+    by = {}
+    for sid, c in U['st'].items(): by.setdefault(c, []).append(sid)
+    out = {}
+    for c, sts in by.items():
+        ok = [s for s in sts if s in Y and Y[s].get(sl)]
+        if not ok: continue
+        ix = max(Y[s][sl]['max'] for s in ok)
+        trs = [Y[s][sl]['tr'] for s in ok if Y[s][sl].get('tr') is not None and -45 < Y[s][sl]['tr'] < 65]
+        tr = min(trs) if trs else None
+        a = arvio(J, sl, ix, tr)
+        out[c] = {'idx': ix, 'tr': tr, 'toim': any(Y[s][sl].get('toim') for s in ok), **({k: a[k] for k in ('solu', 'n', 'suolasiPros', 'joPros', 'suolaH', 'liukasPros', 'liukasSuolatut', 'liukasEi')} if a else {})}
+    json.dump({'v': VERSION, 'yo': ev, 'slot': sl, 't': z(datetime.now(timezone.utc)), 'yot': len(J.get('yot') or []), 'urakat': out},
+              open('data/joukko-ilta.json', 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
+    print('Illan arvio %s klo %s: %d urakkaa' % (ev, sl, len(out)))
+
+
 def write(ev, U):
     N = night(ev, U)
     os.makedirs('suomi', exist_ok=True)
@@ -546,6 +578,8 @@ def main(argv):
     now = datetime.now(timezone.utc)
     U = urakat(now.astimezone(HEL).date(), force='--urakat' in argv)
     if not U: return
+    if '--ilta' in argv:
+        ilta(U); return
     evs = []
     if '--yo' in argv:
         evs = [argv[argv.index('--yo') + 1]]

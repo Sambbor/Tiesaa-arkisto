@@ -13,7 +13,8 @@ import fs from 'node:fs';
 import zlib from 'node:zlib';
 
 const RULES_URL = 'https://raw.githubusercontent.com/Sambbor/Vantaakeli/main/collector/collect.mjs';
-const VERSION = 'rt6';   // rt6 (7.11.2026): päätöshetkiin myös kelikeskuksen toimenpidetaso (strong: ei yli 12 h ennustetta, kuura vasta kertymän alettua)
+const VERSION = 'rt7';   // rt7 (7.11.2026, Samuli: "Tee B"): mallien yhtäpitävyys (MEPS, EC) toimenpidetasoon, tienpinta päätöshetkellä, illan ajo (--ilta) klo 18.23 ja 22.23
+// rt6:   // rt6 (7.11.2026): päätöshetkiin myös kelikeskuksen toimenpidetaso (strong: ei yli 12 h ennustetta, kuura vasta kertymän alettua)
 // rt4:   // rt4 (6.11.2026): kelikeskuksen päätöshetket klo 18 ja 22 asemittain → retro/yot/ (koko Suomen yökooste vertaa havaittuun liukkauteen)   // 15.10.: tienpinta +0,5 °C mukaan suolataulukon ylimpään luokkaan; 16.10. (rt3): ennuste vs. urakoiden suolaukset (toteumat)
 const LEADS = [2, 6, 12];
 const MATCH_MIN = 40;          // myöhempi mittaus enintään näin kaukana tarkistushetkestä
@@ -75,6 +76,17 @@ function obsOf(r, R){
     fric: fr.length ? Math.min(...fr) : null, water: num(r.water1), snow: num(r.snow1), ice: num(r.ice1), tf: num(r.tf1), salt: num(r.salt1),
     rain: num(r.rain), raw: r};
 }
+// rt7: sama kuin kelikeskuksen collect.mjs modelRows: mallin lämpötila, kastepiste ja sade FMI-rivien tilalle
+function modelRows(base, pts){
+  if(!base.length || !pts || pts.length < 2) return null;
+  const lin = (t, k) => { for(let i = 1; i < pts.length; i++){ const a = pts[i-1], b = pts[i]; if(t >= a.t && t <= b.t){ if(a[k] == null || b[k] == null) return a[k] ?? b[k]; return a[k] + (b[k] - a[k]) * (t - a.t) / (b.t - a.t || 1); } } return null; };
+  const pAt = t => { for(let i = 0; i < pts.length; i++) if(pts[i].t >= t) return (i === 0 && pts[i].t - t > 36e5) ? null : pts[i].P; return null; };
+  let used = 0;
+  const rows = base.map(r => { const t = new Date(r.t).getTime(), T = lin(t, 'T'); if(T == null) return r; used++;
+    const Td = lin(t, 'Td'), P = pAt(t);
+    return {...r, Temperature: T, DewPoint: Td ?? (r.DewPoint != null && !isNaN(r.DewPoint) ? r.DewPoint + (T - r.Temperature) : r.DewPoint), Precipitation1h: P ?? r.Precipitation1h, WeatherSymbol3: NaN}; });
+  return used >= Math.min(12, base.length - 1) ? rows : null;
+}
 function fcList(o){
   const r = o.raw, out = [], reason = p => ({roadCondition: r[p + '_rc'] || undefined, frictionCondition: r[p + '_fc'] || undefined,
     freezingRainCondition: r[p + '_fz'] === '1', winterSlipperiness: r[p + '_sl'] === '1'});
@@ -133,6 +145,11 @@ const T0 = () => ({days: 0, both: 0, salt: 0, alarm: 0, none: 0, slip: {both: 0,
 function processDay(day, R, prov){
   const obsRows = [addDay(day, -1), day, addDay(day, 1)].flatMap(d => readDay('obs', d) || []);
   const fcRows = [addDay(day, -1), day].flatMap(d => readDay('fmi-fc', d) || []);
+  // rt7: mallien ennusteet asemittain (arkiston meps-fc ja ec-fc, sama rakenne kuin fmi-fc: h0 + tNN, tdNN, pNN)
+  const mIss = {};
+  for(const m of ['meps', 'ec']){ const M = mIss[m] = new Map();
+    for(const r of [addDay(day, -1), day].flatMap(d => readDay(m + '-fc', d) || [])){ const h0 = new Date(r.h0).getTime(), t = new Date(r.t).getTime(); if(!isFinite(h0)) continue; (M.get(r.st) || M.set(r.st, []).get(r.st)).push({t, h0, r}); }
+    for(const a of M.values()) a.sort((x, y) => x.t - y.t); }
   const byS = new Map();
   for(const r of obsRows){ if(!r.mt) continue; const o = obsOf(r, R); if(!isFinite(o.t)) continue; (byS.get(r.st) || byS.set(r.st, []).get(r.st)).push(o); }
   for(const a of byS.values()) a.sort((x, y) => x.t - y.t);
@@ -169,13 +186,23 @@ function processDay(day, R, prov){
       const hp = helParts(o.t);
       if(hp.day === day && (hp.hour === 18 || hp.hour === 22)){
         const k = String(hp.hour), Y = yot[st] = yot[st] || {};
-        if(!Y[k]){ const w = ser.filter(c => c.t >= o.t && c.t <= tEnd && c.idx != null);
-          const on = w.find(c => c.idx >= 50), mx = w.reduce((a, c) => Math.max(a, c.idx), 0);
+        if(!Y[k]){
+          // rt7: mallikohtaiset sarjat kuten kelikeskuksessa (collect.mjs: modelRows, k/n = indeksin ≥ 50 näkevät sarjat / kaikki)
+          const mser = [];
+          for(const m of ['meps', 'ec']){ const mi = [...(mIss[m].get(st) || [])].reverse().find(x => x.t <= o.t + 5 * 6e4); if(!mi) continue;
+            const pts = []; for(let L = 0; L <= 24; L++){ const g = kk => num(mi.r[kk + String(L).padStart(2, '0')]); if(g('t') == null) continue; pts.push({t: mi.h0 + L * H, T: g('t'), Td: g('td'), P: g('p')}); }
+            const mr = modelRows(rows.map(x => ({...x})), pts); if(!mr) continue;
+            try{ mser.push(R.slipSeriesCore({now: o.t, rows: mr, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0})); }catch(e){} }
+          const w = ser.map((c, i) => ({c, i})).filter(({c}) => c.t >= o.t && c.t <= tEnd && c.idx != null);
+          const kn = i => { const v2 = [ser[i], ...mser.map(a => a[i])].filter(x => x && x.idx != null); return {k: v2.filter(x => x.idx >= 50).length, n: v2.length}; };
+          const on = w.map(x => x.c).find(c => c.idx >= 50), mx = w.reduce((a, x) => Math.max(a, x.c.idx), 0);
           // rt6: kelikeskuksen varjokomennon toimenpide (shadowCommand strong): indeksi ≥ 50, ei Digitrafficin 12 h ennusteen jälkeistä
           // arviota (ext), eikä pelkkää ennustettua kuuraa ennen kuin kuuraa on alkanut kertyä asemalla (kk1, kertymä < 0,05 °C·h).
           // Mallien yhtäpitävyyttä (MEPS, EC, MET) ei ole arkistossa, joten sitä ehtoa ei voi toistaa.
-          const st_ = w.find(c => c.idx >= 50 && !c.ext && !(c.why === 'kuura' && frAcc0 < 0.05));
-          Y[k] = {max: mx, alku: on ? iso(on.t) : null, why: on ? (on.why || null) : null, toim: st_ ? iso(st_.t) : null, toimWhy: st_ ? (st_.why || null) : null}; }
+          const sx = w.find(({c, i}) => { const q = kn(i); return c.idx >= 50 && !c.ext && !(q.n >= 2 && q.k * 2 <= q.n) && !(c.why === 'kuura' && frAcc0 < 0.05); });
+          const st_ = sx && sx.c;
+          Y[k] = {max: mx, alku: on ? iso(on.t) : null, why: on ? (on.why || null) : null, toim: st_ ? iso(st_.t) : null, toimWhy: st_ ? (st_.why || null) : null,
+                  tr: o.tr, mallit: mser.length + 1}; }
       }
       const p = prov[st] || 'tuntematon';
       for(const L of LEADS){
@@ -274,6 +301,16 @@ function report(S){
 
 async function main(){
   const R = await loadRules();
+  if(process.argv.includes('--ilta')){   // rt7: illan päätöshetki heti (Arkiston ajastin klo 18.23 ja 22.23 Suomen aikaa)
+    const meta = load('meta/stations.json', {}); META = meta;
+    const prov = Object.fromEntries(Object.entries(meta).map(([id, m]) => [id, m.prov || 'tuntematon']));
+    const day = helParts(Date.now()).hour < 8 ? helParts(Date.now() - 12 * H).day : helParts(Date.now()).day, t0 = Date.now();
+    const res = processDay(day, R, prov), old = load(`retro/yot/${day}.json`, {});
+    const st = {}; for(const [s_, v] of Object.entries(res.yot)) st[s_] = {...((old.st || {})[s_] || {}), ...v};
+    save(`retro/yot/${day}.json`, {day, rv: R.RULES_VERSION, v: VERSION, st, ilta: true, t: iso(Date.now())});
+    console.log(`${day}: illan päätöshetket ${Object.keys(res.yot).length} asemaa (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
+    return;
+  }
   const state = load('retro/state.json', {rv: null, done: []});
   const meta = load('meta/stations.json', {}); META = meta;
   const prov = Object.fromEntries(Object.entries(meta).map(([id, m]) => [id, m.prov || 'tuntematon']));
@@ -293,7 +330,7 @@ async function main(){
   // rt5 (6.11.2026): illan päätöshetket heti aamulla. Täysi tarkistus odottaa seuraavaa vuorokautta (+12 h tarkistus), mutta
   // klo 18 ja 22 indeksi tarvitsee vain yön klo 08 asti: lasketaan ne heti, kun yö on ohi ja seuraavan päivän mittauksia on.
   // Ajastin käynnistää tarkistuksen klo 08.11 Suomen aikaa, joten Päivystyskirjan paketti (klo 8.27) saa tuoreen joukon taulukon.
-  const early = days.filter(d => !todo.includes(d) && (load(`retro/yot/${d}.json`, {}).v !== VERSION) && days.includes(addDay(d, 1)) && Date.now() > nightEnd(d) + 5 * 6e4);
+  const early = days.filter(d => !todo.includes(d) && ((y => y.v !== VERSION || y.ilta)(load(`retro/yot/${d}.json`, {}))) && days.includes(addDay(d, 1)) && Date.now() > nightEnd(d) + 5 * 6e4);
   for(const d of early.slice(-3)){
     const t0 = Date.now(), res = processDay(d, R, prov);
     save(`retro/yot/${d}.json`, {day: d, rv: R.RULES_VERSION, v: VERSION, st: res.yot, ennakko: true});

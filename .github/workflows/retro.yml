@@ -4,6 +4,11 @@ on:
     - cron: '37 4 * * *'      # varalla (GitHubin ajastus käynnistyi 2.–6.11. vasta noin klo 12.20–12.50 UTC); varsinainen käynnistys
                               # Arkiston ajastimesta klo 08.11 Suomen aikaa (ajastin.yml, su6)
   workflow_dispatch:
+    inputs:
+      ilta:
+        description: 'Illan päätöshetki heti (klo 18 tai 22) ja joukon arvio, ei koko tarkistusta'
+        type: boolean
+        default: false
 permissions:
   contents: write
 concurrency: retro            # su6: oma jono (arkiston jonossa odottava ajo peruuntui, kun seuraava arkistoajo tuli jonoon); tallennuksen törmäys hoidetaan alla uudelleenyrityksellä
@@ -28,23 +33,29 @@ jobs:
         with:
           node-version: 22
       - name: Aja kelisivun liukkaussäännöt jälkikäteen
+        if: inputs.ilta != true
         run: node retro.mjs
+      # su9/rt7: illan päätöshetki heti (Arkiston ajastin klo 18.23 ja 22.23) ja joukon arvio kaikille urakoille
+      - name: Illan päätöshetki ja joukon arvio
+        if: inputs.ilta == true
+        run: node retro.mjs --ilta && python3 suomi.py --ilta
       # su6: koko Suomen kausi, ennustevertailu ja joukon taulukko heti uusilla päätöshetkillä (data/suomi.json, data/joukko.json)
       - name: Koko Suomen kausi ja joukon taulukko
+        if: inputs.ilta != true
         run: python3 suomi.py --kausi || echo '::warning::Koko Suomen kauden päivitys epäonnistui'
       - name: Tallenna säilöön
         run: |
           git config user.name "keli-bot"
           git config user.email "keli-bot@users.noreply.github.com"
           for i in 1 2 3; do
-            git add retro data/suomi.json data/joukko.json
+            git add retro data/suomi.json data/joukko.json data/joukko-ilta.json 2>/dev/null || git add retro data/suomi.json data/joukko.json
             git diff --cached --quiet && exit 0
             git commit -q -m "Jälkitarkistus $(date -u +%Y-%m-%d)"
             git push -q && exit 0
             echo "Säilö muuttui ajon aikana – haetaan uusin versio ja lasketaan uudelleen ($i)"
             sleep $((i*5))
             git fetch -q origin main && git reset -q --hard origin/main
-            node retro.mjs || exit 1
-            python3 suomi.py --kausi || true
+            if [ "${{ inputs.ilta }}" = "true" ]; then node retro.mjs --ilta && python3 suomi.py --ilta || exit 1
+            else node retro.mjs || exit 1; python3 suomi.py --kausi || true; fi
           done
           exit 1
