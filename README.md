@@ -21,7 +21,7 @@ kuura, märän tien jäätyminen, suolan teho, tienpintaennusteen virheet. Digit
 suolaus-, auraus- ja hiekoituskirjaukset edellisen ajon jälkeen (limittäin 90 min, tuplat karsitaan) ja tallentaa rivin
 jokaiselle tiesääasemalle, jonka 2 km säteellä kone kulki: `data/current/toteumat-YYYY-MM-DD.csv`.
 Sarakkeet: `t` keruuaika, `st` asema, `task` salt / plow / sand, `start` ja `end` kirjauksen alku ja loppu (UTC),
-`d` lähin etäisyys asemaan m, `rid` kirjauksen tunniste, `sys` lähettävä järjestelmä. Paikallaan seisovan koneen kirjaukset jätetään pois.
+`d` lähin etäisyys asemaan m, `rid` kirjauksen tunniste, `sys` lähettävä järjestelmä. tt2 (7.11.2026): `prev` edellisen kirjauksen tunniste (Digitrafficin previousId) ja `ku` koneen urakka: haun kirjaukset ketjutetaan koneittain (previousId tai jatkuvuus 3 min / 300 m), ja ketjun urakka on se, jonka teillä (`meta/urakkaverkko.json.gz`, Väyläviraston hoitourakoiden tiet 250 m ruuduin, päivitys 30 vrk välein) ketjun pisteistä on eniten. Yökooste laskee kirjauksen urakalle vain, jos `ku` on sama tai tyhjä. Paikallaan seisovan koneen kirjaukset jätetään pois.
 Tila ja yhteenveto: `meta/toteumat_state.json`. Asemien urakka-alue on tiedostossa `meta/stations.json`.
 Käyttö: koko maan urakoiden suolaus- ja auraushetket suhteessa asemien keliin (ennakoiva vai jälkikäteinen toiminta)
 ja päivystäjän simulaattorin "mitä oikeasti tehtiin".

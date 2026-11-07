@@ -21,7 +21,7 @@ from datetime import datetime, timezone
 
 from arkisto import get, load, save, iso, parse_t, write_csv, seg_dist, M_LAT
 
-VERSION = 'tt1'
+VERSION = 'tt2'   # tt2 (7.11.2026): prev, a, b (kirjausten ketjutus koneittain suomi.py:ssä)
 RADIUS = 2000.0                       # m
 MAX_WINDOW = 24 * 3600 - 60           # rajapinnan enimmäisikkuna
 FIRST_WINDOW = 2 * 3600               # ensimmäinen ajo: 2 h taaksepäin
@@ -32,7 +32,7 @@ SALT = ['SALTING']
 PLOW = ['PLOUGHING_AND_SLUSH_REMOVAL', 'PLOUGHING_OF_SLUSH_DITCH', 'LOWERING_OF_SNOWBANKS', 'REMOVAL_OF_BULGE_ICE', 'TRANSFER_OF_SNOW']
 SAND = ['LINE_SANDING', 'SPOT_SANDING']
 GROUPS = (('salt', set(SALT)), ('plow', set(PLOW)), ('sand', set(SAND)))
-COLS = ['t', 'st', 'task', 'start', 'end', 'd', 'rid', 'sys']
+COLS = ['t', 'st', 'task', 'start', 'end', 'd', 'rid', 'sys', 'prev', 'ku']
 CELL = 0.1                            # asemaruudukko asteina
 
 
@@ -127,7 +127,68 @@ def fetch(t_from, t_to):
     return get(q, timeout=180)
 
 
-def build_rows(features, grid, now, seen):
+def load_uv():
+    try:
+        import gzip
+        j = json.load(gzip.open('meta/urakkaverkko.json.gz', 'rt', encoding='utf-8'))
+        return {k: j['u'][int(i)] for i, ks in j['c'].items() for k in ks}, j['g'], j['kx']
+    except Exception:
+        return None
+
+
+def kone_urakat(features, uv, link_s=180, link_m=300):
+    """tt2 (7.11.2026, Samuli: Porvoon suola-auto kääntyi Vantaan puolella 6.11. ja näkyi Vantaan suolauksena): haun kaikki kirjaukset
+    ketjuiksi koneittain (previousId; muuten seuraava kirjaus alkaa ≤ 3 min ja ≤ 300 m edellisen lopusta). Jokainen piste saa urakan
+    urakkaverkko-ruudukosta (Väylävirasto, 250 m, myös viereiset ruudut); ketjun urakka = eniten pisteitä. Palauttaa {rid: urakkakoodi}."""
+    if not uv: return {}
+    cells, G, KXC = uv
+    def urakka(q):
+        x, y = int(q[0] * KXC // G), int(q[1] * M_LAT // G)
+        u = cells.get(x * 100000 + y)
+        if u: return u
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                u = cells.get((x + dx) * 100000 + y + dy)
+                if u: return u
+        return None
+    seg = {}
+    for f in features:
+        p = f.get('properties') or {}
+        rid = str(f.get('id') if f.get('id') is not None else p.get('id', ''))
+        pts = points(f.get('geometry'))
+        if not rid or not pts: continue
+        seg[rid] = {'prev': str(p.get('previousId')) if p.get('previousId') is not None else None, 'pts': pts,
+                    's': parse_t(p.get('startTime')), 'e': parse_t(p.get('endTime') or p.get('startTime'))}
+    par = {}
+    def find(x):
+        while par.get(x, x) != x:
+            par[x] = par.get(par[x], par[x]); x = par[x]
+        return x
+    for rid, g in seg.items():
+        if g['prev'] in seg: par[find(rid)] = find(g['prev'])
+    import bisect
+    srt = sorted((g['s'], rid) for rid, g in seg.items() if g['s'])
+    st_ = [x[0] for x in srt]
+    for rid, g in seg.items():
+        if not g['e']: continue
+        b = g['pts'][-1]; mlon = M_LAT * math.cos(math.radians(b[1]))
+        k = bisect.bisect_left(st_, g['e'] - 30)
+        while k < len(srt) and srt[k][0] <= g['e'] + link_s:
+            o = srt[k][1]; a = seg[o]['pts'][0]
+            if o != rid and math.hypot((a[0] - b[0]) * mlon, (a[1] - b[1]) * M_LAT) < link_m: par[find(o)] = find(rid)
+            k += 1
+    votes = {}
+    for rid, g in seg.items():
+        v = votes.setdefault(find(rid), {})
+        for q in g['pts']:
+            u = urakka(q)
+            if u: v[u] = v.get(u, 0) + 1
+    own = {r: max(v, key=v.get) for r, v in votes.items() if v}
+    return {rid: own.get(find(rid), '') for rid in seg}
+
+
+def build_rows(features, grid, now, seen, ku=None):
+    ku = ku or {}
     rows, n_routes, n_still, n_dup = [], 0, 0, 0
     for f in features:
         p = f.get('properties') or {}
@@ -151,7 +212,8 @@ def build_rows(features, grid, now, seen):
         for sid, d in sorted(near.items()):
             for g in groups:
                 rows.append({'t': iso(now), 'st': sid, 'task': g, 'start': iso(start) if start else '',
-                             'end': iso(end) if end else '', 'd': d, 'rid': rid, 'sys': p.get('sendingSystem') or ''})
+                             'end': iso(end) if end else '', 'd': d, 'rid': rid, 'sys': p.get('sendingSystem') or '',
+                             'prev': p.get('previousId') or '', 'ku': ku.get(rid, '')})
     return rows, n_routes, n_still, n_dup
 
 
@@ -175,7 +237,8 @@ def main():
         print('Toteumat: haku epäonnistui (%s), yritetään seuraavalla ajolla samasta kohdasta' % e)
         return 0
     feats = (data or {}).get('features') or []
-    rows, n_routes, n_still, n_dup = build_rows(feats, station_grid(meta), now, seen)
+    ku = kone_urakat(feats, load_uv())
+    rows, n_routes, n_still, n_dup = build_rows(feats, station_grid(meta), now, seen, ku)
     os.makedirs('data/current', exist_ok=True)
     if rows:
         write_csv('data/current/toteumat-%s.csv' % today, COLS, rows)
