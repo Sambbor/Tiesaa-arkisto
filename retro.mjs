@@ -13,7 +13,8 @@ import fs from 'node:fs';
 import zlib from 'node:zlib';
 
 const RULES_URL = 'https://raw.githubusercontent.com/Sambbor/Vantaakeli/main/collector/collect.mjs';
-const VERSION = 'rt4';   // rt4 (6.11.2026): kelikeskuksen päätöshetket klo 18 ja 22 asemittain → retro/yot/ (koko Suomen yökooste vertaa havaittuun liukkauteen)   // 15.10.: tienpinta +0,5 °C mukaan suolataulukon ylimpään luokkaan; 16.10. (rt3): ennuste vs. urakoiden suolaukset (toteumat)
+const VERSION = 'rt6';   // rt6 (7.11.2026): päätöshetkiin myös kelikeskuksen toimenpidetaso (strong: ei yli 12 h ennustetta, kuura vasta kertymän alettua)
+// rt4:   // rt4 (6.11.2026): kelikeskuksen päätöshetket klo 18 ja 22 asemittain → retro/yot/ (koko Suomen yökooste vertaa havaittuun liukkauteen)   // 15.10.: tienpinta +0,5 °C mukaan suolataulukon ylimpään luokkaan; 16.10. (rt3): ennuste vs. urakoiden suolaukset (toteumat)
 const LEADS = [2, 6, 12];
 const MATCH_MIN = 40;          // myöhempi mittaus enintään näin kaukana tarkistushetkestä
 const RECOMPUTE_DAYS = 60;
@@ -170,7 +171,11 @@ function processDay(day, R, prov){
         const k = String(hp.hour), Y = yot[st] = yot[st] || {};
         if(!Y[k]){ const w = ser.filter(c => c.t >= o.t && c.t <= tEnd && c.idx != null);
           const on = w.find(c => c.idx >= 50), mx = w.reduce((a, c) => Math.max(a, c.idx), 0);
-          Y[k] = {max: mx, alku: on ? iso(on.t) : null, why: on ? (on.why || null) : null}; }
+          // rt6: kelikeskuksen varjokomennon toimenpide (shadowCommand strong): indeksi ≥ 50, ei Digitrafficin 12 h ennusteen jälkeistä
+          // arviota (ext), eikä pelkkää ennustettua kuuraa ennen kuin kuuraa on alkanut kertyä asemalla (kk1, kertymä < 0,05 °C·h).
+          // Mallien yhtäpitävyyttä (MEPS, EC, MET) ei ole arkistossa, joten sitä ehtoa ei voi toistaa.
+          const st_ = w.find(c => c.idx >= 50 && !c.ext && !(c.why === 'kuura' && frAcc0 < 0.05));
+          Y[k] = {max: mx, alku: on ? iso(on.t) : null, why: on ? (on.why || null) : null, toim: st_ ? iso(st_.t) : null, toimWhy: st_ ? (st_.why || null) : null}; }
       }
       const p = prov[st] || 'tuntematon';
       for(const L of LEADS){
@@ -288,7 +293,7 @@ async function main(){
   // rt5 (6.11.2026): illan päätöshetket heti aamulla. Täysi tarkistus odottaa seuraavaa vuorokautta (+12 h tarkistus), mutta
   // klo 18 ja 22 indeksi tarvitsee vain yön klo 08 asti: lasketaan ne heti, kun yö on ohi ja seuraavan päivän mittauksia on.
   // Ajastin käynnistää tarkistuksen klo 08.11 Suomen aikaa, joten Päivystyskirjan paketti (klo 8.27) saa tuoreen joukon taulukon.
-  const early = days.filter(d => !todo.includes(d) && !fs.existsSync(`retro/yot/${d}.json`) && days.includes(addDay(d, 1)) && Date.now() > nightEnd(d) + 5 * 6e4);
+  const early = days.filter(d => !todo.includes(d) && (load(`retro/yot/${d}.json`, {}).v !== VERSION) && days.includes(addDay(d, 1)) && Date.now() > nightEnd(d) + 5 * 6e4);
   for(const d of early.slice(-3)){
     const t0 = Date.now(), res = processDay(d, R, prov);
     save(`retro/yot/${d}.json`, {day: d, rv: R.RULES_VERSION, v: VERSION, st: res.yot, ennakko: true});

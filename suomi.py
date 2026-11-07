@@ -29,7 +29,7 @@ from zoneinfo import ZoneInfo
 
 from naapurit import read_day, f, ts, plaus, slippery
 
-VERSION = 'su7'   # su7: toteumat koneen urakalle (urakkaverkko, toteumat.py ku); su6: su6: aukkovahti (aukot), --kausi; su5: su5: kollektiivinen päivystäjä (joukko(), data/joukko.json), klo 18 tila riveihin; su4: su4: kelikeskuksen ennuste vs. havaittu liukkaus (ennuste()), klo 22 tila riveihin; su2 (6.11.2026, Samuli: "Tee 1"): havaittu liukkaus optisesta kitkasta, poikkeavat anturit pois; su3: tuuliehto pois kuurasta
+VERSION = 'su8'   # su8: ennustevertailu kelikeskuksen toimenpidetasolla (retro rt6); su7: su7: toteumat koneen urakalle (urakkaverkko, toteumat.py ku); su6: su6: aukkovahti (aukot), --kausi; su5: su5: kollektiivinen päivystäjä (joukko(), data/joukko.json), klo 18 tila riveihin; su4: su4: kelikeskuksen ennuste vs. havaittu liukkaus (ennuste()), klo 22 tila riveihin; su2 (6.11.2026, Samuli: "Tee 1"): havaittu liukkaus optisesta kitkasta, poikkeavat anturit pois; su3: tuuliehto pois kuurasta
 HEL = ZoneInfo('Europe/Helsinki')
 WFS = 'https://avoinapi.vaylapilvi.fi/vaylatiedot/ows'
 UA = {'User-Agent': 'tiesaa-arkisto/1'}
@@ -367,13 +367,14 @@ def kausi():
 
 
 def ennuste(U):
-    """Kelikeskuksen liukkausennuste (retro.mjs rt4: indeksi klo 18 ja 22, ≥ 50 ennen aamua klo 08) vs. havaittu liukkaus (kitka).
+    """Kelikeskuksen liukkausennuste (retro.mjs rt4/rt6: indeksi klo 18 ja 22, ≥ 50 ennen aamua klo 08) vs. havaittu liukkaus (kitka).
+    su8: myös kelikeskuksen toimenpidetaso ('toimenpide'), ja syy-, alue-, urakka- ja piirre-erittelyt sillä.
     Urakka hälyttää, kun jollakin sen ehjällä asemalla tai vähintään 20 %:lla asemista indeksi nousee 50:een. Vain urakat, joilla on
     kitka-anturi. Lisäksi piirteet hälytysöiltä: mikä erottaa oikeat liukkaat yöt turhista."""
     by = {}
     for sid, c in U['st'].items(): by.setdefault(c, []).append(sid)
     C = lambda: {'hit': 0, 'miss': 0, 'fa': 0, 'cn': 0, 'ennakko': []}
-    S = {sl: {'jokin': C(), 'osuus20': C()} for sl in ('18', '22')}
+    S = {sl: {'jokin': C(), 'osuus20': C(), 'toimenpide': C()} for sl in ('18', '22')}
     why, ely, urk, oma, pii, yot = {}, {}, {}, [], [], []
     for p in sorted(glob.glob('suomi/????-??-??.json')):
         N = json.load(open(p, encoding='utf-8'))
@@ -391,16 +392,19 @@ def ennuste(U):
             rec = {'yo': N['yo'], 'u': r['u'], 'hav': hav}
             for sl in ('18', '22'):
                 al = [Y[s][sl] for s in ok if (Y[s].get(sl) or {}).get('alku')]
+                # su8: kelikeskuksen toimenpidetaso (retro rt6: ei yli 12 h arviota, kuura vasta kertymän alettua)
+                alT = [{'alku': Y[s][sl]['toim'], 'why': Y[s][sl].get('toimWhy')} for s in ok if (Y[s].get(sl) or {}).get('toim')]
                 n_ok = sum(1 for s in ok if Y[s].get(sl))
                 if not n_ok: continue
                 osuus = len(al) / n_ok
-                for rule, a in (('jokin', bool(al)), ('osuus20', osuus >= 0.2 and bool(al))):
+                for rule, a in (('jokin', bool(al)), ('osuus20', osuus >= 0.2 and bool(al)), ('toimenpide', bool(alT))):
                     k = 'hit' if a and hav else 'miss' if hav else 'fa' if a else 'cn'
                     S[sl][rule][k] += 1
                     if k == 'hit' and ha:
                         alku = min(ts(x['alku']) for x in al)
                         S[sl][rule]['ennakko'].append(round((ha - dec[sl]).total_seconds() / 3600, 1))
-                    if sl == '22' and rule == 'jokin':
+                    if sl == '22' and rule == 'toimenpide':   # su8: erittelyt kelikeskuksen toimenpidetasolla (aiemmin raaka indeksi)
+                        al = alT
                         rec.update({'k': k, 'osuus': round(osuus, 2), 'max': max(Y[s][sl]['max'] for s in ok if Y[s].get(sl))})
                         e = ely.setdefault(r['ely'] or '?', C()); e[k] += 1
                         u = urk.setdefault(r['u'], C()); u[k] += 1
@@ -450,7 +454,7 @@ def ennuste(U):
         k = [x for x in pii if cond(x)]
         ehd.append({'ehto': nimi, 'halytyksia': len(k), 'kaikki': len(pii), 'osumia': sum(x['hav'] for x in k), 'osumiaKaikki': sum(x['hav'] for x in pii)})
     return {'yot': yot, 'slots': S, 'why': why, 'ely': ely, 'urakat': urk, 'piirteet': piirteet, 'ehdokkaat': ehd, 'oma': oma,
-            'note': 'Kelikeskuksen indeksi klo 18 ja 22 (Tiesää-arkiston jälkitarkistus, samat säännöt kuin sivulla) ≥ 50 jollakin urakan '
+            'note': 'Toimenpide = kelikeskuksen varjokomennon toimenpidetaso jälkikäteen (indeksi ≥ 50, ei yli 12 h arviota, ennustettu kuura vasta kun kuuraa on alkanut kertyä; mallien yhtäpitävyyttä ei arkistossa ole), syy-, alue- ja piirre-erittelyt tällä tasolla. Raaka indeksi = kelikeskuksen indeksi klo 18 ja 22 (Tiesää-arkiston jälkitarkistus, samat säännöt kuin sivulla) ≥ 50 jollakin urakan '
                     'ehjällä asemalla ennen aamua klo 08 vs. havaittu liukkaus (optinen kitka alle 0,6 vähintään 1 h). Vain urakat, joilla on '
                     'kitka-anturi. Ennakko = tunteja päätöshetkestä havaittuun liukkauteen. Jälkitarkistus valmistuu noin vuorokauden viiveellä.'}
 
