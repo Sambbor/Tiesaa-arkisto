@@ -1599,3 +1599,15 @@ pvm,vaihe,kuva_aika,st,asema,cam,preset,suunta,tie,maakunta,dist_m,aurinko,tr,td
 2026-11-08,A,2026-11-08T05:45,16001,"Tie 1 Salo, Lakiamäki",C16585,C1658500,Lakiamäki,1,Varsinais-Suomi,207,-16.4,-0.5,1.0,1.0,-0.2,,,-0.5,-1.8,5.0,kuura,kuura/kuvat/2026-11/08/C1658500_A.jpg,,ku2
 2026-11-08,A,2026-11-08T05:45,16001,"Tie 1 Salo, Lakiamäki",C16586,C1658600,Lakiamäki,1,Varsinais-Suomi,15,-16.4,-0.5,1.0,1.0,-0.2,,,-0.5,-1.8,5.0,kuura,kuura/kuvat/2026-11/08/C1658600_A.jpg,,ku2
 2026-11-08,A,2026-11-08T05:46,18006,"Tie 4 Sodankylä, Petäjämaa",C18534,C1853409,Rovaniemi,4,Lappi,0,-15.6,-3.5,-2.5,1.6,-0.1,,,-3.8,-1.4,5.5,kuura,kuura/kuvat/2026-11/08/C1853409_A.jpg,,ku2
+2026-11-08,B,2026-11-08T08:18,5004,"Tie 6 Imatra, Rönkkä",C03525,C0352501,Joensuuhun,6,Etelä-Karjala,0,2.2,1.8,2.8,4.0,-0.7,,,0.6,-2.8,1.0,kuura,kuura/kuvat/2026-11/08/C0352501_B.jpg,,ku2
+2026-11-08,B,2026-11-08T08:18,5011,"Tie 170 Virolahti, Virojoki",C03557,C0355701,Vaalimaalle,170,Kymenlaakso,11,2.2,0.3,2.8,3.2,-0.1,,,-2.0,-3.8,6.0,kuura,kuura/kuvat/2026-11/08/C0355701_B.jpg,,ku2
+2026-11-08,B,2026-11-08T08:17,5008,"Tie 6 Lappeenranta, Mälkiä",C03558,C0355801,Imatralle,6,Etelä-Karjala,193,2.1,0.7,2.3,3.2,-0.5,,,0.7,-1.7,2.0,kuura,kuura/kuvat/2026-11/08/C0355801_B.jpg,,ku2
+2026-11-08,B,2026-11-08T08:15,3089,"Tie 6 Rautjärvi, Simpele",C03579,C0357901,Joensuuhun,6,Etelä-Karjala,0,2.2,0.8,2.2,3.3,-0.7,,,-0.2,-2.2,4.5,kuura,kuura/kuvat/2026-11/08/C0357901_B.jpg,,ku2
+2026-11-08,B,2026-11-08T08:14,3043,"Tie 26 Hamina, Myllykylä",C03581,C0358101,Taavettiin,26,Kymenlaakso,4,2.0,0.4,2.6,3.4,-1.1,,,-1.2,-3.5,6.0,kuura,kuura/kuvat/2026-11/08/C0358101_B.jpg,,ku2
+2026-11-08,B,2026-11-08T08:21,3064,Tie 7 Hamina_Husula,C03603,C0360301,Tie 7,7,Kymenlaakso,193,2.0,-0.1,2.4,2.6,-0.3,,,-1.0,-3.2,5.5,kuura,kuura/kuvat/2026-11/08/C0360301_B.jpg,,ku2
+2026-11-08,B,2026-11-08T08:15,3064,Tie 7 Hamina_Husula,C03604,C0360401,"Tie 7, Husula",7,Kymenlaakso,63,2.0,-0.1,2.4,2.6,-0.3,,,-1.0,-3.2,5.5,kuura,kuura/kuvat/2026-11/08/C0360401_B.jpg,,ku2
+2026-11-08,B,2026-11-08T08:15,5007,"Tie 6 Luumäki, kirkko",C03663,C0366301,Lappeenrantaan,6,Etelä-Karjala,0,2.0,0.4,2.6,2.9,-0.5,,,0.9,-1.7,0.5,kuura,kuura/kuvat/2026-11/08/C0366301_B.jpg,,ku2
+2026-11-08,B,2026-11-08T08:15,3002,"Tie 7 Hamina, Summa",C03672,C0367201,vt7_Haminaan,7,Kymenlaakso,0,2.0,0.1,2.5,3.0,-0.2,,,0.3,-2.4,5.0,kuura,kuura/kuvat/2026-11/08/C0367201_B.jpg,,ku2
+2026-11-08,B,2026-11-08T08:19,3064,Tie 7 Hamina_Husula,C03673,C0367301,Vaalimaalle,7,Kymenlaakso,0,2.0,-0.1,2.4,2.6,-0.3,,,-1.0,-3.2,5.5,kuura,kuura/kuvat/2026-11/08/C0367301_B.jpg,,ku2
+2026-11-08,B,2026-11-08T08:19,3056,Tie 7 Hamina Kolsila itä,C03674,C0367401,vt7_Vaalinmaalle,7,Kymenlaakso,0,2.0,0.7,2.6,3.4,-0.2,,,-1.2,-3.5,6.0,kuura,kuura/kuvat/2026-11/08/C0367401_B.jpg,,ku2
+2026-11-08,B,2026-11-08T08:14,7037,"Tie 6 Kitee, Kousa",C07505,C0750501,Joensuuhun,6,Pohjois-Karjala,0,2.1,0.0,1.9,2.8,-2.7,,,0.6,-1.6,1.0,kuura,kuura/kuvat/2026-11/08/C0750501_B.jpg,,ku2
