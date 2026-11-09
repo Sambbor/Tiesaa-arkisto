@@ -1,0 +1,65 @@
+name: Kuukauden varmuuskopio
+# vk1 (9.11.2026, Samuli): kuun 1. päivä tiivistyksen jälkeen edellisen kuukauden data pakataan GitHubin julkaisuksi (Releases).
+# Julkaisun tiedostot ovat erillään säilön tiedostoista ja historiasta: tiivistys, vahinkopoisto tai rikkoutunut tiedosto eivät koske niihin.
+# Sisältö: Tiesää-arkiston kuukausi (archive, kuura), tilannekuva muusta (meta, data, retro, suomi, tm, om, koodi) ja Vantaakeli-säilön data/.
+# Palautus: claude/varmuuskopio.md (projekti). Käsin: Run workflow, kk = YYYY-MM (tyhjä = edellinen kuukausi).
+on:
+  schedule:
+    - cron: '37 13 1 * *'   # kuun 1. päivä klo 13.37 UTC, tiivistyksen (12.07) jälkeen
+  workflow_dispatch:
+    inputs:
+      kk:
+        description: 'Kuukausi YYYY-MM (tyhjä = edellinen kuukausi)'
+        required: false
+        default: ''
+permissions:
+  contents: write
+jobs:
+  kopio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+      - name: Pakkaa kuukausi
+        env:
+          KK_IN: ${{ inputs.kk }}
+        run: |
+          set -euo pipefail
+          KK="${KK_IN:-$(date -u -d "$(date -u +%Y-%m-01) -1 day" +%Y-%m)}"
+          [[ "$KK" =~ ^20[0-9]{2}-[0-1][0-9]$ ]] || { echo "Virheellinen kuukausi: $KK"; exit 1; }
+          echo "KK=$KK" >> "$GITHUB_ENV"
+          mkdir -p _kopio
+          # 1) Tiesää-arkiston kuukausi (arkisto alkaa 12.10.2026; aiemmilta kuukausilta vain Vantaakelin data)
+          L=()
+          [ -d "archive/$KK" ] && L+=("archive/$KK")
+          [ -f "kuura/data/kuura-$KK.csv" ] && L+=("kuura/data/kuura-$KK.csv")
+          [ -d "kuura/kuvat/$KK" ] && L+=("kuura/kuvat/$KK")
+          if [ ${#L[@]} -gt 0 ]; then tar -czf "_kopio/tiesaa-arkisto-$KK.tar.gz" "${L[@]}"; else echo "Tiesää-arkistossa ei kuukautta $KK"; fi
+          # 2) Tilannekuva muusta (pienet tiedostot, ei arkistoa eikä kuvia)
+          tar -czf "_kopio/tiesaa-tila-$KK.tar.gz" --exclude=./.git --exclude=./_kopio --exclude=./archive --exclude=./kuura/kuvat .
+          # 3) Vantaakeli-säilön data/: kuukauden tiedostot + kaikki kuukaudettomat (yöt, kirja, komennot, json)
+          for i in 1 2 3; do
+            rm -rf _vk && git clone -q --depth 1 --filter=blob:none --sparse https://github.com/Sambbor/Vantaakeli.git _vk && break
+            sleep $((i*10))
+          done
+          (cd _vk && git sparse-checkout set data)
+          (cd _vk && find data -type f \( -name "*-$KK.csv" -o ! -name "*-20[0-9][0-9]-[0-1][0-9].csv" \) -print0 | tar -czf "../_kopio/vantaakeli-data-$KK.tar.gz" --null -T -)
+          cd _kopio
+          for f in *.tar.gz; do echo "$f: $(tar -tzf "$f" | grep -vc '/$') tiedostoa"; done | tee SISALTO.txt
+          sha256sum *.tar.gz > SHA256SUMS
+          ls -la
+      - name: Julkaise
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          T="varmuuskopio-$KK"
+          N="Kuukauden $KK varmuuskopio (vk1). Tiesää-arkiston kuukausi, tilannekuva ja Vantaakeli-säilön data. Tarkistussummat: SHA256SUMS. Palautusohje: projektin claude/varmuuskopio.md."
+          if gh release view "$T" >/dev/null 2>&1; then
+            gh release upload "$T" _kopio/*.tar.gz _kopio/SHA256SUMS _kopio/SISALTO.txt --clobber
+          else
+            gh release create "$T" _kopio/*.tar.gz _kopio/SHA256SUMS _kopio/SISALTO.txt --target main --title "Varmuuskopio $KK" --notes "$N"
+          fi
+          gh release view "$T" --json assets --jq '.assets[] | "\(.name) \(.size)"'
