@@ -1,6 +1,6 @@
 # Jälkitarkistus koko Suomen aineistolla
 
-Kelisivun liukkaussäännöt (v17) ajettuna jälkikäteen Tiesää-arkiston asemille. Päiviä 27 (2026-10-12 – 2026-11-07), laskentoja 285386. Päivitetty 2026-11-09T06:11:43Z.
+Kelisivun liukkaussäännöt (v17) ajettuna jälkikäteen Tiesää-arkiston asemille. Päiviä 27 (2026-10-12 – 2026-11-07), laskentoja 285386. Päivitetty 2026-11-09T13:18:57Z.
 
 Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, tai tienpinnan ollessa enintään +1 °C kitka < 0,45, jäätä tai lunta). Ennuste "liukas" = indeksi ≥ 50.
 
