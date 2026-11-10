@@ -44,6 +44,7 @@ jobs:
             om
             suomi
             retro/yot
+            km
       - name: Kerää asemat ja ennusteet
         run: python3 arkisto.py
       - name: Kerää talvihoidon toteumat asemien ympäriltä
@@ -74,6 +75,9 @@ jobs:
       - name: Tienpintamallin varjoennuste ja tarkistus (tv1)
         continue-on-error: true
         run: pip install -q --disable-pip-version-check -r tm_requirements.txt && python3 tm_varjo.py predict
+      - name: Kuurapistemallin varjoennuste ja tarkistus (km1)
+        continue-on-error: true
+        run: python3 km_varjo.py predict
       # om2 (3.11.2026, Samuli: "Tee"): oppiva liukkausmalli varjona (+3 h, raja 1/9). Koodi yksityisestä säilöstä lukuavaimella,
       # malli samasta välimuistista (.tm_model/om.pkl). Tulokset om/. Ei vaikuta kelisivuun; virhe ei kaada arkistoa.
       - name: Hae oppivan mallin koodi (yksityinen säilö, CODE_TOKEN)
@@ -96,6 +100,7 @@ jobs:
           for i in 1 2 3; do
             git add --sparse -A tm om 2>/dev/null || git add --sparse -A tm 2>/dev/null || true   # tv1: oma rivi (alla oleva ketju päätyy yleensä 'meta data' -muotoon, koska archive ja naapurit puuttuvat)
             git add --sparse -A suomi 2>/dev/null || true   # su1
+            git add --sparse -A km 2>/dev/null || true      # km1
             git add --sparse -A meta data archive naapurit 2>/dev/null || git add --sparse -A meta data archive 2>/dev/null || git add --sparse -A meta data
             git diff --cached --quiet && exit 0
             git commit -q -m "Tiesää-arkisto $(date -u +%Y-%m-%dT%H:%MZ)"
@@ -108,6 +113,7 @@ jobs:
             python3 naapurit.py || echo "Naapuriurakoiden koonti epäonnistui, jatketaan"
             python3 suomi.py || echo "Koko Suomen yökooste epäonnistui, jatketaan"
             python3 tm_varjo.py predict || echo "Tienpintamallin varjo epäonnistui, jatketaan"
+            python3 km_varjo.py predict || echo "Kuurapistemallin varjo epäonnistui, jatketaan"
             [ -f .laskenta/om/om_varjo.py ] && { python3 .laskenta/om/om_varjo.py predict || echo "Oppivan mallin varjo epäonnistui, jatketaan"; }
           done
           exit 1

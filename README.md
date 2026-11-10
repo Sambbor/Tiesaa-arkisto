@@ -55,6 +55,9 @@ muista, kitka-anturi liukas yli +3 °C:n tiellä. Kausi: `liukasYot`, `ehtiEnnen
 - rt6/su8 (7.11.2026): päätöshetkiin myös kelikeskuksen varjokomennon toimenpidetaso (`toim`, `toimWhy`: indeksi ≥ 50, ei yli 12 h
   arviota, ennustettu kuura vasta kun kuuraa on alkanut kertyä; mallien yhtäpitävyyttä ei arkistossa ole). `ennuste.slots.*.toimenpide`
   ja syy-, alue-, urakka- ja piirre-erittelyt tällä tasolla (raaka indeksi `jokin` vertailuna).
+- `km_varjo.py` (km1, 10.11.2026): kuurapistemalli varjona tienpintamallin rinnalle. Opettaa kastepisteen ja suoraan erotuksen
+  tie − kastepiste (+2/+4/+6/+12 h) koko arkistolla (tienpintamalli.yml, malli välimuistissa), testi ilman viimeistä 7 vrk:ta →
+  `km/testi.json`. Arkistoajo ennustaa Vantaan asemille ja tarkistaa → `km/verif.json`, `km/verif-YYYY-MM.csv`, `km/latest.json`.
 - rt7/su9 (7.11.2026): toimenpidetasoon mallien yhtäpitävyys (MEPS ja EC arkistosta, kuten kelikeskuksessa; MET puuttuu), päätöshetkeen
   tienpinta (`tr`). Illan tila: Arkiston ajastin käynnistää retro.yml:n (`ilta=true`) klo 18.23 ja 22.23 → `retro.mjs --ilta` ja
   `suomi.py --ilta` → `data/joukko-ilta.json` (joukon arvio kaikille urakoille samalla laskennalla kuin `data/joukko.json`).
