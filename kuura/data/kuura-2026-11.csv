@@ -2315,3 +2315,12 @@ pvm,vaihe,kuva_aika,st,asema,cam,preset,suunta,tie,maakunta,dist_m,aurinko,tr,td
 2026-11-11,A,2026-11-11T05:52,12095,"Tie 816 Oulunsalo, Huikun_silta",C12656,C1265601,Hailuotoon,816,Pohjois-Pohjanmaa,0,-16.8,-4.4,-3.0,-3.0,-3.0,,,-4.9,-1.8,7.5,kuura,kuura/kuvat/2026-11/11/C1265601_A.jpg,,ku2
 2026-11-11,A,2026-11-11T05:48,12094,"Tie 816 Oulunsalo, Keinosaari",C12657,C1265701,Hailuotoon,816,Pohjois-Pohjanmaa,0,-16.8,-4.7,-4.0,-3.5,-1.8,,,-4.7,-0.8,5.5,kuura,kuura/kuvat/2026-11/11/C1265701_A.jpg,,ku2
 2026-11-11,A,2026-11-11T05:46,14027,"Tie 970 Utsjoki, Nuorgam",C14533,C1453301,Norjan rajalle,970,Lappi,13,-16.3,-2.5,-1.9,-1.6,0.0,,,-5.2,-2.4,12.0,kuura,kuura/kuvat/2026-11/11/C1453301_A.jpg,,ku2
+2026-11-11,B,2026-11-11T08:47,2031,"Tie 9 Turku, Kärsämäki",C02520,C0252001,Tie 40 Helsinkiin,40,Varsinais-Suomi,77,2.2,2.3,2.2,2.8,-1.1,,,0.4,-0.6,0.5,kuura,kuura/kuvat/2026-11/11/C0252001_B.jpg,,ku2
+2026-11-11,B,2026-11-11T08:49,2142,Tie 40 Raisio,C02521,C0252101,Tie 40 Piikkiöön,40,Varsinais-Suomi,0,2.2,2.3,1.5,2.6,-0.2,,,0.4,-0.3,0.5,kuura,kuura/kuvat/2026-11/11/C0252101_B.jpg,,ku2
+2026-11-11,B,2026-11-11T08:50,2124,"Tie 189 Naantali, Luonnonmaa",C02563,C0256301,Rymättylään,189,Varsinais-Suomi,0,2.1,2.1,2.7,2.7,-1.9,,,0.8,-0.7,0.5,kuura,kuura/kuvat/2026-11/11/C0256301_B.jpg,,ku2
+2026-11-11,B,2026-11-11T08:51,2031,"Tie 9 Turku, Kärsämäki",C02589,C0258901,kamera 1,40,Varsinais-Suomi,168,2.2,2.3,2.2,2.8,-1.1,,,0.4,-0.6,0.5,kuura,kuura/kuvat/2026-11/11/C0258901_B.jpg,,ku2
+2026-11-11,B,2026-11-11T08:43,2012,"Tie 10, Koski TL",C02594,C0259401,Hämeenlinnaan,10,Varsinais-Suomi,0,2.4,2.5,2.5,2.5,-2.5,,,0.6,-1.2,2.5,kuura,kuura/kuvat/2026-11/11/C0259401_B.jpg,,ku2
+2026-11-11,B,2026-11-11T08:48,2011,"Tie 9 Loimaa, Mellilä",C02595,C0259501,Tampereelle,9,Varsinais-Suomi,0,2.2,2.3,2.1,2.1,-1.0,,,0.9,-1.0,0.5,kuura,kuura/kuvat/2026-11/11/C0259501_B.jpg,,ku2
+2026-11-11,B,2026-11-11T08:49,7032,"Tie 73 Lieksa, Vieki",C08505,C0850501,Nurmekseen,73,Pohjois-Karjala,32,2.5,-0.8,-2.9,-1.9,-0.7,,,-1.0,0.9,0.0,raja,kuura/kuvat/2026-11/11/C0850501_B.jpg,,ku2
+2026-11-11,B,2026-11-11T08:52,8011,"Tie 9 Kuopio, Vartiala",C08528,C0852801,Joensuuhun,9,Pohjois-Savo,118,2.4,0.3,-0.4,0.0,-0.7,,,0.1,0.2,0.0,raja,kuura/kuvat/2026-11/11/C0852801_B.jpg,,ku2
+2026-11-11,B,2026-11-11T08:48,8008,"Tie 75 Nilsiä, Suholanmäki",C08588,C0858801,Nurmekseen,75,Pohjois-Savo,0,2.3,0.0,-1.5,-1.3,-2.4,,,0.6,0.2,0.0,raja,kuura/kuvat/2026-11/11/C0858801_B.jpg,,ku2
