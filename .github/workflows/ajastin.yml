@@ -4,6 +4,7 @@ name: Arkiston ajastin
 # Varalla cron: jos ketju katkeaa, ajastin käynnistyy uudelleen viimeistään 3 h kuluttua (jonoon jäävä varakäynnistys peruuntuu –
 # "cancelled" Actionsissa on normaalia). Käsin peruttu ajastin ei käynnisty itse uudelleen. Julkisessa säilössä ajominuutit ovat ilmaisia.
 # su6 (6.11.2026): jälkitarkistus (retro.yml) käynnistetään täältä klo 08.11 Suomen aikaa; GitHubin oma ajastus viivästyi noin 8 h.
+# km1b (11.11.2026): mallien opetus (tienpintamalli.yml) klo 05.23 Suomen aikaa täältä; oma cron jää varalle (concurrency estää päällekkäiset).
 # ka4 (3.11.2026): myös kuura-kuvat (kuura-kuvat.yml) käynnistetään täältä :23 ja :53 UTC, kun Suomen aikaa on klo 04.30–12.00.
 # Pelkällä cronilla kuura-kuvat ajettiin 27.10.–3.11. noin 1–2 kertaa päivässä, osin iltapäivällä, ja A-kuva (ennen klo 06) saatiin vain kerran.
 on:
@@ -49,6 +50,12 @@ jobs:
               if [ "$hm" = "1823" ] || [ "$hm" = "2223" ]; then
                 echo "$(date -u +%H:%M:%S) käynnistetään illan päätöshetki (Suomen aikaa $hm)"
                 gh workflow run retro.yml --ref main -f ilta=true || echo "::warning::Illan päätöshetken käynnistys epäonnistui"
+              fi
+              # km1b: mallien opetus (tienpintamalli.yml: tv1, km1, om) klo 05.23 Suomen aikaa ennen yöpakettia;
+              # GitHubin oma ajastus (05.23) käynnistyi 5.–10.11. vasta klo 12.35–13.49, ja km1 jäi ilman mallia 10.–11.11.
+              if [ "$hm" = "0523" ]; then
+                echo "$(date -u +%H:%M:%S) käynnistetään mallien opetus"
+                gh workflow run tienpintamalli.yml --ref main || echo "::warning::Mallien opetuksen käynnistys epäonnistui"
               fi
             fi
           done
