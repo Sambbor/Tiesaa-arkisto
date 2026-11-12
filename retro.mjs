@@ -64,17 +64,23 @@ function availableDays(){
   return [...days].sort();
 }
 
+const SURF_TO_KELI = {1: 1, 2: 3, 3: 3, 10: 3, 11: 7};   // kl1: tienpinnan tila → keli (1 kuiva, 3 märkä, 7 kuura/lumi/jää)
 // asemarivi → säännöille sopiva havainto
 function obsOf(r, R){
   const tr = [num(r.tr1), num(r.tr2)].filter(v => v != null);
-  const k1 = num(r.keli1), k2 = num(r.keli2);
+  // kl1 (12.11.2026): Digitraffic lopetti KELI_1–2 ja VAROITUS_1–2 6.11. klo 12.47 UTC. Arkisto täydentää keli1/warn1 ta4:stä alkaen
+  // (12.11. klo 14.41 UTC); väliltä 6.–12.11. keli muunnetaan tässä tienpinnan tilasta (surf1, sama SURF_TO_KELI kuin arkisto.py:ssä ja
+  // kelikeskuksessa). Optisen anturin varoitusta (owarn1) ei arkistoitu ennen ta4:ää, joten väliltä varoitus puuttuu. Sääntöihin ei muutosta.
+  let k1 = num(r.keli1), k2 = num(r.keli2), ksrc = r.ksrc || (k1 > 0 || k2 > 0 ? 'keli' : null);
+  if(!(k1 > 0) && !(k2 > 0)){ const sk = SURF_TO_KELI[num(r.surf1)]; if(sk != null){ k1 = sk; ksrc = 'tila'; } }
   const w = [num(r.warn1), num(r.warn2)].filter(v => v != null);
+  if(!w.length && num(r.owarn1) != null) w.push(num(r.owarn1));
   const fr = [num(r.fric1), num(r.fric2)].filter(v => v != null);
   const td = num(r.td);
   return {t: new Date(r.mt).getTime(), tr: tr.length ? Math.min(...tr) : null, ta: num(r.ta), td, fp: td != null ? R.frostPt(td) : null   /* v15 (21.10.2026): kuuran raja kastepisteestä, aseman KUURAPISTE-lukemaa ei käytetä (kuten keruu) */,
     keli: k1 > 0 ? k1 : (k2 > 0 ? k2 : k1), warn: w.length ? w.reduce((a, x) => (R.WARN_RANK[x] ?? 0) > (R.WARN_RANK[a] ?? -1) ? x : a, -1) : null,
     fric: fr.length ? Math.min(...fr) : null, water: num(r.water1), snow: num(r.snow1), ice: num(r.ice1), tf: num(r.tf1), salt: num(r.salt1),
-    rain: num(r.rain), raw: r};
+    rain: num(r.rain), ksrc, raw: r};
 }
 // rt7: sama kuin kelikeskuksen collect.mjs modelRows: mallin lämpötila, kastepiste ja sade FMI-rivien tilalle
 function modelRows(base, pts){
@@ -320,6 +326,9 @@ async function main(){
   let todo;
   if(state.rv !== R.RULES_VERSION || state.v !== VERSION){ todo = ready.slice(-RECOMPUTE_DAYS); state.done = []; try{ fs.rmSync('retro/days', {recursive: true, force: true}); }catch(e){} }
   else todo = ready.filter(d => !state.done.includes(d));
+  // kl1 (12.11.2026): kertaluonteinen uudelleenlaskenta 6.–11.11. (keli puuttui arkistosta, nyt tienpinnan tilasta). Merkitään state.kl1.
+  if(!state.kl1){ const redo = ready.filter(d => d >= '2026-11-06' && d <= '2026-11-11' && !todo.includes(d)); todo = todo.concat(redo).sort();
+    state.done = state.done.filter(d => !redo.includes(d)); state.kl1 = iso(Date.now()); if(redo.length) console.log('kl1: lasketaan uudelleen ' + redo.join(', ')); }
   for(const d of todo){
     const t0 = Date.now(), res = processDay(d, R, prov);
     save(`retro/yot/${d}.json`, {day: d, rv: R.RULES_VERSION, v: VERSION, st: res.yot}); delete res.yot;
