@@ -7376,5 +7376,33 @@
 "mun": "Jyväskylä",
 "prov": "Keski-Suomi",
 "t": 1793697090
+},
+"1071": {
+"name": "Tie 103 Helsinki, Vuosaari eteläinen",
+"lon": 25.166245,
+"lat": 60.226774,
+"road": 103,
+"sec": 1,
+"dist": 3988,
+"cw": "DUAL_CARRIAGEWAY_RIGHT_IN_INCREASING_DIRECTION",
+"area": "Vantaa",
+"area_code": 301,
+"mun": "Helsinki",
+"prov": "Uusimaa",
+"t": 1794483676
+},
+"1073": {
+"name": "Tie 103 Helsinki, Vuosaari pohjoinen",
+"lon": 25.156938,
+"lat": 60.239776,
+"road": 103,
+"sec": 1,
+"dist": 2391,
+"cw": "DUAL_CARRIAGEWAY_RIGHT_IN_INCREASING_DIRECTION",
+"area": "Vantaa",
+"area_code": 301,
+"mun": "Helsinki",
+"prov": "Uusimaa",
+"t": 1794483676
 }
 }
