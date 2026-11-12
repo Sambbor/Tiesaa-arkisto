@@ -12,8 +12,10 @@
 #   ja renkaalla 18–60 km, n kelvollisia ruutuja, g ruudukko (rivit pohjoisesta etelään, 1 = pilvi, 0 = selkeä maa,
 #   2 = selkeä vesi, 9 = ei tietoa; lat 61,00…59,70 0,05° välein, lon 22,50…26,50 0,1° välein → 26 × 40), v versio.
 # Tila: meta/pilvi_state.json (viimeisin tallennettu kuva-aika).
-# Käyttö: python3 pilvi.py            → hakee viimeisimmän tallennetun jälkeiset kuvat (enintään 12 kpl = 3 h)
-#         PILVI_ALKU=2026-10-12 python3 pilvi.py → takautuva haku annetusta päivästä (enintään PILVI_MAX kuvaa)
+# Käyttö: python3 pilvi.py            → hakee viimeisimmän tallennetun jälkeiset kuvat (enintään 12 kpl = 3 h) ja jatkaa
+#         mahdollista takautuvaa hakua aikabudjetin verran (PILVI_AIKA s, oletus 300).
+#         PILVI_ALKU=2026-10-12 python3 pilvi.py → aloittaa takautuvan haun annetusta päivästä (kursori meta/pilvi_state.json
+#         'bf_next'); haku etenee osissa ajo kerrallaan, kunnes se saavuttaa ensimmäisen tavallisen ajon kuvat.
 import json, math, os, re, struct, sys, time, urllib.request, zlib
 from datetime import datetime, timedelta, timezone
 
@@ -32,7 +34,7 @@ COLS = ['t', 'it', 'van', 'van60', 'salo', 'salo60', 'n', 'g', 'v']
 HDR = {'User-Agent': 'tiesaa-arkisto/1 (pilvimaski, varjo)'}
 
 
-def fetch(params, timeout=60):
+def fetch(params, timeout=30):
     q = '&'.join('%s=%s' % (k, v) for k, v in params.items())
     req = urllib.request.Request(WMS + '?' + q, headers=HDR)
     for i in range(3):
@@ -42,7 +44,7 @@ def fetch(params, timeout=60):
         except Exception as e:
             if i == 2:
                 raise
-            time.sleep(5 * (i + 1))
+            time.sleep(3 * (i + 1))
 
 
 def png_pixels(data):
@@ -146,32 +148,22 @@ def grab(it):
     return [''.join(classify(p) for p in row) for row in px]
 
 
-def main():
-    now = datetime.now(timezone.utc)
-    st = json.load(open(STATE)) if os.path.exists(STATE) else {}
-    alku = os.environ.get('PILVI_ALKU')
-    latest = latest_time()
-    if alku:
-        t0 = datetime.strptime(alku, '%Y-%m-%d').replace(tzinfo=timezone.utc)
-        maxn = int(os.environ.get('PILVI_MAX', '3500'))
-    else:
-        last = st.get('last')
-        t0 = (datetime.strptime(last, '%Y-%m-%dT%H:%MZ').replace(tzinfo=timezone.utc) + STEP) if last else latest - 4 * STEP
-        t0 = max(t0, latest - 11 * STEP)   # enintään 3 h taaksepäin tavallisessa ajossa
-        maxn = 12
-    times, t = [], t0
-    while t <= latest and len(times) < maxn:
-        times.append(t); t += STEP
-    by_day, ok, fail = {}, 0, 0
+def collect(times, now, by_day, pause=0.0, deadline=None):
+    ok = fail = 0
+    done = None
     for it in times:
+        if deadline and time.time() > deadline:
+            break
         try:
             g = grab(it)
         except Exception as e:
             fail += 1
-            print('kuva %s epäonnistui: %s' % (it.isoformat(), e))
+            print('kuva %s epäonnistui: %s' % (it.isoformat(), e), flush=True)
             if fail >= 5 and ok == 0:
                 break
+            done = it
             continue
+        done = it
         flat = ''.join(g)
         n = sum(ch != '9' for ch in flat)
         if n < W * H // 2:   # kuva puuttuu tai ei käsitelty
@@ -181,21 +173,61 @@ def main():
         row.update(shares(g))
         by_day.setdefault(it.strftime('%Y-%m-%d'), []).append(row)
         ok += 1
-        if alku:
-            time.sleep(0.2)
+        if pause:
+            time.sleep(pause)
+    return ok, fail, done
+
+
+def P(s):
+    return datetime.strptime(s, '%Y-%m-%dT%H:%MZ').replace(tzinfo=timezone.utc)
+
+
+def main():
+    start = time.time()
+    now = datetime.now(timezone.utc)
+    st = json.load(open(STATE)) if os.path.exists(STATE) else {}
+    alku = os.environ.get('PILVI_ALKU')
+    budget = float(os.environ.get('PILVI_AIKA', '1500' if alku else '300'))
+    if alku:
+        st['bf_next'] = datetime.strptime(alku, '%Y-%m-%d').strftime('%Y-%m-%dT00:00Z')
+        st.pop('bf_end', None)
+    latest = latest_time()
+    by_day = {}
+    # 1) tavallinen ajo: edellisen jälkeiset kuvat, enintään 3 h taaksepäin
+    last = st.get('last')
+    t0 = (P(last) + STEP) if last else latest - 4 * STEP
+    t0 = max(t0, latest - 11 * STEP)
+    times, t = [], t0
+    while t <= latest:
+        times.append(t); t += STEP
+    ok, fail, _ = collect(times, now, by_day)
+    if ok:
+        st['last'] = max(r['it'] for rows in by_day.values() for r in rows)
+        st.setdefault('first_live', min(r['it'] for rows in by_day.values() for r in rows))
+    print('pilvimaski: %d uutta kuvaa, %d epäonnistui' % (ok, fail), flush=True)
+    # 2) takautuva haku osissa (kursori bf_next → ensimmäinen tavallisen ajon kuva)
+    if st.get('bf_next'):
+        end = P(st.get('bf_end') or st.get('first_live') or st.get('last') or latest.strftime('%Y-%m-%dT%H:%MZ'))
+        st['bf_end'] = end.strftime('%Y-%m-%dT%H:%MZ')
+        times, t = [], P(st['bf_next'])
+        while t < end:
+            times.append(t); t += STEP
+        bok, bfail, done = collect(times, now, by_day, pause=0.1, deadline=start + budget)
+        if done is not None:
+            nxt = done + STEP
+            if nxt >= end:
+                st.pop('bf_next', None); st.pop('bf_end', None); st['bf_valmis'] = now.strftime('%Y-%m-%dT%H:%MZ')
+            else:
+                st['bf_next'] = nxt.strftime('%Y-%m-%dT%H:%MZ')
+        print('takautuva haku: %d kuvaa, %d epäonnistui, seuraavaksi %s' % (bok, bfail, st.get('bf_next', 'valmis')), flush=True)
+        ok += bok
     for day, rows in sorted(by_day.items()):
         write_csv('data/current/pilvi-%s.csv' % day, COLS, rows)
-    if ok:
-        last_it = max(r['it'] for rows in by_day.values() for r in rows)
-        if not alku or last_it > st.get('last', ''):
-            st['last'] = last_it
-        st.update({'updated': now.strftime('%Y-%m-%dT%H:%MZ'), 'v': VERSION, 'layer': LAYER,
-                   'grid': {'lat': [LAT_N, LAT_S], 'lon': [LON_W, LON_E], 'w': W, 'h': H}})
-        os.makedirs('meta', exist_ok=True)
-        json.dump(st, open(STATE, 'w'), indent=1)
-    print('pilvimaski: %d kuvaa tallennettu, %d epäonnistui (%s … %s)' % (
-        ok, fail, times[0].isoformat() if times else '-', times[-1].isoformat() if times else '-'))
-    if times and ok == 0:
+    st.update({'updated': now.strftime('%Y-%m-%dT%H:%MZ'), 'v': VERSION, 'layer': LAYER,
+               'grid': {'lat': [LAT_N, LAT_S], 'lon': [LON_W, LON_E], 'w': W, 'h': H}})
+    os.makedirs('meta', exist_ok=True)
+    json.dump(st, open(STATE, 'w'), indent=1)
+    if ok == 0 and fail:
         sys.exit(1)
 
 
