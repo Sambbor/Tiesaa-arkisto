@@ -19,7 +19,13 @@ Data: Fintraffic / Digitraffic ja Ilmatieteen laitos, CC BY 4.0. Vain Pythonin v
 import gzip, http.client, json, math, os, re, time, urllib.error, urllib.request
 from datetime import datetime, timezone
 
-VERSION = 'ta3'   # ta3 (27.10.2026): päivän rivit paloina (säilön kasvu noin 12 → 2–3 Mt/vrk)
+VERSION = 'ta4'   # ta3 (27.10.2026): päivän rivit paloina (säilön kasvu noin 12 → 2–3 Mt/vrk)
+# ta4 (12.11.2026): Digitraffic lopetti anturit KELI_1/KELI_2/VAROITUS_1/VAROITUS_2 6.11.2026 klo 12.47 UTC (koko maa).
+# Kun KELI_1 puuttuu, keli1 täydennetään saman anturin tienpinnan tilasta (TIENPINNAN_TILA_1, noin 420 asemaa) ja ksrc = 'tila';
+# kun VAROITUS_1 puuttuu, warn1 täydennetään optisen anturin varoituksesta (OPTISEN_ANTURIN_VAROITUS1, 0 OK / 1 Varo / 2 Häly,
+# noin 250 asemaa) ja wsrc = 'opt'. Vastaavuus laskettu 20.10.–5.11. riveistä, joilla molemmat olivat (KELI_1 ↔ TIENPINNAN_TILA_1):
+# tila 1 ≈ keli 1/2/8 (kuiva, kostea) → 1; tila 2 ≈ keli 3/4 (märkä, 68 %) ja 2 (23 %) → 3; tila 3 ja 10 ≈ keli 3/4 → 3;
+# tila 11 = keli 5/6/7 (kuura, lumi, jää – ei eroteltavissa) → 7; tila 0 = ei tietoa. Kostea (keli 2) ei enää erotu märästä.
 DT = 'https://tie.digitraffic.fi'
 HDR = {'Digitraffic-User': 'Vantaa-urakka-tiesaa-arkisto', 'User-Agent': 'tiesaa-arkisto/1', 'Accept-Encoding': 'gzip'}
 STALE_H = 2
@@ -32,7 +38,7 @@ META_PER_RUN = 150          # asemien perustietoja haetaan erissä
 SENS = [('ILMA', 'ta'), ('KASTEPISTE', 'td'), ('ILMAN_KOSTEUS', 'rh'), ('KUURAPISTE', 'fp'),
         ('TIE_1', 'tr1'), ('TIE_2', 'tr2'), ('MAA_1', 'tg1'), ('TURVALLISUUSLÄMPÖ_1', 'safe1'),
         ('KELI_1', 'keli1'), ('KELI_2', 'keli2'), ('OPTISEN_ANTURIN_KELI1', 'okeli1'), ('TIENPINNAN_TILA_1', 'surf1'),
-        ('VAROITUS_1', 'warn1'), ('VAROITUS_2', 'warn2'),
+        ('VAROITUS_1', 'warn1'), ('VAROITUS_2', 'warn2'), ('OPTISEN_ANTURIN_VAROITUS1', 'owarn1'),
         ('JÄÄTYMISPISTE_1', 'tf1'), ('JÄÄTYMISPISTE_2', 'tf2'), ('SUOLAN_MÄÄRÄ_1', 'salt1'), ('SUOLAN_VÄKEVYYS_1', 'saltc1'),
         ('KOSTEUDEN_MÄÄRÄ_1', 'moist1'), ('VEDEN_MÄÄRÄ1', 'water1'), ('LUMEN_MÄÄRÄ1', 'snow1'), ('JÄÄN_MÄÄRÄ1', 'ice1'),
         ('KITKA1_LUKU', 'fric1'), ('KITKA2_LUKU', 'fric2'),
@@ -45,7 +51,22 @@ FC_OBS = ['tr', 'ta', 'ov', 'rc', 'rel']
 FC_H = [('2h', 'f2'), ('4h', 'f4'), ('6h', 'f6'), ('12h', 'f12')]
 FC_F = ['tr', 'ta', 'ws', 'sym', 'ov', 'rc', 'pc', 'fc', 'fz', 'sl']
 COLS = ['t', 'st', 'mt'] + [c for _, c in SENS] + ['sec', 'sec_d'] + ['fo_' + k for k in FC_OBS] \
-    + [p + '_' + k for _, p in FC_H for k in FC_F] + ['v']
+    + [p + '_' + k for _, p in FC_H for k in FC_F] + ['ksrc', 'wsrc', 'v']
+SURF_TO_KELI = {1: 1, 2: 3, 3: 3, 10: 3, 11: 7}   # ta4, ks. VERSION-kommentti
+
+
+def fill_keli(row):
+    """ta4: täydentää puuttuvan keli1:n tienpinnan tilasta ja warn1:n optisesta varoituksesta (merkitään ksrc / wsrc)."""
+    if row.get('keli1') in (None, ''):
+        try:
+            k = SURF_TO_KELI.get(int(float(row.get('surf1'))))
+        except (TypeError, ValueError):
+            k = None
+        if k is not None:
+            row['keli1'], row['ksrc'] = k, 'tila'
+    if row.get('warn1') in (None, '') and row.get('owarn1') not in (None, ''):
+        row['warn1'], row['wsrc'] = row['owarn1'], 'opt'
+    return row
 
 M_LAT = 111320.0
 
@@ -518,6 +539,7 @@ def main():
         state[sid] = round(tmax)
         row = {'t': iso(now), 'st': sid, 'mt': iso(tmax), 'v': VERSION}
         row.update(vals)
+        fill_keli(row)
         pr = pairs.get('p', {}).get(sid)
         if pr:
             row['sec'], row['sec_d'] = pr
