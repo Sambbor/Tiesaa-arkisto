@@ -2479,3 +2479,34 @@ pvm,vaihe,kuva_aika,st,asema,cam,preset,suunta,tie,maakunta,dist_m,aurinko,tr,td
 2026-11-12,B,2026-11-12T08:48,8066,"Tie 5 Kuopio, Tikkalansaari",C08557,C0855701,Siilinjärvi,5,Pohjois-Savo,0,2.0,2.3,1.7,2.2,0.0,,,0.9,0.0,0.0,raja,kuura/kuvat/2026-11/12/C0855701_B.jpg,,ku2
 2026-11-12,B,2026-11-12T08:51,8008,"Tie 75 Nilsiä, Suholanmäki",C08588,C0858801,Nurmekseen,75,Pohjois-Savo,0,2.0,-0.5,0.0,0.0,-21.1,,,-1.4,0.0,0.0,raja,kuura/kuvat/2026-11/12/C0858801_B.jpg,,ku2
 2026-11-12,B,2026-11-12T08:51,7016,"Tie 522 Ilomantsi, Hattuvaara",C08589,C0858901,Lieksaan,522,Pohjois-Karjala,0,3.1,0.0,-0.3,-0.3,0.0,,,-0.2,-0.3,3.5,kuura,kuura/kuvat/2026-11/12/C0858901_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:15,8019,"Tie 551 Vesanto, Löttökorpi",C08577,C0857701,Viitasaareen,551,Pohjois-Savo,0,3.8,0.7,0.9,0.9,0.0,,,-0.3,-0.6,4.5,kuura,kuura/kuvat/2026-11/12/C0857701_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:15,8010,"Tie 27 Iisalmi, Runni",C08579,C0857901,Kalajoelle,27,Pohjois-Savo,0,3.4,-1.2,-1.5,-1.4,-5.7,,,-3.4,0.9,0.0,raja,kuura/kuvat/2026-11/12/C0857901_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:12,8007,"Tie 77 Pielavesi, Löytynjä",C08590,C0859010,Tie,77,Pohjois-Savo,0,3.7,-0.5,-0.2,-0.2,0.0,,,-0.9,0.6,0.0,raja,kuura/kuvat/2026-11/12/C0859010_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:12,9029,Tie 18 Multia Väätäiskylä,C09519,C0951901,Multialle,18,Keski-Suomi,0,3.6,-0.2,-0.1,0.2,-0.5,,,-0.1,0.2,0.0,raja,kuura/kuvat/2026-11/12/C0951901_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:20,9028,Tie 69 Konnevesi Istunmäki,C09521,C0952101,Rautalampi,69,Keski-Suomi,0,4.0,1.3,0.6,1.1,0.0,,,0.5,0.3,0.0,raja,kuura/kuvat/2026-11/12/C0952101_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:21,9008,"Tie 4 Viitasaari, Löytänä",C09526,C0952601,Ouluun,4,Keski-Suomi,0,3.4,0.3,-0.3,0.3,-0.6,,,-0.8,0.4,0.0,raja,kuura/kuvat/2026-11/12/C0952601_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:21,9004,"Tie 4 Äänekoski, Kalaniemi",C09527,C0952701,Ouluun,4,Keski-Suomi,0,3.7,1.7,1.3,1.6,-0.1,,,0.0,-0.1,0.5,kuura,kuura/kuvat/2026-11/12/C0952701_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:21,9036,"Tie 4 Pihtipudas, Rönnynkylä",C09529,C0952901,Ouluun,4,Keski-Suomi,0,3.2,-0.6,-1.0,-0.7,-0.3,,,-2.0,0.9,0.0,raja,kuura/kuvat/2026-11/12/C0952901_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:21,9009,"Tie 13 Saarijärvi, Kalmari",C09537,C0953701,Jyväskylään,13,Keski-Suomi,0,3.6,0.8,0.7,0.8,-0.5,,,-0.4,-0.2,3.0,kuura,kuura/kuvat/2026-11/12/C0953701_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:13,9010,"Tie 13 Kyyjärvi, Oikari",C09538,C0953801,Saarijärvelle,13,Keski-Suomi,0,3.3,-0.3,-0.2,0.2,-0.3,,,-0.4,0.1,0.0,raja,kuura/kuvat/2026-11/12/C0953801_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:22,10022,"Tie 724 Mustasaari, Raippaluoto",C10506,C1050601,Raippaluotoon,724,Pohjanmaa,8,2.2,-0.3,0.8,1.0,-1.9,,,-1.9,-0.3,2.5,kuura,kuura/kuvat/2026-11/12/C1050601_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:17,10062,"Tie 3 Vaasa, Vanhasatama",C10508,C1050801,Vaasaan,3,Pohjanmaa,5,2.4,1.1,1.0,1.1,-0.3,,,-1.0,-0.8,4.0,kuura,kuura/kuvat/2026-11/12/C1050801_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:22,10022,"Tie 724 Mustasaari, Raippaluoto",C10511,C1051101,Raippaluotoon,724,Pohjanmaa,211,2.2,-0.3,0.8,1.0,-1.9,,,-1.9,-0.3,2.5,kuura,kuura/kuvat/2026-11/12/C1051101_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:22,10012,"Tie 8 Maalahti, Pirttikylä",C10526,C1052601,Vaasaan,8,Pohjanmaa,8,2.6,1.7,2.3,2.3,-0.2,,,-1.0,-0.5,7.0,kuura,kuura/kuvat/2026-11/12/C1052601_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:20,10072,"Tie 18 Seinajoki, Nurmo, Munakka",C10529,C1052901,Seinäjoelle,18,Etelä-Pohjanmaa,0,2.9,1.7,1.5,1.6,,,,0.5,-0.2,0.5,kuura,kuura/kuvat/2026-11/12/C1052901_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:17,10045,"Tie 16  Alajärvi, Möksy",C10531,C1053101,Kyyjärvelle,16,Etelä-Pohjanmaa,4,3.1,-0.5,0.1,0.1,-0.2,,,-0.9,-0.4,2.5,kuura,kuura/kuvat/2026-11/12/C1053101_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:13,10011,"Tie 3 Laihia, Ruto",C10536,C1053601,Vaasaan,3,Pohjanmaa,5,2.5,1.2,1.1,1.2,-0.3,,,-0.8,-0.8,4.5,kuura,kuura/kuvat/2026-11/12/C1053601_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:19,10075,Tie 67 Ilmajoki,C10537,C1053701,Ilmajoelle,67,Etelä-Pohjanmaa,6,2.9,2.1,2.0,2.4,-0.2,,,-0.3,-0.6,4.0,kuura,kuura/kuvat/2026-11/12/C1053701_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:22,10050,"Tie 19 Lapua, Ränkimäki",C10538,C1053801,Lapualle,66,Etelä-Pohjanmaa,28,2.9,0.7,0.8,1.0,-0.9,,,-0.7,-0.7,7.0,kuura,kuura/kuvat/2026-11/12/C1053801_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:15,11006,"Tie 58 Lestijärvi, Jykyri",C10540,C1054001,Tie,58,Keski-Pohjanmaa,7,2.9,-0.8,-0.4,-0.3,-0.3,,,-1.4,0.4,0.0,raja,kuura/kuvat/2026-11/12/C1054001_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:15,10023,"Tie 8 Uusikaarlepyy, Ytterjeppo",C10542,C1054201,Ouluun,8,Pohjanmaa,0,2.3,-1.1,0.3,0.3,-6.8,,,-2.0,-0.8,3.5,kuura,kuura/kuvat/2026-11/12/C1054201_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:18,10054,"Tie 673 Maalahti, Petolahti",C10544,C1054401,Vaasaan,673,Pohjanmaa,0,2.4,1.1,1.9,2.0,-0.2,,,-1.4,-0.8,6.5,kuura,kuura/kuvat/2026-11/12/C1054401_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:15,10039,"Tie 8 Mustasaari, Vassor",C10545,C1054501,Kokkola,8,Pohjanmaa,0,2.4,0.5,0.7,1.1,-0.3,,,-1.7,-0.7,4.5,kuura,kuura/kuvat/2026-11/12/C1054501_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:18,10020,"Tie 749 Luoto, Eugmo",C10546,C1054601,Kokkolaan,749,Pohjanmaa,0,2.1,-1.3,-1.8,-1.1,-0.1,,,-2.9,0.9,0.0,raja,kuura/kuvat/2026-11/12/C1054601_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:15,10027,"Tie 8 Mustasaari, Riimala",C10549,C1054901,Vaasaan,8,Pohjanmaa,0,2.5,0.6,1.1,1.1,-0.2,,,-1.3,-0.7,4.0,kuura,kuura/kuvat/2026-11/12/C1054901_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:21,10021,"Tie 19 Kauhava Alahärmä, Voltti",C10550,C1055001,Uuteenkaarlepyyhyn,19,Etelä-Pohjanmaa,0,2.5,-0.3,0.3,0.6,-0.2,,,-1.9,-0.3,2.5,kuura,kuura/kuvat/2026-11/12/C1055001_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:21,10015,"Tie 13 Kaustinen, Viiperi",C10553,C1055301,Jyväskylään,13,Keski-Pohjanmaa,0,2.5,-1.4,-1.2,-1.2,-0.5,,,-2.0,0.3,0.0,raja,kuura/kuvat/2026-11/12/C1055301_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:21,10043,"Tie 68 Vimpeli, Hietoja",C10554,C1055401,Pietarsaareen,68,Etelä-Pohjanmaa,0,2.9,-0.4,0.2,0.3,-11.6,,,-1.3,-0.5,1.5,kuura,kuura/kuvat/2026-11/12/C1055401_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:21,10029,"Tie 673 Närpiö,  Rangsby",C10555,C1055501,Närpiöön,673,Pohjanmaa,0,2.6,2.3,2.7,3.2,-0.1,,,-0.2,-0.4,1.5,kuura,kuura/kuvat/2026-11/12/C1055501_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:13,10017,"Tie 67 Kauhajoki, Äijönkylä",C10560,C1056001,Seinäjoelle,67,Etelä-Pohjanmaa,0,3.0,2.2,2.2,2.5,-0.1,,,0.6,-0.6,0.0,kuura,kuura/kuvat/2026-11/12/C1056001_B.jpg,,ku2
+2026-11-12,B,2026-11-12T09:13,10082,Tie 18 Alavus Sääskiniemi,C10563,C1056310,Tie,18,Etelä-Pohjanmaa,0,3.2,1.7,1.4,2.0,-0.2,,,0.8,0.0,0.0,raja,kuura/kuvat/2026-11/12/C1056310_B.jpg,,ku2
