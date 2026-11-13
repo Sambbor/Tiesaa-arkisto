@@ -2585,3 +2585,17 @@ pvm,vaihe,kuva_aika,st,asema,cam,preset,suunta,tie,maakunta,dist_m,aurinko,tr,td
 2026-11-13,A,2026-11-13T05:50,14064,"Tie 4, Simo, Simoniemi",C14570,C1457001,Kemiin,4,Lappi,0,-17.5,-2.8,-2.7,-1.9,0.0,7,2.0,-5.7,-0.1,1.0,kuura,kuura/kuvat/2026-11/13/C1457001_A.jpg,,ku2
 2026-11-13,A,2026-11-13T05:50,16011,"Tie 1 Lohja, Karnainen",C16543,C1654300,Karnainen,1,Uusimaa,99,-17.4,2.0,1.2,1.2,0.0,,,0.7,-0.1,1.0,kuura,kuura/kuvat/2026-11/13/C1654300_A.jpg,,ku2
 2026-11-13,A,2026-11-13T05:47,16009,"Tie 1 Lohja, Pitkämäki",C16564,C1656400,Pitkämäki,1,Uusimaa,225,-17.4,1.6,1.3,1.3,0.0,,,0.5,-0.1,0.5,kuura,kuura/kuvat/2026-11/13/C1656400_A.jpg,,ku2
+2026-11-13,B,2026-11-13T08:48,1052,"Tie 2 Karkkila, Korpi",C01504,C0150401,Poriin,2,Uusimaa,12,2.4,0.2,0.5,0.5,-0.1,3,0.0,0.2,-0.2,1.0,kuura,kuura/kuvat/2026-11/13/C0150401_B.jpg,,ku2
+2026-11-13,B,2026-11-13T08:48,1032,"Tie 110 Lohja, Oinola",C01510,C0151001,Turkuun,110,Uusimaa,10,2.3,1.1,1.2,1.5,0.0,3,,-0.2,-0.5,1.5,kuura,kuura/kuvat/2026-11/13/C0151001_B.jpg,,ku2
+2026-11-13,B,2026-11-13T08:49,1165,"Tie 2 Lohja, Salkol",C01625,C0162501,Poriin,2,Uusimaa,6,2.2,-0.1,0.2,0.2,-0.1,3,1.0,-0.1,-0.6,2.0,kuura,kuura/kuvat/2026-11/13/C0162501_B.jpg,,ku2
+2026-11-13,B,2026-11-13T08:50,1070,"Tie 6 Lapinjärvi, Kimonkylä",C01673,C0167301,Kouvolaan,6,Uusimaa,13,3.0,0.7,1.9,2.3,0.0,3,0.0,0.4,-1.8,1.5,kuura,kuura/kuvat/2026-11/13/C0167301_B.jpg,,ku2
+2026-11-13,B,2026-11-13T08:50,2062,"Tie 110 Salo, Kolmperä",C02512,C0251201,Turkuun,110,Varsinais-Suomi,0,2.3,-0.1,1.0,1.0,0.0,3,1.0,-0.1,-0.9,2.5,kuura,kuura/kuvat/2026-11/13/C0251201_B.jpg,,ku2
+2026-11-13,B,2026-11-13T08:50,3089,"Tie 6 Rautjärvi, Simpele",C03579,C0357901,Joensuuhun,6,Etelä-Karjala,0,3.4,-0.6,-0.1,-0.1,-13.4,3,2.0,1.0,0.2,0.0,raja,kuura/kuvat/2026-11/13/C0357901_B.jpg,,ku2
+2026-11-13,B,2026-11-13T08:52,5007,"Tie 6 Luumäki, kirkko",C03663,C0366301,Lappeenrantaan,6,Etelä-Karjala,0,3.2,-0.2,-0.2,-0.2,-0.1,3,0.0,0.8,-0.3,0.0,kuura,kuura/kuvat/2026-11/13/C0366301_B.jpg,,ku2
+2026-11-13,B,2026-11-13T08:44,4002,"Tie 24 Asikkala, Iso-Äiniö",C04522,C0452201,Jämsään,24,Päijät-Häme,0,2.3,0.8,0.2,0.8,0.0,3,0.0,0.7,-0.3,0.0,kuura,kuura/kuvat/2026-11/13/C0452201_B.jpg,,ku2
+2026-11-13,B,2026-11-13T08:49,4008,"Tie 10 Tammela, Heinivaho",C04540,C0454001,Hämeenlinnaan,10,Kanta-Häme,0,2.1,0.0,-0.4,0.2,0.0,3,0.0,0.2,0.3,0.0,raja,kuura/kuvat/2026-11/13/C0454001_B.jpg,,ku2
+2026-11-13,B,2026-11-13T08:46,4010,"Tie 12 Hollola, Toivola",C04769,C0476901,Lahteen,12,Päijät-Häme,0,2.4,0.2,0.1,0.3,-0.2,3,,0.8,-0.2,0.0,kuura,kuura/kuvat/2026-11/13/C0476901_B.jpg,,ku2
+2026-11-13,B,2026-11-13T08:48,7008,kt74_Joensuu_Onkimäki,C07508,C0750801,Ilomantsiin,74,Pohjois-Karjala,0,2.9,-0.7,-0.5,-0.3,0.0,1,,-0.1,-0.5,12.0,kuura,kuura/kuvat/2026-11/13/C0750801_B.jpg,,ku2
+2026-11-13,B,2026-11-13T08:52,7016,"Tie 522 Ilomantsi, Hattuvaara",C08589,C0858901,Lieksaan,522,Pohjois-Karjala,0,2.8,-0.2,-0.3,-0.3,0.0,3,,-0.2,0.0,0.0,raja,kuura/kuvat/2026-11/13/C0858901_B.jpg,,ku2
+2026-11-13,B,2026-11-13T08:50,16011,"Tie 1 Lohja, Karnainen",C16543,C1654300,Karnainen,1,Uusimaa,99,2.4,2.6,2.5,2.5,0.0,,,0.7,-0.1,1.0,kuura,kuura/kuvat/2026-11/13/C1654300_B.jpg,,ku2
+2026-11-13,B,2026-11-13T08:47,16009,"Tie 1 Lohja, Pitkämäki",C16564,C1656400,Pitkämäki,1,Uusimaa,225,2.4,2.4,2.1,2.1,0.0,,,0.5,-0.1,0.5,kuura,kuura/kuvat/2026-11/13/C1656400_B.jpg,,ku2
