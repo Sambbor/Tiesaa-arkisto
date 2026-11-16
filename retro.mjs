@@ -80,7 +80,7 @@ function obsOf(r, R){
   return {t: new Date(r.mt).getTime(), tr: tr.length ? Math.min(...tr) : null, ta: num(r.ta), td, fp: td != null ? R.frostPt(td) : null   /* v15 (21.10.2026): kuuran raja kastepisteestä, aseman KUURAPISTE-lukemaa ei käytetä (kuten keruu) */,
     keli: k1 > 0 ? k1 : (k2 > 0 ? k2 : k1), warn: w.length ? w.reduce((a, x) => (R.WARN_RANK[x] ?? 0) > (R.WARN_RANK[a] ?? -1) ? x : a, -1) : null,
     fric: fr.length ? Math.min(...fr) : null, water: num(r.water1), snow: num(r.snow1), ice: num(r.ice1), tf: num(r.tf1), salt: num(r.salt1),
-    rain: num(r.rain), ksrc, raw: r};
+    rain: num(r.rain), ksrc, st: r.st, raw: r};   // v18 (16.11.2026): st rajaa sääntöjen poikkeavat anturit (SLIP_EXCL: Keimola, Pirkkola)
 }
 // rt7: sama kuin kelikeskuksen collect.mjs modelRows: mallin lämpötila, kastepiste ja sade FMI-rivien tilalle
 function modelRows(base, pts){
@@ -183,11 +183,11 @@ function processDay(day, R, prov){
       const frAcc0 = hist.length >= 2 ? R.frostAccHist(hist) : 0;
       // v16: märkyys sääntöjen wetObs-funktiosta (vanhat säännöt: entinen ehto); sade 3 h sisällä aseman omista havainnoista
       const rain3h = arr.some(x => x.t > o.t - 3 * H && x.t <= o.t && ((Number(x.raw && x.raw.rain_i) || 0) > 0 || (x.rain >= 1 && x.rain <= 6)));
-      const wetNow = R.wetObs ? R.wetObs({water: o.water, snow: o.snow, ice: o.ice, keli: o.keli, tr: o.tr, td: o.td, rain3h})
+      const wetNow = R.wetObs ? R.wetObs({st, water: o.water, snow: o.snow, ice: o.ice, keli: o.keli, tr: o.tr, td: o.td, rain3h})
         : (o.water != null && o.water > 0.03) || (o.snow || 0) > 0 || (o.ice || 0) > 0 || R.WET_KELI.includes(o.keli) ? 1 : 0;
       const slipNow = R.obsSlippery(o);
       let ser;
-      try{ ser = R.slipSeriesCore({now: o.t, rows, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0}); }catch(e){ continue; }
+      try{ ser = R.slipSeriesCore({now: o.t, st, rows, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0}); }catch(e){ continue; }
       used = true; res.samples++;
       const hp = helParts(o.t);
       if(hp.day === day && (hp.hour === 18 || hp.hour === 22)){
@@ -198,7 +198,7 @@ function processDay(day, R, prov){
           for(const m of ['meps', 'ec']){ const mi = [...(mIss[m].get(st) || [])].reverse().find(x => x.t <= o.t + 5 * 6e4); if(!mi) continue;
             const pts = []; for(let L = 0; L <= 24; L++){ const g = kk => num(mi.r[kk + String(L).padStart(2, '0')]); if(g('t') == null) continue; pts.push({t: mi.h0 + L * H, T: g('t'), Td: g('td'), P: g('p')}); }
             const mr = modelRows(rows.map(x => ({...x})), pts); if(!mr) continue;
-            try{ mser.push(R.slipSeriesCore({now: o.t, rows: mr, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0})); }catch(e){} }
+            try{ mser.push(R.slipSeriesCore({now: o.t, st, rows: mr, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0})); }catch(e){} }
           const w = ser.map((c, i) => ({c, i})).filter(({c}) => c.t >= o.t && c.t <= tEnd && c.idx != null);
           const kn = i => { const v2 = [ser[i], ...mser.map(a => a[i])].filter(x => x && x.idx != null); return {k: v2.filter(x => x.idx >= 50).length, n: v2.length}; };
           const on = w.map(x => x.c).find(c => c.idx >= 50), mx = w.reduce((a, x) => Math.max(a, x.c.idx), 0);
