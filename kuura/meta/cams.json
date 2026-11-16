@@ -1,5 +1,5 @@
 {
- "t": 1794131643.5145056,
+ "t": 1794797618.218193,
  "v": "ku2",
  "cams": [
   {
@@ -111,17 +111,6 @@
    "lon": 23.914248,
    "lat": 60.632842,
    "url": "https://weathercam.digitraffic.fi/C0162501.jpg"
-  },
-  {
-   "cam": "C01651",
-   "preset": "C0165100",
-   "dir": "Tie 7",
-   "st": 1011,
-   "dist_m": 0,
-   "road": 7,
-   "lon": 25.325135,
-   "lat": 60.28135,
-   "url": "https://weathercam.digitraffic.fi/C0165100.jpg"
   },
   {
    "cam": "C01658",
@@ -1358,7 +1347,7 @@
   {
    "cam": "C09537",
    "preset": "C0953701",
-   "dir": "Jyväskylään",
+   "dir": "Karstulaan",
    "st": 9009,
    "dist_m": 0,
    "road": 13,
