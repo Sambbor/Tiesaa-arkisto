@@ -26,6 +26,14 @@ Tila ja yhteenveto: `meta/toteumat_state.json`. Asemien urakka-alue on tiedostos
 Käyttö: koko maan urakoiden suolaus- ja auraushetket suhteessa asemien keliin (ennakoiva vai jälkikäteinen toiminta)
 ja päivystäjän simulaattorin "mitä oikeasti tehtiin".
 
+## Talvihoitoreitit (reitit)
+`reitit.py` (hr1, 16.11.2026) päättelee urakan suolaus-, auraus- ja hiekoitusreitit Digitrafficin Harja-toteumista (60 vrk). Kirjaukset
+ketjutetaan koneajoiksi (previousId tai alle 6 min / 400 m jatkuvuus) ja kohdistetaan urakan tieverkon 500 m tieosiin. Reitti = tieosat,
+jotka sama kone ajaa samalla kierroksella (yhteisten ajojen verkko, Louvain), mukana osat, joilla työtä vähintään 3 kertaa. Jos reitin
+osat ajetaan samaan aikaan, ne jaetaan rinnakkaisiksi koneiksi. Tulos `data/reitit-<urakka>.json`: reitit tieosuuksineen, pituus,
+kierrosten alut ja tyypillinen kesto (90 % reitistä ajettu), puhtaus (kuinka suuri osa ajon tieosista on omalla reitillä, mediaani).
+Työlaji lasketaan, kun sitä on tehty vähintään 3 kertaa. Ajo: reitit.yml kerran viikossa (maanantai). Nyt urakat: Heinola.
+
 ## Koko Suomen yökooste (suomi)
 `suomi.py` (su1) laskee joka aamu jokaiselle maanteiden hoitourakalle edellisen yön (klo 18–08 Suomen aikaa) riskin ja toimenpiteet:
 - `meta/urakat.json`: asema → urakkakoodi (Väylävirasto, Maanteiden hoitourakan tiet; tieosoite urakan tieosuudella). Urakat ovat

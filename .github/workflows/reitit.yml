@@ -1,0 +1,39 @@
+name: Talvihoitoreitit
+# hr1 (16.11.2026, Samuli: "Voidaanko tämän perusteella saada Heinolan reitit selville?"): urakan suolaus-, auraus- ja hiekoitusreitit
+# päätellään Harja-toteumista (reitit.py, 60 vrk) → data/reitit-<urakka>.json. Heinolan toimenpidekartta näyttää ne.
+# Kerran viikossa; käsin ajettaessa lasketaan aina uudelleen.
+on:
+  schedule:
+    - cron: '23 3 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: reitit
+jobs:
+  reitit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /reitit.py
+            /data/tieverkko-*.json
+            /data/reitit-*.json
+      - name: Päättele reitit
+        run: |
+          pip install -q --disable-pip-version-check networkx
+          python3 reitit.py ${{ github.event_name == 'workflow_dispatch' && '--force' || '' }}
+      - name: Tallenna säilöön
+        run: |
+          git config user.name "keli-bot"
+          git config user.email "keli-bot@users.noreply.github.com"
+          git add --sparse -A data
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Talvihoitoreitit $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3 4; do
+            git pull -q --rebase && git push -q && exit 0
+            echo "Säilö muuttui – yritetään uudelleen ($i)"; sleep $((i*10))
+          done
+          exit 1
