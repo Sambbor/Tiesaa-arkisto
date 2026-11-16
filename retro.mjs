@@ -11,6 +11,7 @@
 // yhteenveto retro/summary.json ja retro/raportti.md. Sääntöversion vaihtuessa viimeiset 60 päivää lasketaan uudelleen.
 import fs from 'node:fs';
 import zlib from 'node:zlib';
+import path from 'node:path';
 
 const RULES_URL = 'https://raw.githubusercontent.com/Sambbor/Vantaakeli/main/collector/collect.mjs';
 const VERSION = 'rt7';   // rt7 (7.11.2026, Samuli: "Tee B"): mallien yhtäpitävyys (MEPS, EC) toimenpidetasoon, tienpinta päätöshetkellä, illan ajo (--ilta) klo 18.23 ja 22.23
@@ -21,11 +22,17 @@ const MATCH_MIN = 40;          // myöhempi mittaus enintään näin kaukana tar
 const RECOMPUTE_DAYS = 60;
 const H = 36e5;
 
+// sj1 (16.11.2026): säännöt ovat yksityisen säilön tiedostossa saannot.js (RULES_FILE-polun vieressä tai RULES_FILE itse).
+// Vanha muoto (laskenta.html, lohko LIUKKAUSSÄÄNNÖT) kelpaa edelleen, jos tiedostoa saannot.js ei ole.
+const RULES_OUT = '\nreturn {RULES_VERSION, slipSeriesCore, obsSlippery, frostAccHist, frostPt, WET_KELI, WARN_RANK, FROST_SLIP, SALT_LIMIT, wetObs: typeof wetObs === "function" ? wetObs : null, TILA_TO_KELI: typeof TILA_TO_KELI === "object" ? TILA_TO_KELI : null};';
 async function loadRules(){
-  const src = process.env.RULES_FILE ? fs.readFileSync(process.env.RULES_FILE, 'utf8') : await (await fetch(RULES_URL)).text();   // RULES_FILE: paikallinen testaus
+  const file = process.env.RULES_FILE;
+  if(file){ const js = file.endsWith('.js') ? file : path.join(path.dirname(file), 'saannot.js');
+    if(fs.existsSync(js)) return new Function("'use strict';" + fs.readFileSync(js, 'utf8') + RULES_OUT)(); }
+  const src = file ? fs.readFileSync(file, 'utf8') : await (await fetch(RULES_URL)).text();   // RULES_FILE: paikallinen testaus
   const a = src.indexOf('// ===== LIUKKAUSSÄÄNNÖT'), b = src.indexOf('// ===== /LIUKKAUSSÄÄNNÖT');
-  if(a < 0 || b < 0) throw new Error('sääntölohkoa ei löytynyt kelisivun keruusta');
-  return new Function(src.slice(a, b) + '\nreturn {RULES_VERSION, slipSeriesCore, obsSlippery, frostAccHist, frostPt, WET_KELI, WARN_RANK, FROST_SLIP, SALT_LIMIT, wetObs: typeof wetObs === "function" ? wetObs : null};')();
+  if(a < 0 || b < 0) throw new Error('sääntöjä ei löytynyt: saannot.js puuttuu eikä lohkoa LIUKKAUSSÄÄNNÖT ole');
+  return new Function(src.slice(a, b) + RULES_OUT)();
 }
 
 function parseCsv(txt){
@@ -64,7 +71,7 @@ function availableDays(){
   return [...days].sort();
 }
 
-const SURF_TO_KELI = {1: 1, 2: 3, 3: 3, 10: 3, 11: 7};   // kl1: tienpinnan tila → keli (1 kuiva, 3 märkä, 7 kuura/lumi/jää)
+const SURF_TO_KELI = {1: 1, 2: 3, 3: 3, 10: 3, 11: 7};   // kl1: tienpinnan tila → keli (1 kuiva, 3 märkä, 7 kuura/lumi/jää); sj1: ensisijaisesti sääntötiedoston TILA_TO_KELI, tämä varalla
 // asemarivi → säännöille sopiva havainto
 function obsOf(r, R){
   const tr = [num(r.tr1), num(r.tr2)].filter(v => v != null);
@@ -72,7 +79,7 @@ function obsOf(r, R){
   // (12.11. klo 14.41 UTC); väliltä 6.–12.11. keli muunnetaan tässä tienpinnan tilasta (surf1, sama SURF_TO_KELI kuin arkisto.py:ssä ja
   // kelikeskuksessa). Optisen anturin varoitusta (owarn1) ei arkistoitu ennen ta4:ää, joten väliltä varoitus puuttuu. Sääntöihin ei muutosta.
   let k1 = num(r.keli1), k2 = num(r.keli2), ksrc = r.ksrc || (k1 > 0 || k2 > 0 ? 'keli' : null);
-  if(!(k1 > 0) && !(k2 > 0)){ const sk = SURF_TO_KELI[num(r.surf1)]; if(sk != null){ k1 = sk; ksrc = 'tila'; } }
+  if(!(k1 > 0) && !(k2 > 0)){ const sk = (R.TILA_TO_KELI || SURF_TO_KELI)[num(r.surf1)]; if(sk != null){ k1 = sk; ksrc = 'tila'; } }
   const w = [num(r.warn1), num(r.warn2)].filter(v => v != null);
   if(!w.length && num(r.owarn1) != null) w.push(num(r.owarn1));
   const fr = [num(r.fric1), num(r.fric2)].filter(v => v != null);
