@@ -10,7 +10,7 @@ from datetime import date
 
 VERSION = 'tv1'
 WFS = 'https://avoinapi.vaylapilvi.fi/vaylatiedot/ows'
-URAKAT = {'vantaa': 'Vantaa', 'salo': 'Salo'}
+URAKAT = {'vantaa': 'Vantaa', 'salo': 'Salo', 'heinola': 'Heinola'}  # heinola: toimenpidekartta (hk1, 16.11.2026)
 TOL_M = 8.0
 MAX_AGE_D = 30
 KX, KY = 111320 * math.cos(math.radians(60.3)), 111320
