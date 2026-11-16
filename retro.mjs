@@ -14,7 +14,8 @@ import zlib from 'node:zlib';
 import path from 'node:path';
 
 const RULES_URL = 'https://raw.githubusercontent.com/Sambbor/Vantaakeli/main/collector/collect.mjs';
-const VERSION = 'rt7';   // rt7 (7.11.2026, Samuli: "Tee B"): mallien yhtäpitävyys (MEPS, EC) toimenpidetasoon, tienpinta päätöshetkellä, illan ajo (--ilta) klo 18.23 ja 22.23
+const VERSION = 'rt8';   // rt8 (17.11.2026, Samuli: "Tee kohta 1"): osumat ensisijaisesti kitkatotuutta vastaan (optinen kitka < 0,6 kylmällä tiellä ≥ 1 h), vanha havaintomääritelmä vertailuna
+// rt7: // rt7 (7.11.2026, Samuli: "Tee B"): mallien yhtäpitävyys (MEPS, EC) toimenpidetasoon, tienpinta päätöshetkellä, illan ajo (--ilta) klo 18.23 ja 22.23
 // rt6:   // rt6 (7.11.2026): päätöshetkiin myös kelikeskuksen toimenpidetaso (strong: ei yli 12 h ennustetta, kuura vasta kertymän alettua)
 // rt4:   // rt4 (6.11.2026): kelikeskuksen päätöshetket klo 18 ja 22 asemittain → retro/yot/ (koko Suomen yökooste vertaa havaittuun liukkauteen)   // 15.10.: tienpinta +0,5 °C mukaan suolataulukon ylimpään luokkaan; 16.10. (rt3): ennuste vs. urakoiden suolaukset (toteumat)
 const LEADS = [2, 6, 12];
@@ -24,7 +25,7 @@ const H = 36e5;
 
 // sj1 (16.11.2026): säännöt ovat yksityisen säilön tiedostossa saannot.js (RULES_FILE-polun vieressä tai RULES_FILE itse).
 // Vanha muoto (laskenta.html, lohko LIUKKAUSSÄÄNNÖT) kelpaa edelleen, jos tiedostoa saannot.js ei ole.
-const RULES_OUT = '\nreturn {RULES_VERSION, slipSeriesCore, obsSlippery, frostAccHist, frostPt, WET_KELI, WARN_RANK, FROST_SLIP, SALT_LIMIT, wetObs: typeof wetObs === "function" ? wetObs : null, TILA_TO_KELI: typeof TILA_TO_KELI === "object" ? TILA_TO_KELI : null};';
+const RULES_OUT = '\nreturn {RULES_VERSION, slipSeriesCore, obsSlippery, frostAccHist, frostPt, WET_KELI, WARN_RANK, FROST_SLIP, SALT_LIMIT, wetObs: typeof wetObs === "function" ? wetObs : null, slipExcl: typeof slipExcl === "function" ? slipExcl : null, TILA_TO_KELI: typeof TILA_TO_KELI === "object" ? TILA_TO_KELI : null};';
 async function loadRules(){
   const file = process.env.RULES_FILE;
   if(file){ const js = file.endsWith('.js') ? file : path.join(path.dirname(file), 'saannot.js');
@@ -130,6 +131,22 @@ function obsReason(o){
   if((o.snow || 0) > 0.2) return 'lunta tiellä';
   return 'muu';
 }
+// rt8: kitkatotuus – sama määritelmä kuin koko Suomen yökoosteessa (suomi.py su2) ja kelikeskuksen aamuvertailussa (collect.mjs kitkaTruth).
+// Liukas = optinen kitka alle 0,6 kylmällä tiellä (tie ≤ +1 °C; jos aseman tienpinta on rajattu säännöissä, ilma ≤ +2 °C) kahdessa
+// peräkkäisessä mittauksessa (≤ 35 min välein, eli vähintään noin 1 h). Asema ilman kitka-anturia jää pois vertailusta, samoin anturi, joka
+// näyttää liukasta lämpimällä tiellä (≥ 4 mittausta, tie yli +3 °C). Keli- ja varoitusanturit eivät vaikuta: niiden tieto katkesi
+// 6.–16.11.2026 ja korvattiin tienpinnan tilalla, joten vanha määritelmä ei ole vertailukelpoinen jaksojen välillä.
+const KITKA_LIUKAS = 0.6;
+function kitkaTotuus(arr, st, R){   // arr: aseman havainnot aikajärjestyksessä → {has: mittaushetket, joilla kitka on, slip: liukkaat hetket} tai null
+  const f = arr.filter(o => o.fric != null && o.fric > 0 && o.fric <= 1);
+  if(!f.length) return null;
+  if(f.filter(o => o.fric < KITKA_LIUKAS && o.tr != null && o.tr > 3).length >= 4) return null;
+  const excl = R.slipExcl && R.slipExcl(Number(st), 'tr');
+  const low = o => o.fric < KITKA_LIUKAS && (excl ? (o.ta != null && o.ta <= 2) : (o.tr != null && o.tr <= 1));
+  const slip = new Set();
+  for(let i = 1; i < f.length; i++) if(low(f[i]) && low(f[i - 1]) && f[i].t - f[i - 1].t <= 35 * 6e4){ slip.add(f[i].t); slip.add(f[i - 1].t); }
+  return {has: new Set(f.map(o => o.t)), slip};
+}
 const FROST_BINS = [[0, 0.5, '0–0,5'], [0.5, 2, '0,5–2'], [2, 4, '2–4'], [4, 8, '4–8'], [8, 1e9, 'yli 8']];
 const TR_BINS = [[-2, 0.51, '−2…+0,5'], [-4, -2, '−4…−2'], [-6, -4, '−6…−4'], [-8, -6, '−8…−6'], [-1e9, -8, 'alle −8']];
 const binOf = (bins, v) => (bins.find(([a, b]) => v >= a && v < b) || [])[2];
@@ -178,8 +195,11 @@ function processDay(day, R, prov){
   if(totRows) for(const r of totRows){ if(r.task !== 'salt') continue; (saltBy.get(r.st) || saltBy.set(r.st, []).get(r.st)).push(r); }
   if(totRows){ res.toteu = T0(); res.toteuArea = {}; }
   for(const L of LEADS) res.lead[L] = C0();
+  res.kitka = {st: 0, lead: {}, byProv: {}, byWhy: {}, miss: {}};   // rt8
+  for(const L of LEADS) res.kitka.lead[L] = C0();
   const yot = {}, tEnd = nightEnd(day);
   for(const [st, arr] of byS){
+    const KT = kitkaTotuus(arr, st, R); let usedK = false;   // rt8
     const iss = issues.get(st) || []; let used = false, lastHour = -1; const alarms = [];   // [{issue, target}] indeksi ≥ 50
     for(const o of arr){
       if(o.t < d0 || o.t >= d1 || o.tr == null) continue;
@@ -229,10 +249,21 @@ function processDay(day, R, prov){
           if(pr){ const w = res.byWhy[c.why || '?'] = res.byWhy[c.why || '?'] || {hit: 0, fa: 0}; w[ob ? 'hit' : 'fa']++; }
           if(!pr && ob){ const why = obsReason(later); res.missObs[why] = (res.missObs[why] || 0) + 1; }
         }
+        // rt8: sama vertailu kitkatotuutta vastaan (vain asemat ja hetket, joilla on kelvollinen kitkamittaus)
+        if(KT && KT.has.has(later.t)){
+          const obK = KT.slip.has(later.t), kk = pr && obK ? 'hit' : !pr && obK ? 'miss' : pr ? 'fa' : 'cn';
+          res.kitka.lead[L][kk]++; usedK = true;
+          if(L === 6){
+            (res.kitka.byProv[p] = res.kitka.byProv[p] || C0())[kk]++;
+            if(pr){ const w = res.kitka.byWhy[c.why || '?'] = res.kitka.byWhy[c.why || '?'] || {hit: 0, fa: 0}; w[obK ? 'hit' : 'fa']++; }
+            if(!pr && obK){ const b = later.tr == null ? 'ei tienpintaa' : later.tr <= -4 ? 'tie alle −4 °C' : later.tr <= -1 ? 'tie −4…−1 °C' : 'tie −1…+1 °C'; res.kitka.miss[b] = (res.kitka.miss[b] || 0) + 1; }
+          }
+        }
       }
       // kuuran kalibrointi: tie ≤ +0,5 °C, ei suolan suojaa – havaitaanko kuura kertymän mukaan
       if(o.tr <= 0.5 && !(o.tf != null && o.tf <= -1 && o.tr > R.SALT_LIMIT)){
         const b = binOf(FROST_BINS, frAcc0); const f = res.frost[b] = res.frost[b] || {n: 0, frost: 0, warn: 0, slip: 0};
+        if(KT && KT.has.has(o.t)){ f.nK = (f.nK || 0) + 1; if(KT.slip.has(o.t)) f.slipK = (f.slipK || 0) + 1; }   // rt8
         f.n++; if(o.keli === 5) f.frost++; if(o.warn === 3) f.warn++; if(slipNow) f.slip++;   // keli 5 = kuura tiellä; varoitus 3 = kuuraava tilanne
       }
       // suolan kalibrointi: märkä tie pakkasella – liukasta 0–6 h sisällä suolan kanssa / ilman, tienpinnan mukaan
@@ -241,9 +272,11 @@ function processDay(day, R, prov){
         const later6 = arr.some(x => x.t > o.t && x.t <= o.t + 6 * H && R.obsSlippery(x));
         const grp = res.salt[sKey] = res.salt[sKey] || {}, s = grp[b] = grp[b] || {n: 0, slip: 0};
         s.n++; if(later6) s.slip++;
+        if(KT && KT.has.has(o.t)){ s.nK = (s.nK || 0) + 1; if(arr.some(x => x.t > o.t && x.t <= o.t + 6 * H && KT.slip.has(x.t))) s.slipK = (s.slipK || 0) + 1; }   // rt8
       }
     }
     if(used) res.stations++;
+    if(usedK) res.kitka.st++;
     // ennuste vs. urakan suolaukset tällä asemalla
     if(res.toteu && used){
       const eps = saltEpisodes(saltBy.get(st) || []), area = (META[st] && META[st].area) || 'tuntematon';
@@ -282,21 +315,32 @@ function report(S){
   const L = [];
   L.push('# Jälkitarkistus koko Suomen aineistolla', '');
   L.push(`Kelisivun liukkaussäännöt (${S.rv}) ajettuna jälkikäteen Tiesää-arkiston asemille. Päiviä ${S.days.length} (${S.days[0] || '–'} – ${S.days[S.days.length - 1] || '–'}), laskentoja ${S.samples}. Päivitetty ${S.updated}.`, '');
-  L.push('Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, tai tienpinnan ollessa enintään +1 °C kitka < 0,45, jäätä tai lunta). Ennuste "liukas" = indeksi ≥ 50.', '');
-  L.push('## Osumatarkkuus', '', '| Ennuste | Osumat | Ohi | Turhat | Oikein ei riskiä | Havaitsemisosuus | Turhien osuus |', '|---|---|---|---|---|---|---|');
-  for(const k of LEADS){ const c = S.lead[k] || C0(); L.push(`| +${k} h | ${c.hit} | ${c.miss} | ${c.fa} | ${c.cn} | ${fmt(pct(c.hit, c.hit + c.miss))} % | ${fmt(pct(c.fa, c.hit + c.fa))} % |`); }
-  L.push('', '## Maakunnittain (+6 h)', '', '| Maakunta | Osumat | Ohi | Turhat | Havaitsemisosuus |', '|---|---|---|---|---|');
+  const K = S.kitka || {lead: {}, byProv: {}, byWhy: {}, miss: {}, st: 0};
+  const rows3 = (lead) => { for(const k of LEADS){ const c = lead[k] || C0(); L.push(`| +${k} h | ${c.hit} | ${c.miss} | ${c.fa} | ${c.cn} | ${fmt(pct(c.hit, c.hit + c.miss))} % | ${fmt(pct(c.fa, c.hit + c.fa))} % |`); } };
+  const HEAD3 = ['| Ennuste | Osumat | Ohi | Turhat | Oikein ei riskiä | Havaitsemisosuus | Turhien osuus |', '|---|---|---|---|---|---|---|'];
+  L.push('Ennuste "liukas" = indeksi ≥ 50. Vertailukohta on **kitkatotuus**: optinen kitka alle 0,6 kylmällä tiellä (enintään +1 °C) kahdessa peräkkäisessä mittauksessa eli vähintään noin tunnin. Mukana ovat vain asemat ja hetket, joilla on kelvollinen kitkamittaus (noin puolella asemista on optinen anturi); anturi, joka näyttää liukasta lämpimällä tiellä, jätetään pois. Sama määritelmä on koko Suomen yökoosteessa ja kelikeskuksen aamuvertailussa.', '');
+  L.push(`## Osumatarkkuus (kitkatotuus)`, '', `Asemavuorokausia, joilla kitka-anturi: ${K.st}.`, '', ...HEAD3); rows3(K.lead);
+  L.push('', '## Maakunnittain (+6 h, kitkatotuus)', '', '| Maakunta | Osumat | Ohi | Turhat | Havaitsemisosuus | Turhien osuus |', '|---|---|---|---|---|---|');
+  for(const [p, c] of Object.entries(K.byProv).sort((a, b) => (b[1].hit + b[1].miss + b[1].fa) - (a[1].hit + a[1].miss + a[1].fa)))
+    if(c.hit + c.miss + c.fa) L.push(`| ${p} | ${c.hit} | ${c.miss} | ${c.fa} | ${fmt(pct(c.hit, c.hit + c.miss))} % | ${fmt(pct(c.fa, c.hit + c.fa))} % |`);
+  L.push('', '## Hälytyksen syy (+6 h, indeksi ≥ 50, kitkatotuus)', '', '| Syy | Osui | Turha | Osui % |', '|---|---|---|---|');
+  for(const [w, c] of Object.entries(K.byWhy).sort((a, b) => (b[1].hit + b[1].fa) - (a[1].hit + a[1].fa))) L.push(`| ${w} | ${c.hit} | ${c.fa} | ${fmt(pct(c.hit, c.hit + c.fa))} % |`);
+  L.push('', '## Ohi menneet: tienpinta liukkaalla hetkellä (+6 h, kitkatotuus)', '', '| Tienpinta | Kpl |', '|---|---|');
+  for(const [w, n] of Object.entries(K.miss).sort((a, b) => b[1] - a[1])) L.push(`| ${w} | ${n} |`);
+  L.push('', '## Vertailu: vanha havaintomääritelmä', '', 'Liukas havainto = aseman mittaus (keli kuura/lumi/jää/sohjo, varoitus häly, tai tienpinnan ollessa enintään +1 °C kitka < 0,45, jäätä tai lunta). Kaikki asemat. **Jaksot eivät ole keskenään vertailukelpoisia:** Digitrafficin keli- ja varoitustieto puuttui 6.–16.11.2026, ja sinä aikana keli on johdettu tienpinnan tilasta (kuura, lumi ja jää yhtenä luokkana), mikä lisäsi mitattuja liukkaita tunteja moninkertaisesti.', '', ...HEAD3); rows3(S.lead);
+  L.push('', '### Maakunnittain (+6 h, vanha määritelmä)', '', '| Maakunta | Osumat | Ohi | Turhat | Havaitsemisosuus |', '|---|---|---|---|---|');
   for(const [p, c] of Object.entries(S.byProv).sort((a, b) => (b[1].hit + b[1].miss + b[1].fa) - (a[1].hit + a[1].miss + a[1].fa)))
     if(c.hit + c.miss + c.fa) L.push(`| ${p} | ${c.hit} | ${c.miss} | ${c.fa} | ${fmt(pct(c.hit, c.hit + c.miss))} % |`);
-  L.push('', '## Hälytyksen syy (+6 h, indeksi ≥ 50)', '', '| Syy | Osui | Turha |', '|---|---|---|');
+  L.push('', '### Hälytyksen syy (+6 h, vanha määritelmä)', '', '| Syy | Osui | Turha |', '|---|---|---|');
   for(const [w, c] of Object.entries(S.byWhy).sort((a, b) => (b[1].hit + b[1].fa) - (a[1].hit + a[1].fa))) L.push(`| ${w} | ${c.hit} | ${c.fa} |`);
-  L.push('', '## Ohi menneet: mitä asema mittasi (+6 h)', '', '| Havainto | Kpl |', '|---|---|');
+  L.push('', '### Ohi menneet: mitä asema mittasi (+6 h, vanha määritelmä)', '', '| Havainto | Kpl |', '|---|---|');
   for(const [w, n] of Object.entries(S.missObs).sort((a, b) => b[1] - a[1])) L.push(`| ${w} | ${n} |`);
-  L.push('', '## Kuura kuurakertymän mukaan', '', 'Tienpinta enintään +0,5 °C eikä suolan suojaa. Kuinka usein asema mittasi kuuraa tiellä (keli kuura), antoi Kuura-varoituksen (kuuraava tilanne: tie kastepisteen alapuolella) tai mittasi liukasta samalla hetkellä. Kertymä 4 °C·h = sääntöjen raja "mahdollisesti liukas".', '', '| Kertymä °C·h | Tunteja | Kuura tiellä (keli) | Kuuraava tilanne (varoitus) | Liukasta |', '|---|---|---|---|---|');
-  for(const [, , b] of FROST_BINS){ const f = S.frost[b]; if(f) L.push(`| ${b} | ${f.n} | ${f.frost} (${fmt(pct(f.frost, f.n))} %) | ${f.warn ?? 0} (${fmt(pct(f.warn ?? 0, f.n))} %) | ${f.slip} (${fmt(pct(f.slip, f.n))} %) |`); }
-  L.push('', '## Märkä tie pakkasella: suolan vaikutus', '', 'Liukasta 6 tunnin sisällä. "Suolaa" = jäätymispiste ≤ −1 °C. Sääntöjen oletus: suola pitää −6 °C:een asti.', '', '| Tienpinta °C | Suolaa: tunteja | liukasta | Ei suolaa: tunteja | liukasta |', '|---|---|---|---|---|');
-  for(const [, , b] of TR_BINS){ const a = (S.salt['suolaa'] || {})[b], c = (S.salt['ei suolaa'] || {})[b]; if(a || c)
-    L.push(`| ${b} | ${a ? a.n : 0} | ${a ? fmt(pct(a.slip, a.n)) + ' %' : '–'} | ${c ? c.n : 0} | ${c ? fmt(pct(c.slip, c.n)) + ' %' : '–'} |`); }
+  L.push('', '## Kuura kuurakertymän mukaan', '', 'Tienpinta enintään +0,5 °C eikä suolan suojaa. Kitkatotuus = kuinka usein tie oli samalla hetkellä kitkan mukaan liukas (vain tunnit, joilla on kitkamittaus). Vertailuna aseman keli kuura, Kuura-varoitus (kuuraava tilanne: tie kastepisteen alapuolella) ja vanha havaintomääritelmä. Kertymä 4 °C·h = sääntöjen raja "mahdollisesti liukas".', '', '| Kertymä °C·h | Tunteja, joilla kitka | Liukasta (kitkatotuus) | Tunteja kaikkiaan | Kuura tiellä (keli) | Kuuraava tilanne (varoitus) | Liukasta (vanha) |', '|---|---|---|---|---|---|---|');
+  for(const [, , b] of FROST_BINS){ const f = S.frost[b]; if(f) L.push(`| ${b} | ${f.nK ?? 0} | ${f.slipK ?? 0} (${fmt(pct(f.slipK ?? 0, f.nK ?? 0))} %) | ${f.n} | ${f.frost} (${fmt(pct(f.frost, f.n))} %) | ${f.warn ?? 0} (${fmt(pct(f.warn ?? 0, f.n))} %) | ${f.slip} (${fmt(pct(f.slip, f.n))} %) |`); }
+  L.push('', '## Märkä tie pakkasella: suolan vaikutus', '', 'Liukasta 6 tunnin sisällä kitkatotuuden mukaan (suluissa vanha määritelmä, kaikki tunnit). "Suolaa" = jäätymispiste ≤ −1 °C. Sääntöjen oletus: suola pitää −6 °C:een asti.', '', '| Tienpinta °C | Suolaa: tunteja, joilla kitka | liukasta | Ei suolaa: tunteja, joilla kitka | liukasta |', '|---|---|---|---|---|');
+  for(const [, , b] of TR_BINS){ const a = (S.salt['suolaa'] || {})[b], c = (S.salt['ei suolaa'] || {})[b]; if(a || c){
+    const cell = x => x ? `${x.nK ?? 0} | ${x.nK ? fmt(pct(x.slipK ?? 0, x.nK)) + ' %' : '–'} (${fmt(pct(x.slip, x.n))} % / ${x.n})` : '0 | –';
+    L.push(`| ${b} | ${cell(a)} | ${cell(c)} |`); } }
   const T = S.toteu;
   if(T && T.days){
     L.push('', '## Ennuste vs. urakoiden suolaukset', '', `Toteumat (Harjan suolauskirjaukset 2 km säteellä asemasta) ${S.toteuDays.length} päivältä, ${T.days} asemavuorokautta. Ennuste hälytti = indeksi ≥ 50 jollakin ennustepituudella vuorokauden aikana. Urakka suolasi = suolauskerta vuorokauden aikana tai 6 h sen jälkeen.`, '',
@@ -308,7 +352,7 @@ function report(S){
     for(const [a, c] of Object.entries(S.toteuArea).filter(([, c]) => c.ep || c.alarm).sort((x, y) => (y[1].ep + y[1].alarm) - (x[1].ep + x[1].alarm)))
       L.push(`| ${a} | ${c.days} | ${c.both} | ${c.salt} | ${c.alarm} | ${c.ep} | ${c.epPred} | ${c.epReactive} |`);
   }
-  L.push('', 'Lähde: Fintraffic / Digitraffic ja Ilmatieteen laitos (CC BY 4.0). Säännöt: Sambbor/Vantaakeli, collector/collect.mjs.');
+  L.push('', 'Suolausvertailun "asema mittasi liukasta" käyttää vielä vanhaa havaintomääritelmää.', '', 'Lähde: Fintraffic / Digitraffic ja Ilmatieteen laitos (CC BY 4.0).');
   return L.join('\n') + '\n';
 }
 
@@ -341,7 +385,7 @@ async function main(){
     save(`retro/yot/${d}.json`, {day: d, rv: R.RULES_VERSION, v: VERSION, st: res.yot}); delete res.yot;
     save(`retro/days/${d}.json`, res);
     state.done.push(d);
-    console.log(`${d}: ${res.samples} laskentaa, ${res.stations} asemaa, +6 h osumat ${res.lead[6].hit} / ohi ${res.lead[6].miss} / turhat ${res.lead[6].fa} (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
+    console.log(`${d}: ${res.samples} laskentaa, ${res.stations} asemaa, +6 h kitkatotuus osumat ${res.kitka.lead[6].hit} / ohi ${res.kitka.lead[6].miss} / turhat ${res.kitka.lead[6].fa} (${res.kitka.st} asemaa); vanha määritelmä ${res.lead[6].hit} / ${res.lead[6].miss} / ${res.lead[6].fa} (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
   }
   // rt5 (6.11.2026): illan päätöshetket heti aamulla. Täysi tarkistus odottaa seuraavaa vuorokautta (+12 h tarkistus), mutta
   // klo 18 ja 22 indeksi tarvitsee vain yön klo 08 asti: lasketaan ne heti, kun yö on ohi ja seuraavan päivän mittauksia on.
@@ -355,13 +399,15 @@ async function main(){
   state.rv = R.RULES_VERSION; state.v = VERSION; state.done = [...new Set(state.done)].sort(); state.updated = iso(Date.now());
   save('retro/state.json', state, 1);
   // yhteenveto kaikista saman sääntöversion päivistä
-  const S = {rv: R.RULES_VERSION, v: VERSION, updated: iso(Date.now()), days: [], samples: 0, lead: {}, byProv: {}, byWhy: {}, missObs: {}, frost: {}, salt: {}, weeks: {}, toteu: null, toteuArea: {}, toteuDays: []};
+  const S = {rv: R.RULES_VERSION, v: VERSION, updated: iso(Date.now()), days: [], samples: 0, lead: {}, byProv: {}, byWhy: {}, missObs: {}, frost: {}, salt: {}, weeks: {}, toteu: null, toteuArea: {}, toteuDays: [],
+    kitka: {st: 0, lead: {}, byProv: {}, byWhy: {}, miss: {}}};
   for(const d of state.done){ const r = load(`retro/days/${d}.json`, null); if(!r || r.rv !== R.RULES_VERSION) continue;
     S.days.push(d); addInto(S, {samples: r.samples, lead: r.lead, byProv: r.byProv, byWhy: r.byWhy, missObs: r.missObs, frost: r.frost, salt: r.salt});
+    if(r.kitka) addInto(S.kitka, r.kitka);
     if(r.toteu){ S.toteu = addInto(S.toteu || {}, r.toteu); addInto(S.toteuArea, r.toteuArea); S.toteuDays.push(d); }
     const dt = new Date(d + 'T00:00:00Z'), th = new Date(dt.getTime() + (3 - ((dt.getUTCDay() + 6) % 7)) * 864e5), y = th.getUTCFullYear();
     const wk = y + '-W' + String(1 + Math.round(((th - new Date(Date.UTC(y, 0, 4))) / 864e5 - 3 + ((new Date(Date.UTC(y, 0, 4)).getUTCDay() + 6) % 7)) / 7)).padStart(2, '0');
-    addInto(S.weeks[wk] = S.weeks[wk] || {}, {lead6: r.lead[6], days: 1}); }
+    addInto(S.weeks[wk] = S.weeks[wk] || {}, {lead6: r.lead[6], days: 1, ...(r.kitka ? {kitka6: r.kitka.lead[6]} : {})}); }
   save('retro/summary.json', S, 1);
   fs.writeFileSync('retro/raportti.md', report(S));
   if(S.toteu) console.log(`Suolausvertailu: ${S.toteuDays.length} päivää, ${S.toteu.days} asemavuorokautta, suolauskertoja ${S.toteu.ep} (ennuste ennakoi ${S.toteu.epPred}), molemmat ${S.toteu.both} / vain suolaus ${S.toteu.salt} / vain ennuste ${S.toteu.alarm}`);

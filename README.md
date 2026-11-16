@@ -69,6 +69,12 @@ muista, kitka-anturi liukas yli +3 °C:n tiellä. Kausi: `liukasYot`, `ehtiEnnen
 - rt7/su9 (7.11.2026): toimenpidetasoon mallien yhtäpitävyys (MEPS ja EC arkistosta, kuten kelikeskuksessa; MET puuttuu), päätöshetkeen
   tienpinta (`tr`). Illan tila: Arkiston ajastin käynnistää retro.yml:n (`ilta=true`) klo 18.23 ja 22.23 → `retro.mjs --ilta` ja
   `suomi.py --ilta` → `data/joukko-ilta.json` (joukon arvio kaikille urakoille samalla laskennalla kuin `data/joukko.json`).
+- rt8 (17.11.2026): jälkitarkistuksen osumat lasketaan ensisijaisesti **kitkatotuutta** vastaan: optinen kitka alle 0,6 kylmällä tiellä
+  (≤ +1 °C) kahdessa peräkkäisessä mittauksessa, vain asemat ja hetket, joilla on kelvollinen kitkamittaus (sama määritelmä kuin
+  `havaittu` yllä ja kelikeskuksen aamuvertailussa). `retro/summary.json` → `kitka` = {`st` asemavuorokaudet, `lead` (+2/+6/+12 h: hit, miss,
+  fa, cn), `byProv`, `byWhy`, `miss`}, viikoittain `weeks.*.kitka6`; kuura- ja suolataulukoissa `nK` ja `slipK`. Vanha havaintomääritelmä
+  (keli, varoitus, kitka < 0,45, jää, lumi) säilyy kentissä `lead`, `byProv`, `byWhy`, `missObs` vertailuna: se ei ole vertailukelpoinen
+  jaksojen välillä, koska keli- ja varoitustieto puuttui 6.–16.11.2026 ja korvattiin tienpinnan tilalla. Raportti: `retro/raportti.md`.
 - Jälkitarkistus (retro.yml) käynnistyy Arkiston ajastimesta klo 08.11 Suomen aikaa. Illan päätöshetket (`retro/yot/`) lasketaan heti
   yön jälkeen (rt5, `ennakko: true`), täysi tarkistus seuraavana päivänä. Lopuksi `suomi.py --kausi` päivittää kauden ja joukon taulukon.
 
