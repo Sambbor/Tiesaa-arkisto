@@ -1,5 +1,5 @@
 {
- "rows": 759993,
+ "rows": 760508,
  "days": [
   "2026-10-12",
   "2026-10-13",
@@ -40,15 +40,15 @@
   "2026-11-17"
  ],
  "first": "2026-10-12T11:40:45Z",
- "updated": "2026-11-17T07:11:13Z",
+ "updated": "2026-11-17T07:41:15Z",
  "v": "ta4",
  "stations": 529,
  "meta": 529,
  "paired": 481,
  "last_rows": 515,
  "last_dup": 0,
- "last_stale": 41,
- "last_sec": 41.8,
+ "last_stale": 43,
+ "last_sec": 4.9,
  "cols": [
   "t",
   "st",
