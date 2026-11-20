@@ -1,6 +1,6 @@
 # Jälkitarkistus koko Suomen aineistolla
 
-Kelisivun liukkaussäännöt (v18) ajettuna jälkikäteen Tiesää-arkiston asemille. Päiviä 38 (2026-10-12 – 2026-11-18), laskentoja 409344. Päivitetty 2026-11-20T06:11:25Z.
+Kelisivun liukkaussäännöt (v18) ajettuna jälkikäteen Tiesää-arkiston asemille. Päiviä 38 (2026-10-12 – 2026-11-18), laskentoja 409344. Päivitetty 2026-11-20T13:32:48Z.
 
 Ennuste "liukas" = indeksi ≥ 50. Vertailukohta on **kitkatotuus**: optinen kitka alle 0,6 kylmällä tiellä (enintään +1 °C) kahdessa peräkkäisessä mittauksessa eli vähintään noin tunnin. Mukana ovat vain asemat ja hetket, joilla on kelvollinen kitkamittaus (noin puolella asemista on optinen anturi); anturi, joka näyttää liukasta lämpimällä tiellä, jätetään pois. Sama määritelmä on koko Suomen yökoosteessa ja kelikeskuksen aamuvertailussa.
 
