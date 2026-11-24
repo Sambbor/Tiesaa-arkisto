@@ -25,7 +25,7 @@ const H = 36e5;
 
 // sj1 (16.11.2026): säännöt ovat yksityisen säilön tiedostossa saannot.js (RULES_FILE-polun vieressä tai RULES_FILE itse).
 // Vanha muoto (laskenta.html, lohko LIUKKAUSSÄÄNNÖT) kelpaa edelleen, jos tiedostoa saannot.js ei ole.
-const RULES_OUT = '\nreturn {RULES_VERSION, slipSeriesCore, obsSlippery, frostAccHist, frostPt, WET_KELI, WARN_RANK, FROST_SLIP, SALT_LIMIT, wetObs: typeof wetObs === "function" ? wetObs : null, slipExcl: typeof slipExcl === "function" ? slipExcl : null, TILA_TO_KELI: typeof TILA_TO_KELI === "object" ? TILA_TO_KELI : null};';
+const RULES_OUT = '\nreturn {RULES_VERSION, slipSeriesCore, obsSlippery, frostAccHist, frostPt, WET_KELI, WARN_RANK, FROST_SLIP, SALT_LIMIT, wetObs: typeof wetObs === "function" ? wetObs : null, slipExcl: typeof slipExcl === "function" ? slipExcl : null, nearWater: typeof nearWater === "function" ? nearWater : null, TILA_TO_KELI: typeof TILA_TO_KELI === "object" ? TILA_TO_KELI : null};';
 async function loadRules(){
   const file = process.env.RULES_FILE;
   if(file){ const js = file.endsWith('.js') ? file : path.join(path.dirname(file), 'saannot.js');
@@ -183,6 +183,14 @@ function processDay(day, R, prov){
   const byS = new Map();
   for(const r of obsRows){ if(!r.mt) continue; const o = obsOf(r, R); if(!isFinite(o.t)) continue; (byS.get(r.st) || byS.set(r.st, []).get(r.st)).push(o); }
   for(const a of byS.values()) a.sort((x, y) => x.t - y.t);
+  // v22 (dk2): asemalle ilman vesianturia lähimmät vesianturin asemat (enintään 10 km, säännöt valitsevat lähimmän, jolla on lukema)
+  const wSt = [...byS.entries()].filter(([s, a]) => META[s] && META[s].lon != null && a.some(o => o.water != null)).map(([s]) => s);
+  const nearCand = st => { const m = META[st]; if(!m || m.lon == null) return [];
+    const kx = 111320 * Math.cos(m.lat * Math.PI / 180);
+    return wSt.filter(s => s !== st).map(s => ({s, d: Math.hypot((META[s].lon - m.lon) * kx, (META[s].lat - m.lat) * 111320)})).filter(q => q.d <= 10000).sort((a, b) => a.d - b.d).slice(0, 4); };
+  const obsWAt = (st, o, cand) => { const own = {water: o.water, snow: o.snow, ice: o.ice}; if(o.water != null || !R.nearWater || !cand.length) return own;
+    const list = []; for(const {s} of cand){ const q = nearest(byS.get(s), o.t); if(q && q.water != null) list.push({id: s, lon: META[s].lon, lat: META[s].lat, water: q.water, snow: q.snow, ice: q.ice}); }
+    return R.nearWater(own, META[st], list); };
   const issues = new Map();
   for(const r of fcRows){ const h0 = new Date(r.h0).getTime(), t = new Date(r.t).getTime(); if(!isFinite(h0)) continue; (issues.get(r.st) || issues.set(r.st, []).get(r.st)).push({t, h0, r}); }
   for(const a of issues.values()) a.sort((x, y) => x.t - y.t);
@@ -200,6 +208,7 @@ function processDay(day, R, prov){
   const yot = {}, tEnd = nightEnd(day);
   for(const [st, arr] of byS){
     const KT = kitkaTotuus(arr, st, R); let usedK = false;   // rt8
+    const cand = arr.some(o => o.water != null) ? [] : nearCand(st);   // v22 (dk2)
     const iss = issues.get(st) || []; let used = false, lastHour = -1; const alarms = [];   // [{issue, target}] indeksi ≥ 50
     for(const o of arr){
       if(o.t < d0 || o.t >= d1 || o.tr == null) continue;
@@ -214,7 +223,7 @@ function processDay(day, R, prov){
         : (o.water != null && o.water > 0.03) || (o.snow || 0) > 0 || (o.ice || 0) > 0 || R.WET_KELI.includes(o.keli) ? 1 : 0;
       const slipNow = R.obsSlippery(o);
       let ser;
-      try{ ser = R.slipSeriesCore({now: o.t, st, rows, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0, obsW: {water: o.water, snow: o.snow, ice: o.ice}}); }catch(e){ continue; }
+      try{ ser = R.slipSeriesCore({now: o.t, st, rows, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0, obsW: obsWAt(st, o, cand)}); }catch(e){ continue; }
       used = true; res.samples++;
       const hp = helParts(o.t);
       if(hp.day === day && (hp.hour === 18 || hp.hour === 22)){
@@ -225,7 +234,7 @@ function processDay(day, R, prov){
           for(const m of ['meps', 'ec']){ const mi = [...(mIss[m].get(st) || [])].reverse().find(x => x.t <= o.t + 5 * 6e4); if(!mi) continue;
             const pts = []; for(let L = 0; L <= 24; L++){ const g = kk => num(mi.r[kk + String(L).padStart(2, '0')]); if(g('t') == null) continue; pts.push({t: mi.h0 + L * H, T: g('t'), Td: g('td'), P: g('p')}); }
             const mr = modelRows(rows.map(x => ({...x})), pts); if(!mr) continue;
-            try{ mser.push(R.slipSeriesCore({now: o.t, st, rows: mr, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0, obsW: {water: o.water, snow: o.snow, ice: o.ice}})); }catch(e){} }
+            try{ mser.push(R.slipSeriesCore({now: o.t, st, rows: mr, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0, obsW: obsWAt(st, o, cand)})); }catch(e){} }
           const w = ser.map((c, i) => ({c, i})).filter(({c}) => c.t >= o.t && c.t <= tEnd && c.idx != null);
           const kn = i => { const v2 = [ser[i], ...mser.map(a => a[i])].filter(x => x && x.idx != null); return {k: v2.filter(x => x.idx >= 50).length, n: v2.length}; };
           const on = w.map(x => x.c).find(c => c.idx >= 50), mx = w.reduce((a, x) => Math.max(a, x.c.idx), 0);
