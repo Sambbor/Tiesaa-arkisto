@@ -103,7 +103,7 @@ function modelRows(base, pts){
 }
 function fcList(o){
   const r = o.raw, out = [], reason = p => ({roadCondition: r[p + '_rc'] || undefined, frictionCondition: r[p + '_fc'] || undefined,
-    freezingRainCondition: r[p + '_fz'] === '1', winterSlipperiness: r[p + '_sl'] === '1'});
+    freezingRainCondition: r[p + '_fz'] === '1', winterSlipperiness: r[p + '_sl'] === '1', precipitationCondition: r[p + '_pc'] || undefined});   // v21 (dk1): sade-ennuste
   if(num(r.fo_tr) != null) out.push({type: 'OBSERVATION', time: iso(o.t), roadTemperature: num(r.fo_tr), forecastConditionReason: {roadCondition: r.fo_rc || undefined}});
   for(const [n, p, L] of [['2h', 'f2', 2], ['4h', 'f4', 4], ['6h', 'f6', 6], ['12h', 'f12', 12]])
     if(num(r[p + '_tr']) != null) out.push({type: 'FORECAST', forecastName: n, time: iso(o.t + L * H), roadTemperature: num(r[p + '_tr']), forecastConditionReason: reason(p)});
@@ -214,7 +214,7 @@ function processDay(day, R, prov){
         : (o.water != null && o.water > 0.03) || (o.snow || 0) > 0 || (o.ice || 0) > 0 || R.WET_KELI.includes(o.keli) ? 1 : 0;
       const slipNow = R.obsSlippery(o);
       let ser;
-      try{ ser = R.slipSeriesCore({now: o.t, st, rows, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0}); }catch(e){ continue; }
+      try{ ser = R.slipSeriesCore({now: o.t, st, rows, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0, obsW: {water: o.water, snow: o.snow, ice: o.ice}}); }catch(e){ continue; }
       used = true; res.samples++;
       const hp = helParts(o.t);
       if(hp.day === day && (hp.hour === 18 || hp.hour === 22)){
@@ -225,7 +225,7 @@ function processDay(day, R, prov){
           for(const m of ['meps', 'ec']){ const mi = [...(mIss[m].get(st) || [])].reverse().find(x => x.t <= o.t + 5 * 6e4); if(!mi) continue;
             const pts = []; for(let L = 0; L <= 24; L++){ const g = kk => num(mi.r[kk + String(L).padStart(2, '0')]); if(g('t') == null) continue; pts.push({t: mi.h0 + L * H, T: g('t'), Td: g('td'), P: g('p')}); }
             const mr = modelRows(rows.map(x => ({...x})), pts); if(!mr) continue;
-            try{ mser.push(R.slipSeriesCore({now: o.t, st, rows: mr, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0})); }catch(e){} }
+            try{ mser.push(R.slipSeriesCore({now: o.t, st, rows: mr, trNow: o.tr, fc: fcList(o), tf0: Math.min(0, o.tf ?? 0), wetNow, slipNow, dewNow: o.td, bias: null, frAcc0, obsW: {water: o.water, snow: o.snow, ice: o.ice}})); }catch(e){} }
           const w = ser.map((c, i) => ({c, i})).filter(({c}) => c.t >= o.t && c.t <= tEnd && c.idx != null);
           const kn = i => { const v2 = [ser[i], ...mser.map(a => a[i])].filter(x => x && x.idx != null); return {k: v2.filter(x => x.idx >= 50).length, n: v2.length}; };
           const on = w.map(x => x.c).find(c => c.idx >= 50), mx = w.reduce((a, x) => Math.max(a, x.c.idx), 0);
