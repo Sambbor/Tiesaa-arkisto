@@ -5723,3 +5723,21 @@ pvm,vaihe,kuva_aika,st,asema,cam,preset,suunta,tie,maakunta,dist_m,aurinko,tr,td
 2026-11-25,B,2026-11-25T09:51,9002,"Tie 9 Jyväskylä, Korpilahti",C09531,C0953109,Tie,9,Keski-Suomi,2,3.2,-3.7,-3.8,-3.2,0.0,2.0,3.0,-2.6,1.0,0.0,raja,kuura/kuvat/2026-11/25/C0953109_B.jpg,,ku2
 2026-11-25,B,2026-11-25T09:46,13006,"Tie 76 Kuhmo, Tervasalmi",C12510,C1251001,Kuhmoon,76,Kainuu,286,2.1,-5.4,-8.5,-7.2,-0.4,8.0,0.0,-5.0,0.6,0.0,raja,kuura/kuvat/2026-11/25/C1251001_B.jpg,,ku2
 2026-11-25,B,2026-11-25T09:47,13022,"Tie 6 Sotkamo, Maanselkä",C12535,C1253501,Kajaaniin,6,Kainuu,0,2.2,-6.1,-7.4,-5.6,0.0,7.0,1.0,-5.2,0.1,0.0,raja,kuura/kuvat/2026-11/25/C1253501_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:21,8017,"Tie 88 Vieremä, Isomäki",C08550,C0855001,Iisalmeen,88,Pohjois-Savo,0,3.2,-4.4,-5.1,-4.4,0.0,2.0,1.0,-5.8,0.6,0.0,raja,kuura/kuvat/2026-11/25/C0855001_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:18,10022,"Tie 724 Mustasaari, Raippaluoto",C10506,C1050601,Raippaluotoon,724,Pohjanmaa,8,2.9,-1.2,-2.0,0.3,0.0,7.0,1.0,-3.9,-2.2,2.0,kuura,kuura/kuvat/2026-11/25/C1050601_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:18,10062,"Tie 3 Vaasa, Vanhasatama",C10508,C1050801,Vaasaan,3,Pohjanmaa,5,3.1,-0.8,-0.5,0.3,-0.9,4.0,4.0,-5.9,-0.7,5.0,kuura,kuura/kuvat/2026-11/25/C1050801_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:20,10022,"Tie 724 Mustasaari, Raippaluoto",C10511,C1051101,Raippaluotoon,724,Pohjanmaa,211,2.9,-1.2,-2.0,0.3,0.0,7.0,1.0,-3.9,-2.2,2.0,kuura,kuura/kuvat/2026-11/25/C1051101_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:21,10049,Tie 63 Toholampi,C10539,C1053901,Ylivieskaan,63,Keski-Pohjanmaa,0,2.9,-4.9,-3.6,-3.2,-0.4,8.0,0.0,-5.7,-0.7,1.5,kuura,kuura/kuvat/2026-11/25/C1053901_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:14,10020,"Tie 749 Luoto, Eugmo",C10546,C1054601,Kokkolaan,749,Pohjanmaa,0,2.6,-3.0,-1.7,0.5,0.0,1.0,3.0,-5.7,-2.4,7.5,kuura,kuura/kuvat/2026-11/25/C1054601_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:16,13001,"Tie 6 Sotkamo, Korholanmäk",C12516,C1251601,Kajaaniin,6,Kainuu,0,3.2,-6.6,-6.9,-6.2,-0.1,8.0,1.0,-5.9,-0.7,2.0,kuura,kuura/kuvat/2026-11/25/C1251601_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:16,12050,"Tie 8 Pyhäjoki, Viirre",C12524,C1252401,Ouluun,8,Pohjois-Pohjanmaa,0,2.3,-3.5,-1.3,0.8,-1.1,8.0,0.0,-4.9,-4.0,10.5,kuura,kuura/kuvat/2026-11/25/C1252401_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:13,12022,"Tie 4 Liminka, Haaransilta",C12537,C1253701,Ouluun,4,Pohjois-Pohjanmaa,10,2.2,-5.7,-4.8,-4.0,-0.1,7.0,1.0,-5.9,-2.3,8.0,kuura,kuura/kuvat/2026-11/25/C1253701_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:17,12053,"Tie 4 Liminka, Tupos",C12544,C1254400,Tie 4 Tupos,4,Pohjois-Pohjanmaa,0,2.2,-4.5,-4.1,-3.3,-0.1,8.0,3.0,-5.6,-2.0,6.5,kuura,kuura/kuvat/2026-11/25/C1254400_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:17,12069,"Tie 4 Oulu, Lintula",C12552,C1255201,Ouluun,4,Pohjois-Pohjanmaa,0,2.0,-4.6,-4.0,-2.8,0.0,2.0,3.0,-6.0,-3.7,7.5,kuura,kuura/kuvat/2026-11/25/C1255201_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:21,13015,"Tie 5 Kajaani, Nuottijärvi",C12575,C1257501,Kajaaniin,5,Kainuu,0,3.1,-3.7,-4.8,-4.2,-0.6,8.0,0.0,-4.3,-0.1,0.5,kuura,kuura/kuvat/2026-11/25/C1257501_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:21,12002,"Tie 8 Raahe, Pattijoki",C12576,C1257601,Ouluun,8,Pohjois-Pohjanmaa,0,2.2,-3.3,-2.1,-0.1,-0.2,8.0,0.0,-4.8,-3.4,9.0,kuura,kuura/kuvat/2026-11/25/C1257601_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:22,12067,"Tie 4 Siikalatva, Hyttikoski",C12577,C1257701,Ouluun,4,Pohjois-Pohjanmaa,0,2.6,-6.3,-6.4,-5.9,0.0,8.0,3.0,-6.0,-0.7,1.5,kuura,kuura/kuvat/2026-11/25/C1257701_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:12,10024,"Tie 8 Kalajoki, Himanka",C12579,C1257901,Ouluun,8,Pohjois-Pohjanmaa,0,2.6,-2.6,-1.7,1.5,0.0,1.0,3.0,-6.0,-1.9,1.0,kuura,kuura/kuvat/2026-11/25/C1257901_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:13,13007,"Tie 5 Kajaani, Hatulanmäki",C12625,C1262501,Kajaaniin,5,Kainuu,0,3.3,-3.8,-6.8,-5.9,0.0,2.0,0.0,-4.5,0.3,0.0,raja,kuura/kuvat/2026-11/25/C1262501_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:15,12017,"Tie 8 Liminka, Lapinkangas",C12646,C1264601,Ouluun,8,Pohjois-Pohjanmaa,1,2.2,-5.5,-4.6,-3.9,0.0,2.0,3.0,-5.4,-2.0,7.0,kuura,kuura/kuvat/2026-11/25/C1264601_B.jpg,,ku2
+2026-11-25,B,2026-11-25T10:17,12094,"Tie 816 Oulunsalo, Keinosaari",C12657,C1265701,Hailuotoon,816,Pohjois-Pohjanmaa,0,2.0,-2.7,-2.3,0.3,-0.2,8.0,0.0,-3.8,-3.1,9.5,kuura,kuura/kuvat/2026-11/25/C1265701_B.jpg,,ku2
