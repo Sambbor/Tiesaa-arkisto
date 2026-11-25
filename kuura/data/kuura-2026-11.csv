@@ -5690,3 +5690,36 @@ pvm,vaihe,kuva_aika,st,asema,cam,preset,suunta,tie,maakunta,dist_m,aurinko,tr,td
 2026-11-25,B,2026-11-25T09:20,7008,kt74_Joensuu_Onkimäki,C07508,C0750801,Ilomantsiin,74,Pohjois-Karjala,0,2.1,-3.0,-3.4,-2.9,0.0,1.0,3.0,-4.5,-0.3,4.5,kuura,kuura/kuvat/2026-11/25/C0750801_B.jpg,,ku2
 2026-11-25,B,2026-11-25T09:22,7039,"Tie 6 Joensuu, Reijola",C08547,C0854701,Joensuuhun,6,Pohjois-Karjala,0,2.0,-2.4,-2.7,-1.6,-1.9,8.0,0.0,-3.3,-0.1,0.5,kuura,kuura/kuvat/2026-11/25/C0854701_B.jpg,,ku2
 2026-11-25,B,2026-11-25T09:21,7016,"Tie 522 Ilomantsi, Hattuvaara",C08589,C0858901,Lieksaan,522,Pohjois-Karjala,0,2.0,-2.0,-3.7,-3.2,0.0,7.0,2.0,-2.5,-0.2,1.0,kuura,kuura/kuvat/2026-11/25/C0858901_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:53,2031,"Tie 9 Turku, Kärsämäki",C02520,C0252001,Tie 40 Helsinkiin,40,Varsinais-Suomi,77,3.6,-1.9,-4.6,-2.8,-0.3,2.0,0.0,-3.2,1.0,0.0,raja,kuura/kuvat/2026-11/25/C0252001_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:52,2124,"Tie 189 Naantali, Luonnonmaa",C02563,C0256301,Rymättylään,189,Varsinais-Suomi,0,3.6,-1.9,-4.4,-2.8,-0.4,2.0,0.0,-2.6,0.8,0.0,raja,kuura/kuvat/2026-11/25/C0256301_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:52,2034,"Tie 180 Parainen, Nauvo",C02570,C0257002,Turkuun,180,Varsinais-Suomi,0,3.8,-0.9,-3.5,-2.2,0.0,1.0,0.0,-2.1,0.9,0.0,raja,kuura/kuvat/2026-11/25/C0257002_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:52,2009,"Tie 8 Pori, Ahlainen",C02573,C0257301,Vaasaan,8,Satakunta,0,2.5,-3.5,-5.3,-4.1,-0.6,8.0,0.0,-5.9,0.8,0.0,raja,kuura/kuvat/2026-11/25/C0257301_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:52,2031,"Tie 9 Turku, Kärsämäki",C02589,C0258901,kamera 1,40,Varsinais-Suomi,168,3.6,-1.9,-4.6,-2.8,-0.3,2.0,0.0,-3.2,1.0,0.0,raja,kuura/kuvat/2026-11/25/C0258901_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:52,2052,"Ahvenanmaa, Eckerö",C02590,C0259001,Överby,99999,Ahvenanmaa,0,3.1,-0.1,-2.8,0.5,0.0,2.0,0.0,-0.4,0.5,0.0,raja,kuura/kuvat/2026-11/25/C0259001_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:50,3022,"Tie 5 Pertunmaa, Kuortti",C03532,C0353201,Mikkeliin,5,Etelä-Savo,0,3.9,-3.2,-3.9,-3.4,-0.8,8.0,4.0,-2.1,0.8,0.0,raja,kuura/kuvat/2026-11/25/C0353201_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:48,6005,"Tie 5 Joroinen, Puunkolo",C03676,C0367601,Kuopioon,5,Pohjois-Savo,0,3.7,-3.7,-4.1,-3.5,-0.2,8.0,3.0,-2.2,0.6,0.0,raja,kuura/kuvat/2026-11/25/C0367601_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:48,4002,"Tie 24 Asikkala, Iso-Äiniö",C04522,C0452201,Jämsään,24,Päijät-Häme,0,3.8,-2.3,-3.3,-2.3,-0.1,8.0,1.0,-1.9,0.9,0.0,raja,kuura/kuvat/2026-11/25/C0452201_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:50,4066,"Tie 4 Hartola, Kettuvuori",C04567,C0456701,Tie 4 Jyväskylään,4,Päijät-Häme,0,3.6,-3.4,-3.5,-2.3,-0.3,8.0,3.0,-2.7,0.6,0.0,raja,kuura/kuvat/2026-11/25/C0456701_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:50,4028,"Tie 3 Valkeakoski, Jutikka",C04765,C0476501,Tampereelle,3,Pirkanmaa,0,3.6,-1.8,-3.4,-1.7,-1.0,8.0,0.0,-2.2,0.7,0.0,raja,kuura/kuvat/2026-11/25/C0476501_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:50,6016,"Tie 23, Heinävesi, Lamminpää",C06503,C0650301,Joensuuhun,23,Pohjois-Karjala,0,3.4,-5.1,-4.7,-3.1,-0.3,8.0,0.0,-2.6,0.9,0.0,raja,kuura/kuvat/2026-11/25/C0650301_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:50,6008,"Tie 23 Heinävesi, Suurmäki",C06515,C0651501,Joensuuhun,23,Pohjois-Karjala,114,3.5,-4.3,-3.3,-2.7,0.0,6.0,1.0,-2.8,-0.9,3.5,kuura,kuura/kuvat/2026-11/25/C0651501_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:50,7032,"Tie 73 Lieksa, Vieki",C08505,C0850501,Nurmekseen,73,Pohjois-Karjala,32,2.8,-6.5,-7.3,-6.1,0.0,1.0,3.0,-5.2,-0.4,1.0,kuura,kuura/kuvat/2026-11/25/C0850501_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:50,8023,"Tie 5 Leppävirta, Oravikos",C08506,C0850601,Kuopioon,5,Pohjois-Savo,0,3.2,-4.0,-4.6,-3.7,-0.9,8.0,0.0,-2.5,0.8,0.0,raja,kuura/kuvat/2026-11/25/C0850601_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:50,8011,"Tie 9 Kuopio, Vartiala",C08528,C0852801,Joensuuhun,9,Pohjois-Savo,118,2.9,-5.5,-5.2,-3.9,-0.1,8.0,0.0,-4.3,-0.6,0.5,kuura,kuura/kuvat/2026-11/25/C0852801_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:51,8064,"Tie 23 Leppävirta, Soisalo",C08532,C0853201,Joensuuhun,23,Pohjois-Savo,0,3.4,-4.5,-4.9,-4.9,0.0,2.0,1.0,-2.0,0.1,0.0,raja,kuura/kuvat/2026-11/25/C0853201_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:52,8020,"Tie 5 Kuopio, Siikalahti",C08538,C0853801,Iisalmeen,5,Pohjois-Savo,41,2.9,-3.4,-4.8,-2.8,-0.7,8.0,0.0,-2.8,0.6,0.0,raja,kuura/kuvat/2026-11/25/C0853801_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:51,8018,"Tie 87 Sonkajärvi, Koirakoski",C08551,C0855101,Nurmekseen,87,Pohjois-Savo,4,2.3,-4.2,-6.2,-5.2,0.0,7.0,1.0,-4.3,0.1,0.0,raja,kuura/kuvat/2026-11/25/C0855101_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:52,8066,"Tie 5 Kuopio, Tikkalansaari",C08557,C0855701,Siilinjärvi,5,Pohjois-Savo,0,2.9,-3.7,-3.9,-3.2,-0.9,8.0,0.0,-2.8,-0.1,1.0,kuura,kuura/kuvat/2026-11/25/C0855701_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:51,8019,"Tie 551 Vesanto, Löttökorpi",C08577,C0857701,Viitasaareen,551,Pohjois-Savo,0,2.6,-4.8,-5.6,-5.5,-0.1,7.0,1.0,-3.6,-0.2,0.5,kuura,kuura/kuvat/2026-11/25/C0857701_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:51,8004,"Tie 5 Iisalmi, Ryhälänmäki",C08578,C0857801,Kajaaniin,5,Pohjois-Savo,0,2.1,-4.1,-5.1,-5.1,0.0,1.0,0.0,-5.4,-0.4,1.5,kuura,kuura/kuvat/2026-11/25/C0857801_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:51,8010,"Tie 27 Iisalmi, Runni",C08579,C0857901,Kalajoelle,27,Pohjois-Savo,0,2.1,-4.6,-4.8,-4.4,0.0,7.0,2.0,-5.5,-0.1,0.5,kuura,kuura/kuvat/2026-11/25/C0857901_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:51,8008,"Tie 75 Nilsiä, Suholanmäki",C08588,C0858801,Nurmekseen,75,Pohjois-Savo,0,2.8,-5.6,-6.7,-5.3,0.0,1.0,1.0,-4.3,0.0,0.0,raja,kuura/kuvat/2026-11/25/C0858801_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:51,8007,"Tie 77 Pielavesi, Löytynjä",C08590,C0859010,Tie,77,Pohjois-Savo,0,2.4,-4.1,-5.2,-4.8,-0.1,2.0,4.0,-4.9,-0.2,1.5,kuura,kuura/kuvat/2026-11/25/C0859010_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:49,9001,"Tie 4 Toivakka, Vestonmäki",C09507,C0950701,Jyväskylään,4,Keski-Suomi,10,3.3,-3.3,-4.1,-3.6,-0.7,8.0,0.0,-2.6,0.8,0.0,raja,kuura/kuvat/2026-11/25/C0950701_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:51,9008,"Tie 4 Viitasaari, Löytänä",C09526,C0952601,Ouluun,4,Keski-Suomi,0,2.2,-3.0,-3.7,-3.2,-0.3,8.0,0.0,-5.2,0.3,0.0,raja,kuura/kuvat/2026-11/25/C0952601_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:51,9004,"Tie 4 Äänekoski, Kalaniemi",C09527,C0952701,Ouluun,4,Keski-Suomi,0,2.5,-4.8,-4.9,-4.1,-0.1,8.0,3.0,-3.2,1.0,0.0,raja,kuura/kuvat/2026-11/25/C0952701_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:51,9036,"Tie 4 Pihtipudas, Rönnynkylä",C09529,C0952901,Ouluun,4,Keski-Suomi,0,2.0,-3.1,-2.8,-2.5,-1.6,8.0,0.0,-5.8,0.4,0.0,raja,kuura/kuvat/2026-11/25/C0952901_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:51,9037,"Tie 4 Äänekoski, Lintulahti",C09530,C0953001,Ouluun,4,Keski-Suomi,0,2.6,-4.6,-4.6,-3.9,-0.9,8.0,0.0,-3.2,0.5,0.0,raja,kuura/kuvat/2026-11/25/C0953001_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:51,9002,"Tie 9 Jyväskylä, Korpilahti",C09531,C0953109,Tie,9,Keski-Suomi,2,3.2,-3.7,-3.8,-3.2,0.0,2.0,3.0,-2.6,1.0,0.0,raja,kuura/kuvat/2026-11/25/C0953109_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:46,13006,"Tie 76 Kuhmo, Tervasalmi",C12510,C1251001,Kuhmoon,76,Kainuu,286,2.1,-5.4,-8.5,-7.2,-0.4,8.0,0.0,-5.0,0.6,0.0,raja,kuura/kuvat/2026-11/25/C1251001_B.jpg,,ku2
+2026-11-25,B,2026-11-25T09:47,13022,"Tie 6 Sotkamo, Maanselkä",C12535,C1253501,Kajaaniin,6,Kainuu,0,2.2,-6.1,-7.4,-5.6,0.0,7.0,1.0,-5.2,0.1,0.0,raja,kuura/kuvat/2026-11/25/C1253501_B.jpg,,ku2
