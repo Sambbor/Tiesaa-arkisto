@@ -1,5 +1,5 @@
 {
- "rows": 951827,
+ "rows": 952342,
  "days": [
   "2026-10-12",
   "2026-10-13",
@@ -48,15 +48,15 @@
   "2026-11-25"
  ],
  "first": "2026-10-12T11:40:45Z",
- "updated": "2026-11-25T01:41:11Z",
+ "updated": "2026-11-25T02:11:13Z",
  "v": "ta4",
  "stations": 530,
  "meta": 530,
  "paired": 481,
- "last_rows": 514,
- "last_dup": 2,
- "last_stale": 35,
- "last_sec": 1.3,
+ "last_rows": 515,
+ "last_dup": 0,
+ "last_stale": 40,
+ "last_sec": 4.2,
  "cols": [
   "t",
   "st",
@@ -333,7 +333,7 @@
   "rows": 529
  },
  "fmi_obs_last": {
-  "t": "2026-11-25T01:11:15Z",
+  "t": "2026-11-25T02:11:13Z",
   "rows": 191
  },
  "meps_fc_last": {
