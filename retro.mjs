@@ -75,7 +75,11 @@ function availableDays(){
 const SURF_TO_KELI = {1: 1, 2: 3, 3: 3, 10: 3, 11: 7};   // kl1: tienpinnan tila → keli (1 kuiva, 3 märkä, 7 kuura/lumi/jää); sj1: ensisijaisesti sääntötiedoston TILA_TO_KELI, tämä varalla
 // asemarivi → säännöille sopiva havainto
 function obsOf(r, R){
-  const tr = [num(r.tr1), num(r.tr2)].filter(v => v != null);
+  // ka1 (26.11.2026, Samuli): tienpinta kaistalta 1, varalla kaista 2 (puuttuu tai epäuskottava: yli 10 °C ilmaa kylmempi tai rajojen ulkopuolella),
+  // kuten kelikeskuksen keruu ja sivu. Ennen: kaistojen 1–2 kylmempi. RETRO_LANE=min palauttaa vanhan valinnan (vertailuajot).
+  const ok = v => v != null && v > -45 && v < 65 && !(num(r.ta) != null && v < num(r.ta) - 10);
+  const MIN = process.env.RETRO_LANE === 'min', lane2 = !MIN && !ok(num(r.tr1)) && ok(num(r.tr2));
+  const tr = MIN ? [num(r.tr1), num(r.tr2)].filter(v => v != null) : [num(r.tr1), num(r.tr2)].filter(ok).slice(0, 1);
   // kl1 (12.11.2026): Digitraffic lopetti KELI_1–2 ja VAROITUS_1–2 6.11. klo 12.47 UTC. Arkisto täydentää keli1/warn1 ta4:stä alkaen
   // (12.11. klo 14.41 UTC); väliltä 6.–12.11. keli muunnetaan tässä tienpinnan tilasta (surf1, sama SURF_TO_KELI kuin arkisto.py:ssä ja
   // kelikeskuksessa). Optisen anturin varoitusta (owarn1) ei arkistoitu ennen ta4:ää, joten väliltä varoitus puuttuu. Sääntöihin ei muutosta.
@@ -86,8 +90,8 @@ function obsOf(r, R){
   const fr = [num(r.fric1), num(r.fric2)].filter(v => v != null);
   const td = num(r.td);
   return {t: new Date(r.mt).getTime(), tr: tr.length ? Math.min(...tr) : null, ta: num(r.ta), td, fp: td != null ? R.frostPt(td) : null   /* v15 (21.10.2026): kuuran raja kastepisteestä, aseman KUURAPISTE-lukemaa ei käytetä (kuten keruu) */,
-    keli: k1 > 0 ? k1 : (k2 > 0 ? k2 : k1), warn: w.length ? w.reduce((a, x) => (R.WARN_RANK[x] ?? 0) > (R.WARN_RANK[a] ?? -1) ? x : a, -1) : null,
-    fric: fr.length ? Math.min(...fr) : null, water: num(r.water1), snow: num(r.snow1), ice: num(r.ice1), tf: num(r.tf1), salt: num(r.salt1),
+    keli: lane2 && k2 > 0 ? k2 : k1 > 0 ? k1 : (k2 > 0 ? k2 : k1),   // ka1: kaistan 2 keli, kun tienpinta on kaistalta 2 warn: w.length ? w.reduce((a, x) => (R.WARN_RANK[x] ?? 0) > (R.WARN_RANK[a] ?? -1) ? x : a, -1) : null,
+    fric: fr.length ? Math.min(...fr) : null, water: num(r.water1), snow: num(r.snow1), ice: num(r.ice1), tf: lane2 ? num(r.tf2) ?? num(r.tf1) : num(r.tf1), salt: num(r.salt1),
     rain: num(r.rain), ksrc, st: r.st, raw: r};   // v18 (16.11.2026): st rajaa sääntöjen poikkeavat anturit (SLIP_EXCL: Keimola, Pirkkola)
 }
 // rt7: sama kuin kelikeskuksen collect.mjs modelRows: mallin lämpötila, kastepiste ja sade FMI-rivien tilalle
