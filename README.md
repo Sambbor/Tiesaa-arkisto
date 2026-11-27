@@ -34,6 +34,13 @@ osat ajetaan samaan aikaan, ne jaetaan rinnakkaisiksi koneiksi. Tulos `data/reit
 kierrosten alut ja tyypillinen kesto (90 % reitistä ajettu), puhtaus (kuinka suuri osa ajon tieosista on omalla reitillä, mediaani).
 Työlaji lasketaan, kun sitä on tehty vähintään 3 kertaa. Ajo: reitit.yml kerran viikossa (maanantai). Nyt urakat: Heinola.
 
+## Koko Suomen tieverkko (tieverkko.py --suomi)
+tv2 (27.11.2026): kaikkien maanteiden hoitourakoiden tieverkot Väyläviraston avoimesta rajapinnasta (Maanteiden hoitourakan tiet) →
+`data/urakat/<urakkakoodi>.json` (sama muoto kuin `data/tieverkko-<urakka>.json`, Douglas–Peucker 8 m) ja `data/urakat/index.json`
+(urakka, ELY, tiekilometrit, rajaus ja yleiskartan karkea viiva teille < 1000). Urakat ovat koodeina ja ELY-alueina, ei nimiä.
+Noin 80 urakkaa, yhteensä noin 8 Mt. Ajo: tieverkko-suomi.yml kerran kuukaudessa; tiedosto kirjoitetaan vain, kun tieverkko muuttuu.
+Käyttö: koko Suomen toimenpidekartta (https://sambbor.github.io/Vantaakeli/suomi/), joka hakee koneiden ajot suoraan Digitrafficista.
+
 ## Koko Suomen yökooste (suomi)
 `suomi.py` (su1) laskee joka aamu jokaiselle maanteiden hoitourakalle edellisen yön (klo 18–08 Suomen aikaa) riskin ja toimenpiteet:
 - `meta/urakat.json`: asema → urakkakoodi (Väylävirasto, Maanteiden hoitourakan tiet; tieosoite urakan tieosuudella). Urakat ovat
