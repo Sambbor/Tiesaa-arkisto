@@ -5975,3 +5975,8 @@ pvm,vaihe,kuva_aika,st,asema,cam,preset,suunta,tie,maakunta,dist_m,aurinko,tr,td
 2026-11-27,A,2026-11-27T05:46,13012,"Tie 89 Kuhmo, Kuusamonkylä",C12655,C1265501,Vartiukseen,89,Kainuu,0,-18.6,-4.0,-4.8,-4.0,0.0,6.0,2.0,-5.3,0.8,0.0,raja,kuura/kuvat/2026-11/27/C1265501_A.jpg,,ku2
 2026-11-27,A,2026-11-27T05:47,12094,"Tie 816 Oulunsalo, Keinosaari",C12657,C1265701,Hailuotoon,816,Pohjois-Pohjanmaa,0,-20.5,-5.3,-5.2,-2.8,0.0,7.0,1.0,-5.3,-0.5,3.5,kuura,kuura/kuvat/2026-11/27/C1265701_A.jpg,,ku2
 2026-11-27,B,2026-11-27T09:13,3049,"Tie 6 Kouvola, Utti_YPS",C03504,C0350401,Lappeenrantaan,6,Kymenlaakso,9,2.1,-3.0,-5.8,-3.9,-0.2,1.0,0.0,-6.0,0.3,0.0,raja,kuura/kuvat/2026-11/27/C0350401_B.jpg,,ku2
+2026-11-27,B,2026-11-27T09:52,2052,"Ahvenanmaa, Eckerö",C02590,C0259001,Överby,99999,Ahvenanmaa,0,2.7,-1.5,-2.4,-1.6,0.0,1.0,0.0,-6.0,0.0,0.0,raja,kuura/kuvat/2026-11/27/C0259001_B.jpg,,ku2
+2026-11-27,B,2026-11-27T09:50,6008,"Tie 23 Heinävesi, Suurmäki",C06515,C0651501,Joensuuhun,23,Pohjois-Karjala,114,3.1,-3.4,-4.5,-4.1,0.0,6.0,2.0,-4.8,0.9,0.0,raja,kuura/kuvat/2026-11/27/C0651501_B.jpg,,ku2
+2026-11-27,B,2026-11-27T09:50,7008,kt74_Joensuu_Onkimäki,C07508,C0750801,Ilomantsiin,74,Pohjois-Karjala,0,3.4,-3.9,-4.0,-2.7,0.0,1.0,3.0,-5.8,-0.6,2.0,kuura,kuura/kuvat/2026-11/27/C0750801_B.jpg,,ku2
+2026-11-27,B,2026-11-27T09:51,8008,"Tie 75 Nilsiä, Suholanmäki",C08588,C0858801,Nurmekseen,75,Pohjois-Savo,0,2.4,-4.7,-5.6,-5.6,0.0,1.0,1.0,-5.9,1.0,0.0,raja,kuura/kuvat/2026-11/27/C0858801_B.jpg,,ku2
+2026-11-27,B,2026-11-27T09:51,7016,"Tie 522 Ilomantsi, Hattuvaara",C08589,C0858901,Lieksaan,522,Pohjois-Karjala,0,3.2,-2.7,-3.5,-2.3,0.0,7.0,2.0,-4.5,0.4,0.0,raja,kuura/kuvat/2026-11/27/C0858901_B.jpg,,ku2
