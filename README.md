@@ -37,7 +37,7 @@ Työlaji lasketaan, kun sitä on tehty vähintään 3 kertaa. Ajo: reitit.yml ke
 ## Koko Suomen tieverkko (tieverkko.py --suomi)
 tv2 (27.11.2026): kaikkien maanteiden hoitourakoiden tieverkot Väyläviraston avoimesta rajapinnasta (Maanteiden hoitourakan tiet) →
 `data/urakat/<urakkakoodi>.json` (sama muoto kuin `data/tieverkko-<urakka>.json`, Douglas–Peucker 8 m) ja `data/urakat/index.json`
-(urakka, ELY, tiekilometrit, rajaus ja yleiskartan karkea viiva teille < 1000). Urakat ovat koodeina ja ELY-alueina, ei nimiä.
+(urakka, nimi, ELY, tiekilometrit, rajaus ja yleiskartan karkea viiva teille < 1000). tv3: urakan nimi mukana (esim. "Heinola 22-27"), ei urakoitsijoita.
 Noin 80 urakkaa, yhteensä noin 8 Mt. Ajo: tieverkko-suomi.yml kerran kuukaudessa; tiedosto kirjoitetaan vain, kun tieverkko muuttuu.
 Käyttö: koko Suomen toimenpidekartta (https://sambbor.github.io/Vantaakeli/suomi/), joka hakee koneiden ajot suoraan Digitrafficista.
 

@@ -9,7 +9,7 @@ import json, math, os, sys, time, urllib.parse, urllib.request
 from datetime import date
 
 VERSION = 'tv1'
-SUOMI_VERSION = 'tv2'   # tv2 (27.11.2026, Samuli): kaikkien hoitourakoiden tieverkot koko Suomen toimenpidekarttaa varten (--suomi)
+SUOMI_VERSION = 'tv3'   # tv3 (27.11.2026, Samuli: "Urakat voisi mainita oikealla nimellä"): urakan nimi mukaan (nimi); tv2 (27.11.2026, Samuli): kaikkien hoitourakoiden tieverkot koko Suomen toimenpidekarttaa varten (--suomi)
 WFS = 'https://avoinapi.vaylapilvi.fi/vaylatiedot/ows'
 URAKAT = {'vantaa': 'Vantaa', 'salo': 'Salo', 'heinola': 'Heinola'}  # heinola: toimenpidekartta (hk1, 16.11.2026)
 TOL_M = 8.0
@@ -93,8 +93,8 @@ def main():
 
 def suomi():
     """tv2: kaikkien maanteiden hoitourakoiden tieverkot → data/urakat/<urakkakoodi>.json (sama muoto kuin tieverkko-<urakka>.json)
-    ja data/urakat/index.json (urakat: ELY, tiekilometrit, rajaus ja yleiskartan karkea viiva). Urakat ovat koodeina ja ELY-alueina,
-    ei nimiä eikä urakoitsijoita (su1-linja). Tiedosto kirjoitetaan vain, kun tieverkko muuttuu, joten säilö ei kasva turhaan.
+    ja data/urakat/index.json (urakat: nimi, ELY, tiekilometrit, rajaus ja yleiskartan karkea viiva). tv3: urakan nimi Väylän aineistosta
+    (esim. "Heinola 22-27"), ei urakoitsijoita. Tiedosto kirjoitetaan vain, kun tieverkko muuttuu, joten säilö ei kasva turhaan.
     Haetaan uudelleen, kun edellisestä on yli 30 vrk tai hoitovuosi vaihtuu (tila meta/tieverkko_suomi.json)."""
     lay = layer(); state_p = 'meta/tieverkko_suomi.json'
     try:
@@ -104,23 +104,26 @@ def suomi():
     except Exception:
         pass
     q = {'service': 'WFS', 'version': '2.0.0', 'request': 'GetFeature', 'typeNames': lay, 'outputFormat': 'application/json',
-         'srsName': 'EPSG:4326', 'propertyName': 'urakkakoodi,ely,tie,geom'}
+         'srsName': 'EPSG:4326', 'propertyName': 'nimi,urakkakoodi,ely,tie,geom'}
     req = urllib.request.Request(WFS + '?' + urllib.parse.urlencode(q), headers={'User-Agent': 'Vantaa-urakka-tiesaa-arkisto/1'})
     with urllib.request.urlopen(req, timeout=900) as r:
         j = json.loads(r.read())
-    by, ely = {}, {}
+    by, ely, nimet = {}, {}, {}
     for f in j.get('features', []):
         k = (f.get('properties') or {}).get('urakkakoodi')
         if not k or not f.get('geometry'): continue
         by.setdefault(k, []).append(f)
         ely.setdefault(k, ((f['properties'].get('ely') or '').replace(' ELY', '').strip()))
+        nm = (f['properties'].get('nimi') or '').strip()
+        if nm: nimet.setdefault(k, {}); nimet[k][nm] = nimet[k].get(nm, 0) + 1
     if len(by) < 50: raise ValueError('liian vähän urakoita: %d' % len(by))
     os.makedirs('data/urakat', exist_ok=True)
     idx, muuttui = [], 0
     for k in sorted(by):
+        nimi = max(nimet[k], key=nimet[k].get) if nimet.get(k) else k
         roads = build({'features': by[k]})
         if not roads: continue
-        out = {'v': SUOMI_VERSION, 'layer': lay, 'urakka': k, 'ely': ely[k],
+        out = {'v': SUOMI_VERSION, 'layer': lay, 'urakka': k, 'nimi': nimi, 'ely': ely[k],
                'lahde': 'Väylävirasto, Maanteiden hoitourakan tiet (CC BY 4.0)', 'tol_m': TOL_M, 'roads': roads}
         p = 'data/urakat/%s.json' % k
         txt = json.dumps(out, ensure_ascii=False, separators=(',', ':'))
@@ -142,14 +145,14 @@ def suomi():
             for l in rd['l']:
                 q2 = [[round(c[0], 3), round(c[1], 3)] for c in dp(l, 400.0)]
                 if len(q2) >= 2: yl.append(q2)
-        idx.append({'k': k, 'ely': ely[k], 'km': round(L / 1000), 'bb': [round(w, 3), round(s_, 3), round(e, 3), round(n, 3)],
+        idx.append({'k': k, 'nimi': nimi, 'ely': ely[k], 'km': round(L / 1000), 'bb': [round(w, 3), round(s_, 3), round(e, 3), round(n, 3)],
                     'kt': len(txt.encode('utf-8')) // 1024, 'yl': yl})
     poistetut = 0
     for fn in os.listdir('data/urakat'):
         if fn.endswith('.json') and fn != 'index.json' and fn[:-5] not in by:
             os.remove(os.path.join('data/urakat', fn)); poistetut += 1
     ix = {'v': SUOMI_VERSION, 'layer': lay, 'lahde': 'Väylävirasto, Maanteiden hoitourakan tiet (CC BY 4.0)',
-          'note': 'Urakat urakkakoodeina ja ELY-alueina. yl = yleiskartan karkea viiva (tiet < 1000).', 'u': idx}
+          'note': 'Urakat: koodi (k), nimi ja ELY-alue. yl = yleiskartan karkea viiva (tiet < 1000).', 'u': idx}
     txt = json.dumps(ix, ensure_ascii=False, separators=(',', ':'))
     try: old = open('data/urakat/index.json', encoding='utf-8').read()
     except Exception: old = None
